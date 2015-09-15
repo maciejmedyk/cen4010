@@ -1,8 +1,25 @@
-h3 {
-    color: darkred;
+/*///////////////////////////////
+//           INDEX             //
+///////////////////////////////*/
+#indexHead {
+    text-align: right;
+}
+
+#indexActiveButton{
+    background-color: #3696d3;
+    color: white;
+}
+#inputForm {
+    background-color: #f5f5f5;
+    margin: 10% auto;
+    max-width: 450px;
+    padding: 20pt;
+    border: double;
+    border-radius: 15pt;
     text-align: center;
 }
-#img01 {
-    margin: auto;
-
+#inputForm button{
+    min-width: 30%;
+    background-color: #5cb85c;
+    color: white;
 }
