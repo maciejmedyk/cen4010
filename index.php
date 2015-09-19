@@ -20,15 +20,15 @@
    </head>
    <body>
        <div id="indexHead">
-           <button type="link" id="indexActiveButton" class="btn btn-default disabled">      Driver      </button>
-           <button type="link" class="btn btn-default">      Admin       </button>
+           <a href="index.php"><button type="link" id="indexActiveButton" class="btn btn-default">      Driver      </button></a>
+           <a href="admin.php"><button type="link" class="btn btn-default">      Admin       </button></a>
        </div>
        <div id=""indexLogin">
        <form id="inputForm" action="#" method="post">
-           <img src="img/mowlogo.png" height=45px alt="Meals On Wheels Logo"><br>
-           <img src="img/mowdelivery.png" height=35px alt="Delivery Logo"><br><br>
+           <img src="img/mowlogoblue.png" height=45px alt="Meals On Wheels Logo"><br>
+           <img src="img/mowdeliveryblue.png" height=35px alt="Delivery Logo"><br><br>
            <label for="username">Username</label><br><input autofocus class="form-control" type="email" id="username" name="username" required><br>
-           <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" required><br>
+           <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" required><br><br>
            <button type="submit" class="btn btn-default">      Login      </button>
        </form>
        </div>
