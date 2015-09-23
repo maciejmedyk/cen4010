@@ -25,11 +25,15 @@
     background-color: #3696d3;
     color: white;
 }
+#inputForm span {
+    color: red;
+    font-weight: bold;
+}
 /*///////////////////////////////
 //          ADMIN.PHP          //
 ///////////////////////////////*/
 #adminActiveButton{
-    background-color: #ff8080;
+    background-color: #508050;
     color: white;
 }
 #adminForm {
@@ -42,13 +46,24 @@
     text-align: center;
 }
 #adminForm label{
-    color: #ff8080;
+    color: #508050;
 }
 #adminForm button{
     min-width: 50%;
-    background-color: #ff8080;
+    background-color: #508050;
     color: white;
 }
 #adminForm a {
-    color: #ff8080;
+    color: #508050;
+}
+#adminForm span {
+    color: red;
+    font-weight: bold;
+}
+/*///////////////////////////////
+//         LOGOUT.PHP          //
+///////////////////////////////*/
+#logoutButton{
+    background-color: #ff8080;
+    color: white;
 }

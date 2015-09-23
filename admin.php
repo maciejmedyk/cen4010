@@ -1,3 +1,10 @@
+<?php
+include('alogin.php'); // Includes Login Script
+
+if(isset($_SESSION['login_user'])){
+    header("location: ahome.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,15 +31,14 @@
     <a href="admin.php"<button type="link" id="adminActiveButton" class="btn btn-default">      Admin       </button></a>
 </div>
 <div id=""adminLogin">
-<form id="adminForm" action="#" method="post">
-    <img src="img/mowlogored.png" height=45px alt="Meals On Wheels Logo"><br>
-    <img src="img/mowdeliveryred.png" height=35px alt="Delivery Logo"><br><br>
-    <label for="username">Username</label><br><input autofocus class="form-control" type="email" id="username" name="username" required><br>
-    <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" required><br><br>
-    <button type="submit" class="btn btn-default">      Login      </button><br><br><br>
+<form id="adminForm" action="" method="post">
+    <img src="img/mowlogogreen.png" height=45px alt="Meals On Wheels Logo"><br>
+    <img src="img/mowdeliverygreen.png" height=35px alt="Delivery Logo"><br><br>
+    <label for="username">Username</label><br><input autofocus class="form-control" type="text" id="username" name="username" ><br>
+    <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" ><br><span><?php echo $error . "<br>"; ?></span><br>
+    <button name="submit" type="submit" class="btn btn-default">      Login      </button><br><br>
     <a href="#"><p>Forgot your password?</p></a>
 </form>
 </div>
-<?php ?>
 </body>
 </html>
