@@ -27,18 +27,18 @@ if(isset($_SESSION['login_user']))
     <![endif]-->
    </head>
    <body>
-       <div id="indexHead">
+        <div id="indexHead">
            <a href="index.php"><button type="link" id="indexActiveButton" class="btn btn-default">      Driver      </button></a>
            <a href="admin.php"><button type="link" class="btn btn-default">      Admin       </button></a>
        </div>
-       <div id=""indexLogin">
-       <form id="inputForm" action="" method="post">
-           <img src="img/mowlogoblue.png" height=45px alt="Meals On Wheels Logo"><br>
-           <img src="img/mowdeliveryblue.png" height=35px alt="Delivery Logo"><br><br>
-           <label for="username">Username</label><br><input autofocus class="form-control" type="text" id="username" name="username" ><br>
-           <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" ><br><span><?php echo $error . "<br>"; ?></span><br>
-           <button name="submit" type="submit" class="btn btn-default">      Login      </button><br><br>
-       </form>
+       <div id="indexDiv">
+           <form id="inputForm" action="" method="post">
+               <img src="img/mowlogoblue.png" height=45px alt="Meals On Wheels Logo"><br>
+               <img src="img/mowdeliveryblue.png" height=35px alt="Delivery Logo"><br><br>
+               <label for="username">Username</label><br><input autofocus class="form-control" type="text" id="username" name="username" ><br>
+               <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" ><br><span><?php echo $error . "<br>"; ?></span><br>
+               <button name="submit" type="submit" class="btn btn-default">      Login      </button><br><br>
+           </form>
        </div>
    </body>
 </html>
