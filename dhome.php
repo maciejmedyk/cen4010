@@ -24,9 +24,10 @@ include("dsession.php");
 <body>
 <div id="indexHead">
     <a href="dlogout.php"<button type="link" id="logoutButton" class="btn btn-default">      Log Out       </button></a>
+</div><br>
+<div id="wireFrame">
+<b align="center" id="welcome">Driver : <?php echo $login_name; ?></b>
 </div>
-<b align="center" id="welcome">Welcome Driver :<i><?php echo $login_session; ?></i></b>
-
 
 </body>
 </html>

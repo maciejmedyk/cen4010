@@ -1,4 +1,17 @@
 /*///////////////////////////////
+//          WIREFRAME          //
+///////////////////////////////*/
+#wireFrame {
+    background-color: #f5f5f5;
+    margin: 10% auto;
+    max-width: 450px;
+    min-height: 600px;
+    padding: 20pt;
+    border: double;
+    border-radius: 15pt;
+    text-align: center;
+}
+/*///////////////////////////////
 //          INDEX.PHP          //
 ///////////////////////////////*/
 #indexHead {

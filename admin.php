@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include('alogin.php'); // Includes Login Script
 
 if(isset($_SESSION['login_user'])){
@@ -39,6 +39,23 @@ if(isset($_SESSION['login_user'])){
     <button name="submit" type="submit" class="btn btn-default">      Login      </button><br><br>
     <a href="#"><p>Forgot your password?</p></a>
 </form>
+
+    <?php
+      include('connection.php');
+      $data = mysql_query("SELECT dUsername FROM drivers") or die(mysql_error()); 
+      //$data = mysql_query("SELECT p.pname FROM enroll e, prof p WHERE p.dname=e.dname AND e.sid GROUP BY p.pname HAVING COUNT(e.sid) < 50") or die(mysql_error());
+
+      Print "<table border cellpadding = 3 class=\"resulttable\">";
+
+      {
+        Print "<th width=\"100%\">Driver Name</th>";
+      }
+      while($info = mysql_fetch_array( $data )) 
+      { 
+            Print "<tr><td id=\"q0101\" width=\"100%\">" . $info['dUsername'] . "</td></tr>";
+      }   
+      Print "</table>";
+      mysql_close($connection) ?>
 </div>
 </body>
 </html>
