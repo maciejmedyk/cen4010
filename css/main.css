@@ -11,6 +11,15 @@
     border-radius: 15pt;
     text-align: center;
 }
+#dInsideFrame {
+    background-color: #f5f5f5;
+    margin: 25px -28px -28px -28px;
+    max-width: 450px;
+    min-height: 575px;
+    padding: 0;
+    border: double;
+    border-radius: 15pt;
+}
 #dBackDiv {
     max-width: 100%;
     min-height: 100%;
@@ -21,6 +30,14 @@
     max-width: 450px;
     margin: 0 auto;
     text-align: right;
+}
+#dHeadLeft {
+    text-align: right;
+    float: left;
+}
+#dHeadRight {
+    text-align: right;
+    float: right;
 }
 #aWireFrame1 {
     background-color: #dddddd;
@@ -138,4 +155,97 @@
 #logoutButton{
     background-color: #ff8080;
     color: white;
+    min-width: 130px;
+    max-width: 130px;
+}
+#emergencyButton{
+    background-color: #00dd00;
+    color: white;
+    min-width: 130px;
+    max-width: 130px;
+}
+#sheetsButtonS{
+    background-color: #5080ff;
+    color: white;
+    min-width: 85px;
+    min-height: 85px;
+}
+#sheetsButtonD{
+    background-color: #777777;
+    color: white;
+    min-width: 85px;
+    min-height: 85px;
+}
+/*///////////////////////////////
+//          DHOME.PHP          //
+///////////////////////////////*/
+.driverSheets{
+    min-width: 100%;
+    border: none;
+}
+.driverSheets td{
+    text-align: left;
+    text-indent: 10px;
+}
+.driverSheets th{
+    color: #808080;
+    text-align: center;
+    border: none;
+}
+.driverSheets #dDSClient {
+    background-color: #70bbff;
+    font-weight: bold;
+    font-style: italic;
+}
+.driverSheets #dDSAddress1 {
+    border: none;
+    background-color: #dddddd;
+}
+.driverSheets #dDSAddress2 {
+    border: none;
+    background-color: #dddddd;
+}
+.driverSheets #dDSNotes {
+    font-style: italic;
+}
+.driverSheets #dDSAction {
+    background-color: #70bbff;
+    text-align: center;
+    text-indent: 0;
+}
+.driverDetailsSheets{
+    min-width: 100%;
+    border: none;
+}
+.driverDetailsSheets th {
+    color: #808080;
+    text-align: left;
+    text-indent: 10px;
+    border: none;
+    min-height: 50px;
+}
+.driverDetailsSheets td{
+    text-align: left;
+    text-indent: 15px;
+}
+.driverDetailsSheets #dDSClient {
+    background-color: #70bbff;
+    font-weight: bold;
+    font-style: italic;
+}
+.driverDetailsSheets #dDSAddress1 {
+    border: none;
+    background-color: #dddddd;
+}
+.driverDetailsSheets #dDSAddress2 {
+    border: none;
+    background-color: #dddddd;
+}
+.driverDetailsSheets #dDSAddress2 {
+    border: none;
+    background-color: #dddddd;
+}
+.driverDetailsSheets #dDSAddress {
+    border: solid;
+    border-width: thin;
 }

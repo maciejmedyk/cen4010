@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
         $password = mysql_real_escape_string($password);
 
 
-        $query = mysql_query("select * from drivers where dPassword='$password' AND dUsername='$username'", $connection);
+        $query = mysql_query("select * from drivers where dPassword='$password' AND dUsername='$username' AND dActive=1", $connection);
         $rows = mysql_num_rows($query);
         if ($rows == 1)
         {

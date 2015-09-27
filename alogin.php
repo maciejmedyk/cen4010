@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
         $username = mysql_real_escape_string($username);
         $password = mysql_real_escape_string($password);
 
-        $query = mysql_query("select * from superusers where sPassword='$password' AND sUsername='$username'", $connection);
+        $query = mysql_query("select * from superusers where sPassword='$password' AND sUsername='$username' AND sActive=1", $connection);
         $rows = mysql_num_rows($query);
         if ($rows == 1)
         {
