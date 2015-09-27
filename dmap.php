@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
   </head>
   <body> 
-      
     <div id="map"></div>
     <div id="bottom-panel">
       <br>
@@ -27,6 +26,8 @@
     </div>
     <div id="directions-panel"></div>
     <div id="text-panel"></div>
+    
+<?php require './includes/deviceDetection.php';?>
 
 <script>
 var initialLocation;
@@ -101,8 +102,11 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, directio
       var route = response.routes[0];
       var summaryPanel = document.getElementById('directions-panel');
       summaryPanel.innerHTML = '';
+      
+
       // For each route, display summary information.
-      for (var i = 0; i < route.legs.length; i++) {
+      for (var i = 0; i < route.legs.length; i++) 
+      {
         var routeSegment = i + 1;
         summaryPanel.innerHTML += '<b>Stop ' + routeSegment + ':</b><br>';
         //summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
@@ -112,14 +116,22 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, directio
         }else{
           summaryPanel.innerHTML += 'Distance from last stop: ' + route.legs[i].distance.text + '<br>';
         }
-        summaryPanel.innerHTML += '<a class="btn btn-success" role="button" href="google.navigation:q=' + route.legs[i].end_location + '";>Navigate Android</a>   ';
-        summaryPanel.innerHTML += '<a class="btn btn-info" role="button" href="http://maps.apple.com/?q=' + route.legs[i].end_location + '";>Navigate iPhone Untested</a><br><br>'; 
+        
+        //Show navigation button depending on platform
+        if ("<?php echo isDevice('android');?>")
+        {
+          summaryPanel.innerHTML += '<center><a class="btn btn-info" role="button" href="google.navigation:q=' + route.legs[i].end_location + '";>Navigate with Native App</a></center><br>';
+        }
+        else if ("<?php echo isDevice('ios');?>") 
+        {
+          summaryPanel.innerHTML += '<center><a class="btn btn-info" role="button" href="http://maps.apple.com/?q=' + route.legs[i].end_location + '";>Navigate with Native App</a></center><br>';
+        }
+        summaryPanel.innerHTML += "<hr>";
       }
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
-  
 }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBymH13yTcHHmdmdC1jW7irqvE66RiIwcI&signed_in=true&callback=initMap"
