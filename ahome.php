@@ -22,11 +22,19 @@ include("asession.php");
     <![endif]-->
 </head>
 <body>
-<div id="indexHead">
-    <a href="alogout.php"<button type="link" id="logoutButton" class="btn btn-default">      Log Out       </button></a>
+<div>
+    <?php include("navmenu.php"); ?>
+    <!--<a href="alogout.php"<button type="link" id="logoutButton" class="btn btn-default">      Log Out       </button></a>-->
+</div><br>
+<div id="aWireFrame1">
+
 </div>
-<b align="center" id="welcome">Welcome Admin :<i><?php echo $login_session; ?></i></b>
-
-
+<div id="aWireFrame2">
+    <b align="center" id="welcome">Admin : <?php echo $login_name; ?></b>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
