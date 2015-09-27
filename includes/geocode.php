@@ -1,6 +1,6 @@
 <?php 
 function getGeoLocation($address){
-	$API_KEY = 'AIzaSyDbZKePGFFMgvXigJbDOQ4R7KkJbtVL6-I';
+	$API_KEY = 'AIzaSyBL6ZmQaGywbYAJMxnkbhLFarYBlCHxtVE';
 	$baseurl = "https://maps.google.com/maps/api/geocode/json?sensor=false&address=";
 	$adr = urlencode($address);
 	
