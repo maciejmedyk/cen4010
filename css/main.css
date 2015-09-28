@@ -176,6 +176,15 @@
     min-width: 85px;
     min-height: 85px;
 }
+.button{
+    background-color: #5080ff;
+    color: white;
+    min-width: 40%;
+    max-width: 40%;
+    min-height: 80px;
+    text-align: center;
+    margin: -50px 30% 0 30%;
+}
 /*///////////////////////////////
 //         DSHEETS.PHP         //
 ///////////////////////////////*/
