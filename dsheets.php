@@ -25,10 +25,10 @@ include("dsession.php");
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default">    Emergency    </button></a>
+            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
-            <a href="dhome.php"<button type="link" id="logoutButton" class="btn btn-default">               Back                </button></a>
+            <a href="dhome.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
         </div>
     </div><br>
     <div id="dWireFrame">
@@ -54,7 +54,9 @@ include("dsession.php");
                 Print "<th width=\"80%\" id=\"dDSAddress\">Address</th>";
                 Print "<tr><td id=\"dDSAddress1\">" . $info['cAddress1'] . ' ' . $info['cAddress2'] . "</td></tr>";
                 Print "<tr><td id=\"dDSAddress2\">" . $info['cCity'] . ', ' . $info['cState'] . ' ' . $info['cZip'] . "</td></tr>";
-                Print "<th width=\"80%\" id=\"dDSAddress\">Delivery Notes</th>";
+                Print "<th width=\"80%\" id=\"dDSAddress\">Phone</th>";
+                Print "<tr><td id=\"dDSNotes\">" . $info['cPhone'] . "</td></tr>";
+                Print "<th width=\"80%\">Delivery Notes</th>";
                 Print "<tr><td id=\"dDSNotes\">" . $info['cDeliveryNotes'] . "</td></tr>";
                 Print "<th width=\"80%\">Food Restrictions</th>";
                 if($info['cFoodRestrictions'] == 0)
@@ -75,9 +77,42 @@ include("dsession.php");
                     Print "<tr><td id=\"dDSNotes\">Yes</td></tr>";
                 }
             }
-            Print "</table>";
+            Print "</table><br>"; ?>
+            <div id="dSheetsButtons">
+                <div id="dHeadLeft"<?php Print "<td id=\"dDSAction\"><form action=\"dnavigate.php\" method=\"post\"><input class=\"hidden\" name=\"cID\" value=\"" .  $id . "\"><input type=\"submit\" id=\"emergencyButton\" class=\"btn btn-default\" value=\"Navigate\"></form></td></tr>"; ?></div>
+                <div id="dHeadRight"<?php Print "<td id=\"dDSAction\"><form action=\"dcheckout.php\" method=\"post\"><input class=\"hidden\" name=\"cID\" value=\"" .  $id . "\"><input type=\"submit\" id=\"logoutButton\" class=\"btn btn-default\" value=\"Checkout\"></form></td></tr>"; ?></div>
+            </div>
+            <?php
+            $data2 = mysql_query("SELECT * FROM `notes` WHERE `notes`.`cID` = $id ORDER BY `nDate` DESC LIMIT 10") or die(mysql_error());
+            if (mysql_num_rows($data2) == 0)
+            {
+
+            }
+            else
+            {
+                Print "<table border cellpadding = 3 class=\"driverNotesSheets\">";
+                {
+                    Print "<th width=\"75%\">Note</th>" . "<th width=\"5%\">Flag</th>" . "<th width=\"30%\">Date</th>";
+                }
+                while ($info = mysql_fetch_array($data2)) {
+                    Print "<tr><td id=\"dDSNNote\">" . $info['nComment'] . "</td>";
+                    if($info['nUrgent'] == 0)
+                    {
+                        Print "<td id=\"dDSNFlag\"> </td>";
+                    }
+                    else
+                    {
+                        Print "<td id=\"dDSNFlag\">&#10003</td>";
+                    }
+                    Print "<td id=\"dDSNDate\">" . $info['nDate'] . "</td></tr>";
+                }
+                Print "</table>";
+            }
             mysql_close($connection);
             ?>
+            <div id="dSheetsButtons">
+                <a href="#"<button type="link" class="btn btn-default"> Add Note </button></a><br>
+            </div>
         </div>
     </div>
 </div>

@@ -25,10 +25,10 @@ include("dsession.php");
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default">    Emergency    </button></a>
+            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
-            <a href="dlogout.php"<button type="link" id="logoutButton" class="btn btn-default">      Log Out       </button></a>
+            <a href="dlogout.php"<button type="link" id="logoutButton" class="btn btn-default"> Log Out </button></a>
         </div>
     </div><br>
     <div id="dWireFrame">

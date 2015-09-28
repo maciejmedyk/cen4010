@@ -3,9 +3,9 @@
 ///////////////////////////////*/
 #dWireFrame {
     background-color: #f5f5f5;
-    margin: 50px auto 50px auto;
+    margin: 25px auto 50px auto;
     max-width: 450px;
-    min-height: 600px;
+    min-height: 700px;
     padding: 20pt;
     border: double;
     border-radius: 15pt;
@@ -15,7 +15,7 @@
     background-color: #f5f5f5;
     margin: 25px -28px -28px -28px;
     max-width: 450px;
-    min-height: 575px;
+    min-height: 675px;
     padding: 0;
     border: double;
     border-radius: 15pt;
@@ -177,7 +177,7 @@
     min-height: 85px;
 }
 /*///////////////////////////////
-//          DHOME.PHP          //
+//         DSHEETS.PHP         //
 ///////////////////////////////*/
 .driverSheets{
     min-width: 100%;
@@ -185,12 +185,13 @@
 }
 .driverSheets td{
     text-align: left;
-    text-indent: 10px;
+    padding: 10px 15px;
 }
 .driverSheets th{
     color: #808080;
     text-align: center;
     border: none;
+    padding: 10px 10px 5px 10px;
 }
 .driverSheets #dDSClient {
     background-color: #70bbff;
@@ -200,10 +201,12 @@
 .driverSheets #dDSAddress1 {
     border: none;
     background-color: #dddddd;
+    padding: 10px 15px 0 15px;
 }
 .driverSheets #dDSAddress2 {
     border: none;
     background-color: #dddddd;
+    padding: 0 15px 10px 15px;
 }
 .driverSheets #dDSNotes {
     font-style: italic;
@@ -211,7 +214,7 @@
 .driverSheets #dDSAction {
     background-color: #70bbff;
     text-align: center;
-    text-indent: 0;
+    padding: 0;
 }
 .driverDetailsSheets{
     min-width: 100%;
@@ -220,13 +223,13 @@
 .driverDetailsSheets th {
     color: #808080;
     text-align: left;
-    text-indent: 10px;
+    padding: 10px 10px 5px 10px;
     border: none;
     min-height: 50px;
 }
 .driverDetailsSheets td{
     text-align: left;
-    text-indent: 15px;
+    padding: 10px 10px;
 }
 .driverDetailsSheets #dDSClient {
     background-color: #70bbff;
@@ -236,10 +239,12 @@
 .driverDetailsSheets #dDSAddress1 {
     border: none;
     background-color: #dddddd;
+    padding: 10px 10px 0 10px;
 }
 .driverDetailsSheets #dDSAddress2 {
     border: none;
     background-color: #dddddd;
+    padding: 0 10px 10px 10px;
 }
 .driverDetailsSheets #dDSAddress2 {
     border: none;
@@ -248,4 +253,34 @@
 .driverDetailsSheets #dDSAddress {
     border: solid;
     border-width: thin;
+}
+.driverNotesSheets{
+    min-width: 10%;
+    margin: 5px 0;
+    border: none;
+}
+.driverNotesSheets th {
+    color: #808080;
+    text-align: left;
+    padding: 10px 10px 5px 10px;
+    border: none;
+    min-height: 50px;
+}
+.driverNotesSheets td{
+    text-align: left;
+    padding: 0 10px;
+}
+.driverNotesSheets #dDSNFlag{
+    text-align: center;
+    padding: 0 auto;
+}
+.driverNotesSheets tr:nth-child(even) {
+    background-color: #e3e3e3;
+}
+.driverNotesSheets tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+#dSheetsButtons {
+    min-width: 80%;
+    margin: 0 10% 50px 10%;
 }
