@@ -57,7 +57,7 @@ include("dsession.php");
                     Print "<tr><td id=\"dDSAddress2\">" . $info['cCity'] . ', ' . $info['cState'] . ' ' . $info['cZip'] . "</td></tr>";
                     $address = $info['cAddress1'] . ' ' . $info['cCity'] . ' ' . $info['cState'] . ' ' . $info['cZip'];
                 }
-                Print "</table><br>";
+                Print "</table>";
             ?>
             <?php
             require './map/geocode.php';
@@ -66,25 +66,27 @@ include("dsession.php");
             #Print "<td id=\"dDSAction\"><form action=\"#\" method=\"post\"><input id=\"waypoint\" value=\"" .  $geo['lat'] . ', ' . $geo['lng'] . "\"></form></td></tr>";
             ?>
 
-            <div id="mapper"></div>
+            <div id="directions-panel"></div>
+            <div id="map"></div>
+            <div id="text-panel"></div>
+            <div id="directions-panel"></div>
             <div id="bottom-panel">
                 <div id="waypoints-panel">
-                    <select class="hidden" id="waypoints">
-                        <option value="<?php echo $geo['lat'] . ', ' . $geo['lng']; ?>">Customer 1</option>
+                    <select class="hidden" id="finaldestination">
+                        <option value="<?php echo $geo['lat'] . ',' . $geo['lng']; ?>">Customer 1</option>
                     </select>
-                    <input class="btn btn-default button" type="submit" id="submit" value="Navigate">
+                    <input class="btn btn-default button" type="submit" id="submit" value="Calculate Route">
                 </div>
             </div>
-            <div id="directions-panel"></div>
-            <div id="text-panel"></div>
+
+
 
             <?php require './map/device.php'; ?>
 
 
             <script>
                 var initialLocation;
-                //var siberia = new google.maps.LatLng(60, 105);
-                //var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+                var map;
                 var browserSupportFlag =  new Boolean();
 
                 //Called from the REST api callback at the bottom of the page.
@@ -92,12 +94,10 @@ include("dsession.php");
                     var directionsService = new google.maps.DirectionsService;
                     var directionsDisplay = new google.maps.DirectionsRenderer;
                     var directionsDisplayText = new google.maps.DirectionsRenderer;
-                    var map = new google.maps.Map(document.getElementById('mapper'), {
-                        zoom: 10,
-                        center: {lat: 41.85, lng: -87.65}
-                    });
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 7, center: {lat: 41.85, lng: -87.65}});
+
                     directionsDisplay.setMap(map);
-                    directionsDisplayText.setMap(map);
                     directionsDisplayText.setPanel(document.getElementById('text-panel'));
 
 
@@ -131,19 +131,10 @@ include("dsession.php");
 
                 function calculateAndDisplayRoute(directionsService, directionsDisplay, directionsDisplayText) {
                     var waypts = [];
-                    var checkboxArray = document.getElementById('waypoints');
-                    for (var i = 0; i < checkboxArray.length; i++) {
-                        if (checkboxArray.options[i].selected) {
-                            waypts.push({
-                                location: checkboxArray[i].value,
-                                stopover: true
-                            });
-                        }
-                    }
 
                     directionsService.route({
                         origin: initialLocation, //document.getElementById('start').value,
-                        destination: initialLocation,//document.getElementById('end').value,
+                        destination: document.getElementById('finaldestination').value,
                         waypoints: waypts,
                         optimizeWaypoints: true,
                         travelMode: google.maps.TravelMode.DRIVING
