@@ -54,3 +54,11 @@ a.button {
 #waypoints-panel {
 	padding: 1em;
 }
+.bbb {
+    margin: -30px auto -100px auto;
+}
+#map {
+    min-width: 95%;
+    min-height: 250px;
+    margin-bottom: 25px;
+}

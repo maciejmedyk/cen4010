@@ -75,7 +75,7 @@ include("dsession.php");
                     <select class="hidden" id="finaldestination">
                         <option value="<?php echo $geo['lat'] . ',' . $geo['lng']; ?>">Customer 1</option>
                     </select>
-                    <input class="btn btn-default button" type="submit" id="submit" value="Calculate Route">
+                    <!--<input class="btn btn-default button" type="submit" id="submit" value="Calculate Route">-->
                 </div>
             </div>
 
@@ -85,6 +85,7 @@ include("dsession.php");
 
 
             <script>
+
                 var initialLocation;
                 var map;
                 var browserSupportFlag =  new Boolean();
@@ -95,13 +96,13 @@ include("dsession.php");
                     var directionsDisplay = new google.maps.DirectionsRenderer;
                     var directionsDisplayText = new google.maps.DirectionsRenderer;
                         map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 7, center: {lat: 41.85, lng: -87.65}});
+                            zoom: 7, center: {lat: 41.85, lng: -87.65}, disableDefaultUI: true});
 
                     directionsDisplay.setMap(map);
                     directionsDisplayText.setPanel(document.getElementById('text-panel'));
 
 
-                    document.getElementById('submit').addEventListener('click', function() {
+                    document.getElementById('dWireFrame').addEventListener('click', function() {
                         calculateAndDisplayRoute(directionsService, directionsDisplay, directionsDisplayText);
                     });
 
@@ -151,23 +152,23 @@ include("dsession.php");
                             for (var i = 0; i < route.legs.length; i++)
                             {
                                 var routeSegment = i + 1;
-                                summaryPanel.innerHTML += '<b>Stop ' + routeSegment + ':</b><br>';
+                                //summaryPanel.innerHTML += '<u>Destination</u><br>';
                                 //summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                                summaryPanel.innerHTML += '<b>Address:</b> ' + route.legs[i].end_address + '<br>';
+                                summaryPanel.innerHTML += '<b>' + route.legs[i].end_address + '<b><br>';
                                 if (routeSegment == 1){
-                                    summaryPanel.innerHTML += 'Distance from current location: ' + route.legs[i].distance.text + '<br>';
+                                    summaryPanel.innerHTML += '<i>Distance from current location: ' + route.legs[i].distance.text + '</i><br>';
                                 }else{
-                                    summaryPanel.innerHTML += 'Distance from last stop: ' + route.legs[i].distance.text + '<br>';
+                                    summaryPanel.innerHTML += '<i>Distance from last stop: ' + route.legs[i].distance.text + '</i><br>';
                                 }
 
                                 //Show navigation button depending on platform
                                 if ("<?php echo isDevice('android');?>")
                                 {
-                                    summaryPanel.innerHTML += '<center><a class="btn btn-info" role="button" href="google.navigation:q=' + route.legs[i].end_location + '";>Navigate with Native App</a></center><br>';
+                                    summaryPanel.innerHTML += '<center><a class="btn btn-info bbb" role="button" href="google.navigation:q=' + route.legs[i].end_location + '";>Navigate with Google Maps</a></center><br>';
                                 }
                                 else if ("<?php echo isDevice('ios');?>")
                                 {
-                                    summaryPanel.innerHTML += '<center><a class="btn btn-info" role="button" href="http://maps.apple.com/?q=' + route.legs[i].end_location + '";>Navigate with Native App</a></center><br>';
+                                    summaryPanel.innerHTML += '<center><a class="btn btn-info bbb" role="button" href="http://maps.apple.com/?q=' + route.legs[i].end_location + '";>Navigate with Apple Maps</a></center><br>';
                                 }
                                 summaryPanel.innerHTML += "<hr>";
                             }
