@@ -40,7 +40,7 @@ include("dsession.php");
             <a href="tel:911"<button type="link" id="emeButton" class="btn btn-default"> Call 911 </button></a>
             <form action="demergency.php" method="post">
             <button type="submit" id="emeButton" class="btn btn-default"> Location </button><br>
-            <input id="currentLocation" name="coordinates" value="" disabled">
+            <textarea rows="2" id="currentLocation" name="coordinates" value="" disabled"></textarea>
             </form>
 
             <div id="map"></div>
