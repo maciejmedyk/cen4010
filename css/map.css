@@ -18,7 +18,7 @@ html, body {
 }
 
 #bottom-panel select {
-	width: 100%;
+	min-width: 100%;
 }
 
 #bottom-panel i {
@@ -36,12 +36,14 @@ html, body {
 	margin-top: 10px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	width: 100%;
+	min-width: 100%;
+    align-self: center;
 }
 
 #text-panel {
 	margin-top: 20px;
-	width: 100%;
+	min-width: 100%;
+    align-self: center;
 }
 a.button {
 	-webkit-appearance: button;

@@ -150,7 +150,7 @@
     font-weight: bold;
 }
 /*///////////////////////////////
-//         LOGOUT.PHP          //
+//           BUTTONS           //
 ///////////////////////////////*/
 #logoutButton{
     background-color: #ff8080;
@@ -188,7 +188,7 @@
 #emeButton{
     background-color: #ff8080;
     color: white;
-    margin: 30% auto 0 auto;
+    margin: 25% auto 0 auto;
     padding: 35px 65px;
     border-radius: 15px;
     font-size: 30px;
@@ -199,6 +199,7 @@
 .driverSheets{
     min-width: 100%;
     border: none;
+    margin-bottom: 15px;
 }
 .driverSheets td{
     text-align: left;
