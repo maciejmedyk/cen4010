@@ -1,5 +1,6 @@
 <?php
 include("dsession.php");
+$id=$_SESSION['customer_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,19 +27,10 @@ include("dsession.php");
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
+            <a href="demergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
-            <?php
-            if(empty($_POST["cID"]))
-            {
-            }
-            else
-            {
-            $id = trim($_POST['cID']);
-            }
-            Print "<td id=\"dDSAction\"><form action=\"dsheets.php\" method=\"post\"><input class=\"hidden\" name=\"cID\" value=\"" .  $id . "\"><input type=\"submit\" id=\"logoutButton\" class=\"btn btn-default\" value=\"Back\"></form></td></tr>";
-            ?>
+            <a href="dsheets.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
         </div>
     </div><br>
     <div id="dWireFrame">
@@ -66,8 +58,8 @@ include("dsession.php");
             #Print "<td id=\"dDSAction\"><form action=\"#\" method=\"post\"><input id=\"waypoint\" value=\"" .  $geo['lat'] . ', ' . $geo['lng'] . "\"></form></td></tr>";
             ?>
 
-            <div id="directions-panel"></div>
             <div id="map"></div>
+            <div id="directions-panel"></div>
             <div id="text-panel"></div>
             <div id="directions-panel"></div>
             <div id="bottom-panel">
@@ -79,10 +71,7 @@ include("dsession.php");
                 </div>
             </div>
 
-
-
             <?php require './map/device.php'; ?>
-
 
             <script>
 
@@ -180,6 +169,7 @@ include("dsession.php");
             </script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUacGLhz_V_YNulU_YET1DwK4d2Y_g8M8&signed_in=true&callback=initMap"
                     async defer></script>
+            <?php mysql_close($connection); ?>
         </div>
     </div>
 </div>

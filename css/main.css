@@ -185,6 +185,14 @@
     text-align: center;
     margin: -50px 30% 0 30%;
 }
+#emeButton{
+    background-color: #ff8080;
+    color: white;
+    margin: 30% auto 0 auto;
+    padding: 35px 65px;
+    border-radius: 15px;
+    font-size: 30px;
+}
 /*///////////////////////////////
 //         DSHEETS.PHP         //
 ///////////////////////////////*/
@@ -292,4 +300,18 @@
 #dSheetsButtons {
     min-width: 80%;
     margin: 0 10% 50px 10%;
+}
+#currentLocation{
+    min-width: 240px;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    margin: 10px auto;
+    background-color: #f5f5f5;
+    color: #ff8080;
+}
+#emergencyConfirmation{
+    color: #ff8080;
+    font-style: italic;
+    font-weight: bold;
 }

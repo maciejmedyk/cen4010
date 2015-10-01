@@ -1,5 +1,6 @@
 <?php
 include("dsession.php");
+$id=$_SESSION['customer_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +26,7 @@ include("dsession.php");
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
+            <a href="demergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
             <a href="dhome.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
@@ -37,14 +38,6 @@ include("dsession.php");
         <div id="dInsideFrame">
             <?php
             include('connection.php');
-
-            if(empty($_POST["cID"]))
-            {
-            }
-            else
-            {
-                $id = trim($_POST['cID']);
-            }
             $data = mysql_query("SELECT * FROM `clients` WHERE `clients`.`cID` = $id") or die(mysql_error());
 
             Print "<table border cellpadding = 3 class=\"driverDetailsSheets\">";
@@ -111,7 +104,7 @@ include("dsession.php");
             mysql_close($connection);
             ?>
             <div id="dSheetsButtons">
-                <a href="#"<button type="link" class="btn btn-default"> Add Note </button></a><br>
+                <!--<a href="#"<button type="link" class="btn btn-default"> Add Note </button></a><br>-->
             </div>
         </div>
     </div>

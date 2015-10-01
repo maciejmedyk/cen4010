@@ -25,7 +25,7 @@ include("dsession.php");
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
+            <a href="demergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
             <a href="dlogout.php"<button type="link" id="logoutButton" class="btn btn-default"> Log Out </button></a>
@@ -37,7 +37,7 @@ include("dsession.php");
         <div id="dInsideFrame">
         <?php
             include('connection.php');
-            $data = mysql_query("SELECT * FROM `routes`, `drivers`, `clients` WHERE `routes`.`cID` = `clients`.`cID` AND `routes`.`dID` = `drivers`.`dID` AND `routes`.`rDate` = '$date'") or die(mysql_error());
+            $data = mysql_query("SELECT * FROM `routes`, `drivers`, `clients` WHERE `routes`.`cID` = `clients`.`cID` AND `routes`.`dID` = `drivers`.`dID` AND `routes`.`rDate` = '$date' AND `drivers`.`dUsername` = '$login_session'") or die(mysql_error());
 
             Print "<table border cellpadding = 3 class=\"driverSheets\">";
             {

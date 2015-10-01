@@ -1,5 +1,6 @@
 <?php
 include("dsession.php");
+$id=$_SESSION['customer_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,19 +26,10 @@ include("dsession.php");
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="#"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
+            <a href="demergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
-            <?php
-            if(empty($_POST["cID"]))
-            {
-            }
-            else
-            {
-                $id = trim($_POST['cID']);
-            }
-            Print "<td id=\"dDSAction\"><form action=\"dsheets.php\" method=\"post\"><input class=\"hidden\" name=\"cID\" value=\"" .  $id . "\"><input type=\"submit\" id=\"logoutButton\" class=\"btn btn-default\" value=\"Back\"></form></td></tr>";
-            ?>
+            <a href="dsheets.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
         </div>
     </div><br>
     <div id="dWireFrame">
@@ -47,6 +39,7 @@ include("dsession.php");
             <p>Checkout Under Construction</p>
         </div>
     </div>
+    <?php mysql_close($connection); ?>
 </div>
 </body>
 </html>
