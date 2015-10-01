@@ -73,57 +73,81 @@ $id=$_SESSION['customer_id'];
 
             <?php require './map/device.php'; ?>
 
-            <script>
+            <script type="text/javascript">
 
-                var initialLocation;
-                var map;
+                //
+                //Variables for obtaining geolocation
+                //
+                var geoID;
                 var browserSupportFlag =  new Boolean();
+                var currentLocation = {
+                    lat: 0,
+                    lng: 0
+                };
+                
+                var geoOptions = {
+                    enableHighAccuracy: false,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+                
+                //
+                //This function will get the geolocation coordinates of the users current position.
+                //Returns the coordinates.
+                //
+                function getLocation(position) {
+                    browserSupportFlag = true;
+                    if (position === undefined){
+                        return;
+                    }
+                    currentLocation.lat = position.coords.latitude;
+                    currentLocation.lng = position.coords.longitude;
+                    
+                    initMap(); //Should run this only the first time if autorefresh should be left on. 
+                    //Turn off the auto refresh for now. 
+                    navigator.geolocation.clearWatch(geoID);                 
+                }
+                
+                //
+                //This will be called if there is an error getting the location.
+                //
+                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                    browserSupportFlag = false;
+                }
+                
+                //
+                //This will initialize the geolocation functions (successful, not successful, options of locator)
+                //
+                function startGeolocation(){
+                    geoID = navigator.geolocation.watchPosition(getLocation, handleLocationError, geoOptions);
+                }
 
-                //Called from the REST api callback at the bottom of the page.
+                var map;
+
+                //
+                //Initializes the google maps API
+                //
                 function initMap() {
                     var directionsService = new google.maps.DirectionsService;
                     var directionsDisplay = new google.maps.DirectionsRenderer;
                     var directionsDisplayText = new google.maps.DirectionsRenderer;
                         map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 7, center: {lat: 41.85, lng: -87.65}, disableDefaultUI: true});
+                            zoom: 11, center: currentLocation, disableDefaultUI: true});
 
                     directionsDisplay.setMap(map);
                     directionsDisplayText.setPanel(document.getElementById('text-panel'));
-
-
-                    document.getElementById('dWireFrame').addEventListener('click', function() {
-                        calculateAndDisplayRoute(directionsService, directionsDisplay, directionsDisplayText);
-                    });
-
-                    // Try W3C Geolocation (Preferred)
-                    if(navigator.geolocation) {
-                        browserSupportFlag = true;
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                            initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-                            map.setCenter(initialLocation);
-                        }, function() {
-                            handleNoGeolocation(browserSupportFlag);
-                        });
-                    }
-                    // Browser doesn't support Geolocation
-                    else {
-                        browserSupportFlag = false;
-                        handleNoGeolocation(browserSupportFlag);
-                    }
+                    calculateAndDisplayRoute(directionsService, directionsDisplay, directionsDisplayText);
                 }
 
-                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-                }
-
+                //
+                //This will calculate the directions to all locations and display them on the screen.
+                //
                 function calculateAndDisplayRoute(directionsService, directionsDisplay, directionsDisplayText) {
                     var waypts = [];
+                    console.log(currentLocation);
 
                     directionsService.route({
-                        origin: initialLocation, //document.getElementById('start').value,
+                        origin: currentLocation, //document.getElementById('start').value,
                         destination: document.getElementById('finaldestination').value,
                         waypoints: waypts,
                         optimizeWaypoints: true,
@@ -159,7 +183,6 @@ $id=$_SESSION['customer_id'];
                                 {
                                     summaryPanel.innerHTML += '<center><a class="btn btn-info bbb" role="button" href="http://maps.apple.com/?q=' + route.legs[i].end_location + '";>Navigate with Apple Maps</a></center><br>';
                                 }
-                                summaryPanel.innerHTML += "<hr>";
                             }
                         } else {
                             window.alert('Directions request failed due to ' + status);
@@ -167,7 +190,7 @@ $id=$_SESSION['customer_id'];
                     });
                 }
             </script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUacGLhz_V_YNulU_YET1DwK4d2Y_g8M8&signed_in=true&callback=initMap"
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUacGLhz_V_YNulU_YET1DwK4d2Y_g8M8&signed_in=true&callback=startGeolocation"
                     async defer></script>
             <?php mysql_close($connection); ?>
         </div>
