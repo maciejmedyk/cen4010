@@ -116,6 +116,8 @@ $id=$_SESSION['customer_id'];
                 {
                     include "connection.php";
                     $comment = $_POST['comment'];
+                    $comment = stripslashes($comment);
+                    $comment = mysql_real_escape_string($comment);
                     if (isset($_POST['flag']))
                     {
                         $query = "INSERT INTO `notes` (nDate, cID, dID, nComment, nUrgent) VALUES ('$date','$id','$login_id','$comment', 1)";

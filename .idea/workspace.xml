@@ -38,7 +38,7 @@
       <file leaf-file-name="dhome.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dhome.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.461538" vertical-offset="313" max-vertical-offset="1224">
+            <state vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="1224">
               <caret line="39" column="264" selection-start-line="39" selection-start-column="264" selection-end-line="39" selection-end-column="264" />
               <folding>
                 <marker date="1443884883413" expanded="true" signature="1561:1819" placeholder="SELECT * FRO..." />
@@ -47,43 +47,65 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dcheckout.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dcheckout.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dcheckout.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5774011" vertical-offset="1869" max-vertical-offset="3077">
-              <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
+            <state vertical-scroll-proportion="-14.423077" vertical-offset="1614" max-vertical-offset="3111">
+              <caret line="117" column="49" selection-start-line="117" selection-start-column="49" selection-end-line="117" selection-end-column="49" />
               <folding>
-                <marker date="1443890382496" expanded="true" signature="1640:1688" placeholder="SELECT * FRO..." />
-                <marker date="1443890382496" expanded="true" signature="2644:2648" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2719:3025" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2723:3025" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2885" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2888" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2897" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2902" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2905" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2915" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2932" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2935" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2941" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2942" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2944" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:2948" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="2744:3020" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3055:3363" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3080:3206" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3080:3272" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3080:3273" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3080:3279" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3080:3286" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3080:3358" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3578:8635" placeholder="..." />
-                <marker date="1443890382496" expanded="true" signature="3849:4073" placeholder="SELECT * FRO..." />
-                <marker date="1443890382496" expanded="true" signature="4230:4300" placeholder="INSERT INTO ..." />
-                <marker date="1443890382496" expanded="true" signature="4702:4926" placeholder="SELECT * FRO..." />
-                <marker date="1443890382496" expanded="true" signature="6459:6564" placeholder="INSERT INTO ..." />
-                <marker date="1443890382496" expanded="true" signature="6926:7031" placeholder="INSERT INTO ..." />
-                <marker date="1443890382496" expanded="true" signature="7423:7501" placeholder="SELECT * FRO..." />
+                <marker date="1443909348420" expanded="true" signature="1640:1688" placeholder="SELECT * FRO..." />
+                <marker date="1443909348420" expanded="true" signature="2644:2648" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2719:3025" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2723:3025" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2885" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2888" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2897" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2902" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2905" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2915" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2932" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2935" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2941" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2942" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2944" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:2948" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="2744:3020" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3055:3363" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3080:3206" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3080:3272" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3080:3273" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3080:3279" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3080:3286" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3080:3358" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3578:8757" placeholder="..." />
+                <marker date="1443909348420" expanded="true" signature="3849:4073" placeholder="SELECT * FRO..." />
+                <marker date="1443909348420" expanded="true" signature="4230:4300" placeholder="INSERT INTO ..." />
+                <marker date="1443909348420" expanded="true" signature="4702:4926" placeholder="SELECT * FRO..." />
+                <marker date="1443909348420" expanded="true" signature="6581:6686" placeholder="INSERT INTO ..." />
+                <marker date="1443909348420" expanded="true" signature="7048:7153" placeholder="INSERT INTO ..." />
+                <marker date="1443909348420" expanded="true" signature="7545:7623" placeholder="SELECT * FRO..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="alogin.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/alogin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5868597" vertical-offset="0" max-vertical-offset="898">
+              <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dlogin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dlogin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="697">
+              <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="18" selection-end-column="56" />
+              <folding>
+                <marker date="1443240309000" expanded="true" signature="575:664" placeholder="select * fro..drivers..." />
               </folding>
             </state>
           </provider>
@@ -135,7 +157,6 @@
         <option value="$PROJECT_DIR$/js/connection.php" />
         <option value="$PROJECT_DIR$/connection.php" />
         <option value="$PROJECT_DIR$/logout.php" />
-        <option value="$PROJECT_DIR$/dlogin.php" />
         <option value="$PROJECT_DIR$/alogin.php" />
         <option value="$PROJECT_DIR$/alogout.php" />
         <option value="$PROJECT_DIR$/admin.php" />
@@ -154,6 +175,7 @@
         <option value="$PROJECT_DIR$/css/responsive.css" />
         <option value="$PROJECT_DIR$/css/main.css" />
         <option value="$PROJECT_DIR$/dhome.php" />
+        <option value="$PROJECT_DIR$/dlogin.php" />
         <option value="$PROJECT_DIR$/dcheckout.php" />
       </list>
     </option>
@@ -191,7 +213,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -240,6 +261,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -262,10 +284,10 @@
     <configuration default="true" type="PhpBuiltInWebServerConfigurationType" factoryName="PHP Built-in Web Server" document_root="localhost/CEN4010" host="CEN4010">
       <method />
     </configuration>
-    <configuration default="true" type="PhpRemoteDebugRunConfigurationType" factoryName="PHP Remote Debug">
+    <configuration default="true" type="PhpHttpRequestRunConfigurationType" factoryName="PHP HTTP Request" url="/localhost/CEN4010">
       <method />
     </configuration>
-    <configuration default="true" type="PhpHttpRequestRunConfigurationType" factoryName="PHP HTTP Request" url="/localhost/CEN4010">
+    <configuration default="true" type="PhpRemoteDebugRunConfigurationType" factoryName="PHP Remote Debug">
       <method />
     </configuration>
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
@@ -278,15 +300,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
       <pass-parent-env-vars>false</pass-parent-env-vars>
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <configuration default="false" name="CEN4010" type="JavascriptDebugType" factoryName="JavaScript Debug" engineId="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" uri="http://localhost/CEN4010/index.php">
@@ -323,18 +345,18 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.10729167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947367" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993576" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993576" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -612,20 +634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/alogin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.26923" vertical-offset="0" max-vertical-offset="680">
-          <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dlogin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.653847" vertical-offset="0" max-vertical-offset="697">
-          <caret line="27" column="42" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dlogout.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="924">
@@ -638,13 +646,6 @@
         <state vertical-scroll-proportion="0.40568182" vertical-offset="0" max-vertical-offset="880">
           <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/jquery-radio.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1258">
-          <caret line="68" column="5" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -717,7 +718,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dhome.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.461538" vertical-offset="313" max-vertical-offset="1224">
+        <state vertical-scroll-proportion="0.0" vertical-offset="313" max-vertical-offset="1224">
           <caret line="39" column="264" selection-start-line="39" selection-start-column="264" selection-end-line="39" selection-end-column="264" />
           <folding>
             <marker date="1443884883413" expanded="true" signature="1561:1819" placeholder="SELECT * FRO..." />
@@ -725,43 +726,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dlogin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="697">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="18" selection-end-column="56" />
+          <folding>
+            <marker date="1443240309000" expanded="true" signature="575:664" placeholder="select * fro..drivers..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dcheckout.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5774011" vertical-offset="1869" max-vertical-offset="3077">
-          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
+        <state vertical-scroll-proportion="-14.423077" vertical-offset="1614" max-vertical-offset="3111">
+          <caret line="117" column="49" selection-start-line="117" selection-start-column="49" selection-end-line="117" selection-end-column="49" />
           <folding>
-            <marker date="1443890382496" expanded="true" signature="1640:1688" placeholder="SELECT * FRO..." />
-            <marker date="1443890382496" expanded="true" signature="2644:2648" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2719:3025" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2723:3025" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2885" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2888" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2897" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2902" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2905" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2915" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2932" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2935" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2941" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2942" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2944" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:2948" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="2744:3020" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3055:3363" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3080:3206" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3080:3272" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3080:3273" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3080:3279" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3080:3286" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3080:3358" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3578:8635" placeholder="..." />
-            <marker date="1443890382496" expanded="true" signature="3849:4073" placeholder="SELECT * FRO..." />
-            <marker date="1443890382496" expanded="true" signature="4230:4300" placeholder="INSERT INTO ..." />
-            <marker date="1443890382496" expanded="true" signature="4702:4926" placeholder="SELECT * FRO..." />
-            <marker date="1443890382496" expanded="true" signature="6459:6564" placeholder="INSERT INTO ..." />
-            <marker date="1443890382496" expanded="true" signature="6926:7031" placeholder="INSERT INTO ..." />
-            <marker date="1443890382496" expanded="true" signature="7423:7501" placeholder="SELECT * FRO..." />
+            <marker date="1443909348420" expanded="true" signature="1640:1688" placeholder="SELECT * FRO..." />
+            <marker date="1443909348420" expanded="true" signature="2644:2648" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2719:3025" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2723:3025" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2885" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2888" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2897" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2902" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2905" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2915" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2932" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2935" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2941" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2942" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2944" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:2948" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="2744:3020" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3055:3363" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3080:3206" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3080:3272" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3080:3273" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3080:3279" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3080:3286" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3080:3358" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3578:8757" placeholder="..." />
+            <marker date="1443909348420" expanded="true" signature="3849:4073" placeholder="SELECT * FRO..." />
+            <marker date="1443909348420" expanded="true" signature="4230:4300" placeholder="INSERT INTO ..." />
+            <marker date="1443909348420" expanded="true" signature="4702:4926" placeholder="SELECT * FRO..." />
+            <marker date="1443909348420" expanded="true" signature="6581:6686" placeholder="INSERT INTO ..." />
+            <marker date="1443909348420" expanded="true" signature="7048:7153" placeholder="INSERT INTO ..." />
+            <marker date="1443909348420" expanded="true" signature="7545:7623" placeholder="SELECT * FRO..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/alogin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5868597" vertical-offset="0" max-vertical-offset="898">
+          <caret line="31" column="8" selection-start-line="31" selection-start-column="8" selection-end-line="31" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
