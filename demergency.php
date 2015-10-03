@@ -35,7 +35,7 @@ include("dsession.php");
     </div><br>
     <div id="dWireFrame">
         <b align="center" id="welcome">Driver : <?php echo $login_name; ?></b><br>
-        <p><?php date_default_timezone_set("America/New_York"); $date = date("Y-m-d"); $datetime = date("Y-m-d H:i"); print $datetime; ?></p>
+        <p><?php date_default_timezone_set("America/New_York"); $date = date("Y-m-d"); $datetime = date("Y-m-d H:i"); print $date; ?></p>
         <div id="dInsideFrame">
             <a href="tel:911"<button type="link" id="emeButton" class="btn btn-default"> Call 911 </button></a>
             <form action="demergency.php" method="post">

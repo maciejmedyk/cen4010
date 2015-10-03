@@ -61,7 +61,6 @@ $id=$_SESSION['customer_id'];
             <div id="map"></div>
             <div id="directions-panel"></div>
             <div id="text-panel"></div>
-            <div id="directions-panel"></div>
             <div id="bottom-panel">
                 <div id="waypoints-panel">
                     <select class="hidden" id="finaldestination">
@@ -196,5 +195,9 @@ $id=$_SESSION['customer_id'];
         </div>
     </div>
 </div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

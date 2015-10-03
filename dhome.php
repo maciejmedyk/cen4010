@@ -37,7 +37,7 @@ include("dsession.php");
         <div id="dInsideFrame">
         <?php
             include('connection.php');
-            $data = mysql_query("SELECT * FROM `routes`, `drivers`, `clients` WHERE `routes`.`cID` = `clients`.`cID` AND `routes`.`dID` = `drivers`.`dID` AND `routes`.`rDate` = '$date' AND `drivers`.`dUsername` = '$login_session'") or die(mysql_error());
+            $data = mysql_query("SELECT * FROM `routes`, `drivers`, `clients` WHERE `routes`.`cID` = `clients`.`cID` AND `routes`.`dID` = `drivers`.`dID` AND `routes`.`rDate` = '$date' AND `drivers`.`dUsername` = '$login_session' ORDER BY `routes`.`rSuccess` DESC, `routes`.`rReschedule` ASC") or die(mysql_error());
 
             Print "<table border cellpadding = 3 class=\"driverSheets\">";
             {
