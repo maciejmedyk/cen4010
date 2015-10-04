@@ -155,14 +155,14 @@
 #logoutButton{
     background-color: #ff8080;
     color: white;
-    min-width: 130px;
-    max-width: 130px;
+    min-width: 7em;
+    max-width: 7em;
 }
 #emergencyButton{
     background-color: #00dd00;
     color: white;
-    min-width: 130px;
-    max-width: 130px;
+    min-width: 7em;
+    max-width: 7em;
 }
 #sheetsButtonS{
     background-color: #5080ff;
