@@ -1,0 +1,1 @@
+10-06-15: After changing mysql to mysqli the check out page needs to be fixed. 

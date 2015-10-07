@@ -1,28 +1,14 @@
 <?php
-include("dsession.php");
-$id=$_SESSION['customer_id'];
+include_once("session.php"); 
+include_once("../header.php");
+
+if(isset($_GET['clientID'])){
+	$id=$_GET['clientID'];
+	$_SESSION['customer_id']= $id;
+} else {
+	$id=$_SESSION['customer_id'];
+}
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M-O-W Delivery</title>
-
-    <!-- Stylesheets -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="css/main.css" rel="stylesheet" type="text/css">
-    <link href="css/responsive.css" rel="stylesheet" type="text/css">
-    <link href="css/map.css" rel="stylesheet" type="text/css"/>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
 <body>
 <div id="dBackDiv">
     <div id="dHead">
@@ -30,32 +16,33 @@ $id=$_SESSION['customer_id'];
             <a href="demergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
-            <a href="dsheets.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
+            <a href="sheets.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
         </div>
     </div><br>
     <div id="dWireFrame">
         <b align="center" id="welcome">Driver : <?php echo $login_name; ?></b><br>
-        <p><?php date_default_timezone_set("America/New_York"); $date = date("Y-m-d"); print $date; ?></p>
+        <p><?php date_default_timezone_set("America/New_York"); $date = date("Y-m-d"); echo $date; ?></p>
         <div id="dInsideFrame">
             <?php
-                include('connection.php');
-                $data = mysql_query("SELECT * FROM `clients` WHERE `clients`.`cID` = $id") or die(mysql_error());
+               
+                $query = "SELECT * FROM `clients` WHERE `clients`.`cID` = $id";
+				$sql = $db->query($query);
                 $address = array();
-                Print "<table border cellpadding = 3 class=\"driverDetailsSheets\">";
-                Print "<th width=\"100%\">Address</th>";
-                while ($info = mysql_fetch_array($data))
+                echo "<table border cellpadding = 3 class=\"driverDetailsSheets\">";
+                echo "<th width=\"100%\">Address</th>";
+                while ($info = $sql->fetch_array())
                 {
-                    Print "<tr><td id=\"dDSAddress1\">" . $info['cAddress1'] . ' ' . $info['cAddress2'] . "</td></tr>";
-                    Print "<tr><td id=\"dDSAddress2\">" . $info['cCity'] . ', ' . $info['cState'] . ' ' . $info['cZip'] . "</td></tr>";
+                    echo "<tr><td id=\"dDSAddress1\">" . $info['cAddress1'] . ' ' . $info['cAddress2'] . "</td></tr>";
+                    echo "<tr><td id=\"dDSAddress2\">" . $info['cCity'] . ', ' . $info['cState'] . ' ' . $info['cZip'] . "</td></tr>";
                     $address = $info['cAddress1'] . ' ' . $info['cCity'] . ' ' . $info['cState'] . ' ' . $info['cZip'];
                 }
-                Print "</table>";
+                echo "</table>";
             ?>
             <?php
-            require './map/geocode.php';
-            #echo $address; print "<br>";
+            require '../map/geocode.php';
+            #echo $address; echo "<br>";
             $geo = (getGeoLocation($address));
-            #Print "<td id=\"dDSAction\"><form action=\"#\" method=\"post\"><input id=\"waypoint\" value=\"" .  $geo['lat'] . ', ' . $geo['lng'] . "\"></form></td></tr>";
+            #echo "<td id=\"dDSAction\"><form action=\"#\" method=\"post\"><input id=\"waypoint\" value=\"" .  $geo['lat'] . ', ' . $geo['lng'] . "\"></form></td></tr>";
             ?>
 
             <div id="map"></div>
@@ -70,7 +57,7 @@ $id=$_SESSION['customer_id'];
                 </div>
             </div>
 
-            <?php require './map/device.php'; ?>
+            <?php require '../map/device.php'; ?>
 
             <script type="text/javascript">
 
@@ -191,7 +178,6 @@ $id=$_SESSION['customer_id'];
             </script>
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUacGLhz_V_YNulU_YET1DwK4d2Y_g8M8&signed_in=true&callback=startGeolocation"
                     async defer></script>
-            <?php mysql_close($connection); ?>
         </div>
     </div>
 </div>

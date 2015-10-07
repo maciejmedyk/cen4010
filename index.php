@@ -1,10 +1,10 @@
 <?php
-include("dlogin.php"); // Includes Login Script
+/*include("dlogin.php"); // Includes Login Script
 
 if(isset($_SESSION['login_user']))
 {
-    header("location: dhome.php");
-}
+    header("location: index.php");
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +18,8 @@ if(isset($_SESSION['login_user']))
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
+	<script src="js/jquery.js"></script>
+	
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,10 +37,14 @@ if(isset($_SESSION['login_user']))
            <form id="inputForm" action="" method="post">
                <img src="img/mowlogoblue.png" height=45px alt="Meals On Wheels Logo"><br>
                <img src="img/mowdeliveryblue.png" height=35px alt="Delivery Logo"><br><br>
-               <label for="username">Username</label><br><input autofocus class="form-control" type="text" id="username" name="username" ><br>
-               <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" ><br><span><?php echo $error . "<br>"; ?></span><br>
-               <button name="submit" type="submit" class="btn btn-default">      Login      </button><br><br>
+               <label for="username">Username</label><br>
+			   <input autofocus class="form-control" type="text" id="username" name="username" ><br>
+               <label for="password">Password</label><br>
+			   <input class="form-control" type="password" id="password" name="password" ><br>
+			   <span><div id="errorMSG"></div></span><br>
+               <div id="driverForm" class="btn btn-default">      Login      </div><br><br>
            </form>
        </div>
    </body>
 </html>
+<script src="js/main.js"></script>

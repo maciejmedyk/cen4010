@@ -1,28 +1,7 @@
 <?php
-include("dsession.php");
-#$id=$_SESSION['customer_id'];
+include_once("session.php"); 
+include_once("../header.php"); 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M-O-W Delivery</title>
-
-    <!-- Stylesheets -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
-    <link href="css/responsive.css" rel="stylesheet">
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
 <body>
 <div id="dBackDiv">
     <div id="dHead">
@@ -30,7 +9,7 @@ include("dsession.php");
             <a href="#"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
-            <a href="dhome.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
+            <a href="index.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
         </div>
     </div><br>
     <div id="dWireFrame">
@@ -89,11 +68,11 @@ include("dsession.php");
             <?php
             if (isset($_POST['coordinates']))
             {
-                include "connection.php";
-                $coordinates = $_POST['coordinates'];
-                $query = "INSERT INTO emergency (dID, eDate, eCoordinates) VALUES ('$login_id', '$datetime', '$coordinates')";
-                $data = mysql_query ($query)or die(mysql_error());
-                if($data)
+				$coordinates = $_POST['coordinates'];
+				$newStudent = "INSERT INTO emergency (dID, eDate, eCoordinates) VALUES ('$driverID', '$datetime', '$coordinates')";
+				$db->query($newStudent);
+                
+                if($db->affected_rows)
                 {
                     Print "<div id=\"emergencyConfirmation\"><p>Coordinates Sent to Administrator</p></div>";
                 }
@@ -102,8 +81,6 @@ include("dsession.php");
 
             <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUacGLhz_V_YNulU_YET1DwK4d2Y_g8M8&signed_in=true&callback=initMap"
                     async defer></script>
-
-            <?php mysql_close($connection); ?>
         </div>
     </div>
 </div>
