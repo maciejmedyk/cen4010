@@ -17,7 +17,7 @@ include_once("../header.php");
         <p><?php date_default_timezone_set("America/New_York"); $date = date("Y-m-d"); $datetime = date("Y-m-d H:i"); print $date; ?></p>
         <div id="dInsideFrame">
             <a href="tel:911"<button type="link" id="emeButton" class="btn btn-default"> Call 911 </button></a>
-            <form action="demergency.php" method="post">
+            <form action="emergency.php" method="post">
             <button type="submit" id="emeButton" class="btn btn-default"> Location </button><br>
             <textarea rows="2" id="currentLocation" name="coordinates" value="" disabled"></textarea>
             </form>

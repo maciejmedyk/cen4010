@@ -13,7 +13,7 @@ if(isset($_GET['clientID'])){
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="demergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
+            <a href="emergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
             <a href="index.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>

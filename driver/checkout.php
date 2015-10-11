@@ -13,7 +13,7 @@ if(isset($_GET['clientID'])){
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
-            <a href="demergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
+            <a href="emergency.php"<button type="link" id="emergencyButton" class="btn btn-default"> Emergency </button></a>
         </div>
         <div id="dHeadRight">
             <a href="sheets.php"<button type="link" id="logoutButton" class="btn btn-default"> Back </button></a>
@@ -57,6 +57,7 @@ if(isset($_GET['clientID'])){
             {
                 $option = $_POST['options'];
 				$query = "SELECT * FROM `routes`, `drivers`, `clients` WHERE `routes`.`cID` = `clients`.`cID` AND `routes`.`dID` = `drivers`.`dID` AND `routes`.`rDate` = '$date' AND `drivers`.`dID` = '$driverID' AND `clients`.`cID` = '$id'";
+				
 				$sql = $db->query($query);
 				$info = $sql->fetch_array();
 				
@@ -67,6 +68,7 @@ if(isset($_GET['clientID'])){
                     $query = "UPDATE `routes` SET `routes`.`rSuccess` = '1' WHERE `routes`.`rID` =  '$rID'";
                     $db->query($query);
                     $row_cnt = $sql->num_rows;
+					
 					if ($row_cnt == 1){
                         echo "<div id=\"emergencyConfirmation\"><p>Complete</p></div>";
                         header('Location: index.php');
@@ -100,23 +102,21 @@ if(isset($_GET['clientID'])){
                 <?php
                 if (isset($_POST['comment']))
                 {
-                    include "connection.php";
                     $comment = $_POST['comment'];
                     $comment = stripslashes($comment);
-                    $comment = mysql_real_escape_string($comment);
+                    $comment = $db->real_escape_string($comment);
                     if (isset($_POST['flag']))
                     {
-                        $query = "INSERT INTO `notes` (nDate, cID, dID, nComment, nUrgent) VALUES ('$date','$id','$login_id','$comment', 1)";
-                        $data = mysql_query ($query)or die(mysql_error());
-                        if($data)
-                        {
+                        $query = "INSERT INTO `notes` (nDate, cID, dID, nComment, nUrgent) VALUES ('$date','$id','$driverID','$comment', 1)";
+						$data = $db->query($query);
+                        if($data){
                             echo "<div id=\"emergencyConfirmation\"><p>Note Added</p></div>";
                         }
                     }
                     else
                     {
-                        $query = "INSERT INTO `notes` (nDate, cID, dID, nComment, nUrgent) VALUES ('$date','$id','$login_id','$comment', 0)";
-                        $data = mysql_query ($query)or die(mysql_error());
+                        $query = "INSERT INTO `notes` (nDate, cID, dID, nComment, nUrgent) VALUES ('$date','$id','$driverID','$comment', 0)";
+                        $data = $db->query($query);
                         if($data)
                         {
                             echo "<div id=\"emergencyConfirmation\"><p>Note Added</p></div>";
@@ -128,8 +128,11 @@ if(isset($_GET['clientID'])){
 
 
             <?php
-            $data2 = mysql_query("SELECT * FROM `notes` WHERE `notes`.`cID` = $id ORDER BY `nDate` DESC LIMIT 10") or die(mysql_error());
-            if (mysql_num_rows($data2) == 0)
+			$query = "SELECT * FROM `notes` WHERE `notes`.`cID` = $id ORDER BY `nDate` DESC LIMIT 10";
+			$data2 = $db->query($query);
+            $row_cnt = $data2->num_rows;
+            
+            if ($row_cnt == 0)
             {
 
             }
@@ -139,7 +142,8 @@ if(isset($_GET['clientID'])){
             {
                 echo "<th width=\"75%\">Note</th>" . "<th width=\"5%\">Flag</th>" . "<th width=\"30%\">Date</th>";
             }
-            while ($info = mysql_fetch_array($data2)) {
+
+            while ($info = $data2->fetch_array()) {
                 echo "<tr><td id=\"dDSNNote\">" . $info['nComment'] . "</td>";
                 if($info['nUrgent'] == 0)
                 {
@@ -156,7 +160,6 @@ if(isset($_GET['clientID'])){
             
         </div>
     </div>
-    <?php mysql_close($connection); ?>
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
