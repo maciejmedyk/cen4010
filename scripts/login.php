@@ -13,8 +13,8 @@ if (isset($_POST['userType'])) {
 
         $username = stripslashes($username);
         $password = stripslashes($password);
-        $username = mysql_real_escape_string($username);
-        $password = mysql_real_escape_string($password);
+        $username = $db->real_escape_string($username);
+        $password = $db->real_escape_string($password);
 		$query = "SELECT
 					  *
 					FROM drivers

@@ -13,6 +13,7 @@ $baseURL = "http://$_SERVER[HTTP_HOST]/";
     <link href="<?php echo $baseURL;?>css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo $baseURL;?>css/main.css" rel="stylesheet">
     <link href="<?php echo $baseURL;?>css/responsive.css" rel="stylesheet">
+	<link href="<?php echo $baseURL;?>css/map.css" rel="stylesheet">
 	
 	<!-- JavaScript -->
 	<script src="<?php echo $baseURL;?>js/jquery.js"></script>
