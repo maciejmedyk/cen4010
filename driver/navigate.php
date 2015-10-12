@@ -48,6 +48,7 @@ if(isset($_GET['clientID'])){
             <div id="map"></div>
             <div id="directions-panel"></div>
             <div id="text-panel"></div>
+            <div id="checkoutB" <?php echo "<td id=\"dDSAction\"><form action=\"checkout.php\" method=\"post\"><input class=\"hidden\" name=\"cID\" value=\"" .  $id . "\"><input type=\"submit\" id=\"logoutButton\" class=\"btn btn-default\" value=\"Checkout\"></form></td></tr>"; ?></div>
             <div id="bottom-panel">
                 <div id="waypoints-panel">
                     <select class="hidden" id="finaldestination">
@@ -57,7 +58,8 @@ if(isset($_GET['clientID'])){
                 </div>
             </div>
 
-            <?php require '../map/device.php'; ?>
+
+        <?php require '../map/device.php'; ?>
 
             <script type="text/javascript">
 

@@ -22,7 +22,7 @@ include_once("../header.php");
             <textarea rows="2" id="currentLocation" name="coordinates" value="" disabled"></textarea>
             </form>
 
-            <div id="map"></div>
+            <div id="map" style="max-height: 0px; display: none;"></div>
 
             <script>
                 var loc;

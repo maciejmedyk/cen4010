@@ -7,7 +7,7 @@ function getDriverSheets($driverID, $date){
 					WHERE `routes`.`cID` = `clients`.`cID` AND 
 					`routes`.`dID` = `drivers`.`dID` AND 
 					 
-					`drivers`.`dID` = '$driverID' 
+					`drivers`.`dID` = '$driverID' AND `routes`.`rDate` = '$date'
 					ORDER BY `routes`.`rSuccess` DESC, `routes`.`rReschedule` ASC";
 
 	$sql = $db->query($query);
@@ -23,7 +23,7 @@ function getDriverSheets($driverID, $date){
 						if ($info['rSuccess'] == 0) {
 								echo '<td id="dDSAction" td rowspan="4"><a href="sheets.php?clientID='. $info['cID'] .'" id="sheetsButtonS" class="btn btn-default">Select</a></td></tr>';
 						} else {
-										echo "<td id=\"dDSAction\" td rowspan='4'> <button type=\"link\" id=\"sheetsButtonD\" class=\"btn btn-default\" disabled>Delivered</button> </td></tr>";
+								echo "<td id=\"dDSAction\" td rowspan='4'> <button type=\"link\" id=\"sheetsButtonD\" class=\"btn btn-default\" disabled>Delivered</button> </td></tr>";
 						}
 						echo "<tr><td id=\"dDSAddress1\">" . $info['cAddress1'] . ' ' . $info['cAddress2'] . "</td></tr>";
 						echo "<tr><td id=\"dDSAddress2\">" . $info['cCity'] . ', ' . $info['cState'] . ' ' . $info['cZip'] . "</td></tr>";

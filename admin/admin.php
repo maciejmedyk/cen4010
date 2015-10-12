@@ -14,9 +14,9 @@ if(isset($_SESSION['login_user'])){
     <title>M-O-W Delivery</title>
 
     <!-- Stylesheets -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
-    <link href="css/responsive.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/responsive.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,8 +32,8 @@ if(isset($_SESSION['login_user'])){
 </div>
 <div id="adminDiv">
     <form id="adminForm" action="" method="post">
-        <img src="img/mowlogogreen.png" height=45px alt="Meals On Wheels Logo"><br>
-        <img src="img/mowdeliverygreen.png" height=35px alt="Delivery Logo"><br><br>
+        <img src="../img/mowlogogreen.png" height=45px alt="Meals On Wheels Logo"><br>
+        <img src="../img/mowdeliverygreen.png" height=35px alt="Delivery Logo"><br><br>
         <label for="username">Username</label><br><input autofocus class="form-control" type="text" id="username" name="username" ><br>
         <label for="password">Password</label><br><input class="form-control" type="password" id="password" name="password" ><br><span><?php echo $error . "<br>"; ?></span><br>
         <button name="submit" type="submit" class="btn btn-default">      Login      </button><br><br>
