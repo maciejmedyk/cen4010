@@ -160,12 +160,16 @@
     color: white;
     min-width: 7em;
     max-width: 7em;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 #emergencyButton{
     background-color: #00dd00;
     color: white;
     min-width: 7em;
     max-width: 7em;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 #sheetsButtonS{
     background-color: #5080ff;
@@ -205,6 +209,8 @@
 #checkoutB{
     margin-top: 20px;
     margin-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 /*///////////////////////////////
 //         DSHEETS.PHP         //
