@@ -1,11 +1,3 @@
-<?php
-/*include("dlogin.php"); // Includes Login Script
-
-if(isset($_SESSION['login_user']))
-{
-    header("location: index.php");
-}*/
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,21 +22,31 @@ if(isset($_SESSION['login_user']))
    </head>
    <body>
         <div id="indexHead">
-           <a href="index.php"><button type="link" id="indexActiveButton" class="btn btn-default">      Driver      </button></a>
-           <a href="admin.php"><button type="link" class="btn btn-default">      Admin       </button></a>
+           <button id="driverLog" class="btn btn-default">      Driver      </button>
+           <button id="adminLog"  class="btn btn-default">      Admin       </button>
        </div>
        <div id="indexDiv">
            <form id="inputForm" action="" method="post">
-               <img src="img/mowlogoblue.png" height=45px alt="Meals On Wheels Logo"><br>
-               <img src="img/mowdeliveryblue.png" height=35px alt="Delivery Logo"><br><br>
+				<img class="driver_L" src="img/mowlogoblue.png" height=45px alt="Meals On Wheels Logo"><br>
+				<img class="driver_L" src="img/mowdeliveryblue.png" height=35px alt="Delivery Logo"><br><br>
+			   
+				<img class="admin_L disable" src="img/mowlogogreen.png" height=45px alt="Meals On Wheels Logo"><br>
+				<img class="admin_L disable" src="img/mowdeliverygreen.png" height=35px alt="Delivery Logo"><br><br>
+			   
                <label for="username">Username</label><br>
 			   <input autofocus class="form-control" type="text" id="username" name="username" ><br>
                <label for="password">Password</label><br>
 			   <input class="form-control" type="password" id="password" name="password" ><br>
+			   
 			   <span><div id="errorMSG"></div></span><br>
-               <div id="driverForm" class="btn btn-default">      Login      </div><br><br>
+			   
+               <div id="driverForm" class="btn btn-default driver_L">      Login      </div><br><br>
+			   <div id="adminForm" class="btn btn-default admin_L disable">      Login      </div><br><br>
+				<a href="#" class="admin_L disable" ><p>Forgot your password?</p></a>
            </form>
        </div>
+	   
+		
    </body>
 </html>
 <script src="js/main.js"></script>
