@@ -169,12 +169,18 @@
     color: white;
     min-width: 85px;
     min-height: 85px;
+    text-align: center;
+    padding-top: 50%;
+    padding-bottom: 50%;
 }
 #sheetsButtonD{
     background-color: #777777;
     color: white;
     min-width: 85px;
     min-height: 85px;
+    text-align: center;
+    padding-top: 50%;
+    padding-bottom: 50%;
 }
 .button{
     background-color: #5080ff;
