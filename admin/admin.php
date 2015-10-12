@@ -27,7 +27,7 @@ if(isset($_SESSION['login_user'])){
 </head>
 <body>
 <div id="indexHead">
-    <a href="index.php"><button type="link" class="btn btn-default">      Driver      </button></a>
+    <a href="../index.php"><button type="link" class="btn btn-default">      Driver      </button></a>
     <a href="admin.php"<button type="link" id="adminActiveButton" class="btn btn-default">      Admin       </button></a>
 </div>
 <div id="adminDiv">

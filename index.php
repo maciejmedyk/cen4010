@@ -31,7 +31,7 @@ if(isset($_SESSION['login_user']))
    <body>
         <div id="indexHead">
            <a href="index.php"><button type="link" id="indexActiveButton" class="btn btn-default">      Driver      </button></a>
-           <a href="admin.php"><button type="link" class="btn btn-default">      Admin       </button></a>
+           <a href="admin/admin.php"><button type="link" class="btn btn-default">      Admin       </button></a>
        </div>
        <div id="indexDiv">
            <form id="inputForm" action="" method="post">
