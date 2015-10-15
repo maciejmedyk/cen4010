@@ -64,6 +64,18 @@ function searchClient($name){
 	
 }
 
+function deleteClient($clientID){
+	include('../connection.php');
+	$query = "SELECT *
+				FROM clients
+				WHERE cID = $clientID
+				ORDER BY cLastName ASC";
+	$sql = $db->query($query);
+	$info = $sql->fetch_array();
+	echo '<div class="formTitle">Delete Client Information</div>';
+	echo '<div>Do you realy want to delete '. $info['cFirstName'] .' '. $info['cLastName'] .' .</div>';
+	echo 'Yes No';
+}
 
 function editClient($clientID){
 	include('../connection.php');
@@ -81,12 +93,12 @@ function editClient($clientID){
 				
                     <label  class="col-md-3 control-label">First Name</label>
 					<div class="col-md-9">
-					  <input id="fName" type="text" class="form-control" placeholder="'.$info['cFirstName'].'" name="fName">
+					  <input id="fName" type="text" class="form-control" value="'.$info['cFirstName'].'" name="fName">
 					</div>
 					
 					<label  class="col-md-3 control-label">Last Name</label>
 					<div class="col-md-9">
-					  <input id="lName" type="text" class="form-control" placeholder="'.$info['cLastName'].'" >
+					  <input id="lName" type="text" class="form-control" value="'.$info['cLastName'].'" >
 					</div>
 					
                    
@@ -95,11 +107,11 @@ function editClient($clientID){
                 <div class="form-group input-group row">
                     <label  class="col-md-3 control-label">Email</label>
 					<div class="col-md-9">
-					  <input id="email" type="text" class="form-control" placeholder="" >
+					  <input id="email" type="text" class="form-control" value="" >
 					</div>
 					<label  class="col-md-3 control-label">Phone#</label>
 					<div class="col-md-9">
-					  <input id="phone" type="text" class="form-control" placeholder="'.$info['cPhone'].'" >
+					  <input id="phone" type="text" class="form-control" value="'.$info['cPhone'].'" >
 					</div>
                     
                 </div>
@@ -107,23 +119,23 @@ function editClient($clientID){
                 <div class="form-group input-group row">
                     <label  class="col-md-3 control-label">Address</label>
 					<div class="col-md-9">
-					  <input id="addr1" type="text" class="form-control" placeholder="'.$info['cAddress1'].'" >
+					  <input id="addr1" type="text" class="form-control" value="'.$info['cAddress1'].'" >
 					</div>
 					<label  class="col-md-3 control-label">Address 2</label>
 					<div class="col-md-9">
-					  <input id="addr2" type="text" class="form-control" placeholder="'.$info['cAddress2'].'" >
+					  <input id="addr2" type="text" class="form-control" value="'.$info['cAddress2'].'" >
 					</div>
 					<label  class="col-md-3 control-label">City</label>
 					<div class="col-md-9">
-					  <input id="city" type="text" class="form-control" placeholder="'.$info['cCity'].'" >
+					  <input id="city" type="text" class="form-control" value="'.$info['cCity'].'" >
 					</div>
 					<label  class="col-md-3 control-label">Zip</label>
 					<div class="col-md-9">
-					  <input id="zip" type="text" class="form-control" placeholder="'.$info['cZip'].'" >
+					  <input id="zip" type="text" class="form-control" value="'.$info['cZip'].'" >
 					</div>
 					<label  class="col-md-3 control-label">State</label>
 					<div class="col-md-9">
-					  <input id="state" type="text" class="form-control" placeholder="'.$info['cState'].'" >
+					  <input id="state" type="text" class="form-control" value="'.$info['cState'].'" >
 					</div>
 					
                    
@@ -133,9 +145,9 @@ function editClient($clientID){
 					  <textarea id="delNotes" class="form-control" rows="4" style="min-width: 100%">'.$info['cDeliveryNotes'].'</textarea>                    
                 </div>
                 <div class="checkbox row">
-					<label><input id="FA" type="checkbox" value="" checked="">Food Allergies</label>
-					<label><input id="FR" type="checkbox" value="" checked="">Food Restrictions</label>
-                    <label><input id="Active" type="checkbox" value="" checked="">Is Active</label>
+					<label><input id="FA" type="checkbox" value="1">Food Allergies</label>
+					<label><input id="FR" type="checkbox" value="1">Food Restrictions</label>
+                    <label><input id="Active" type="checkbox" value="1" checked="">Is Active</label>
                 </div>
 				<div id="errorMSG"></div>
                 <div id="editClient" class="btn btn-success">Edit Client</div>

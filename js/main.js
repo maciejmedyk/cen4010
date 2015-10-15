@@ -94,9 +94,10 @@ $(document).on('click','#editClient',function(){
 	var state = $("#state").val();
 	var zip = $("#zip").val();
 	var delNotes = $("#delNotes").val();
-	var FA = $("#FA").val();
-	var FR = $("#FR").val();
-	var Active = $("#Active").val();
+	var FA = $("#FA").is(':checked');
+	var FR = $("#FR").is(':checked');
+	var Active = $("#Active").is(':checked');
+	console.log(FA+" "+ FR +" "+ Active);
 	var MSG = "";
 	
 	if(textValidate(fName) || textValidate(lName) || phoneValidate(phone) || emailValidate(email) || textValidate(addr1) || textValidate(city) || textValidate(state) || textValidate(zip)){
@@ -104,27 +105,36 @@ $(document).on('click','#editClient',function(){
 		$.ajax({
 			method: "POST",
 			url: "edit.php",
-			data: { action:"submitClientEdit",cID: cID }
+			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, Active:Active }
 		}).done(function( page ) {
-			$(".popUp").html(page);
+			errorMSG(page, 0);
 		});
 		
 	} else {
 		MSG += "Please Fill in all required fields.</br>";
+		if(!emailValidate(email)){
+			MSG += "Please Enter a Valid Email.</br>";
+		}
+		if(!phoneValidate(phone)){
+			MSG += "Please Enter a Valid Phone Number.</br>";
+		}
+		
+		errorMSG(MSG, 0);
 	} 
-	if(!emailValidate(email)){
-		MSG += "Please Enter a Valid Email.</br>";
-	}
-	if(!phoneValidate(phone)){
-		MSG += "Please Enter a Valid Phone Number.</br>";
-	}
 	
-	errorMSG(MSG, 0);
 });
 
 /*Delete Client*/
 function deleteClient(cID){
-	console.log("delete"+cID);
+	$(".mask").css({"display":"block"});
+	
+	$.ajax({
+			method: "POST",
+			url: "edit.php",
+			data: { action:"clientDelete",cID: cID }
+		}).done(function( page ) {
+			$(".popUp").html(page);
+		});
 }
 
 
