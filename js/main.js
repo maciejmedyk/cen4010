@@ -20,7 +20,7 @@ function errorMSG(errorString, errorType){
 	$( "#errorMSG" ).html( errorString );
 }
 
-$("#driverForm").click(function(){
+$("#driverForms").click(function(){
 	var userName = $("#username").val();
 	var password = $("#password").val();
 	if(userName == "" || password == ""){
@@ -41,7 +41,7 @@ $("#driverForm").click(function(){
 	}
 });
 
-$("#adminForm").click(function(){
+$("#adminForms").click(function(){
 	var userName = $("#username").val();
 	var password = $("#password").val();
 	if(userName == "" || password == ""){

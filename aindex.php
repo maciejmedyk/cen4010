@@ -27,18 +27,20 @@
        </div>
        <div id="indexDiv">
            <form id="inputForm" action="" method="post">
-				<img class="driver_L" src="img/mowlogoblue.png" height=45px alt="Meals On Wheels Logo"><br>
-				<img class="driver_L" src="img/mowdeliveryblue.png" height=35px alt="Delivery Logo"><br><br>
-
+			   
+				<img class="admin_L" src="img/mowlogogreen.png" height=45px alt="Meals On Wheels Logo"><br>
+				<img class="admin_L" src="img/mowdeliverygreen.png" height=35px alt="Delivery Logo"><br><br>
+			   
                <label for="username">Username</label><br>
 			   <input autofocus class="form-control" type="text" id="username" name="username" ><br>
                <label for="password">Password</label><br>
 			   <input class="form-control" type="password" id="password" name="password" ><br>
 			   
 			   <span><div id="errorMSG"></div></span><br>
-			   
-               <div id="driverForms" class="btn btn-default driver_L">      Login      </div><br><br>
-				<a href="#" class="admin_L disable" ><p>Forgot your password?</p></a>
+			         <div id="adminForms" class="btn btn-default admin_L">      Login      </div><br><br>
+			         <!--<div id="adminForm" class="btn btn-default admin_L">      Login      </div><br><br>
+               <div id="driverForm" class="btn btn-default driver_L">      Login      </div><br><br>-->
+				<a href="#" class="admin_L" ><p>Forgot your password?</p></a>
            </form>
        </div>
 	   
