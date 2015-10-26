@@ -27,7 +27,7 @@
 		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
 			<div class="page-header pull-left">
 				<div class="page-title">
-					Clients
+					Drivers
 				</div>
 			</div>
 			<div class="clearfix">
@@ -37,8 +37,8 @@
 		<div class="content">
 		
 		<ul id="tabs">
-		  <li><a href="#about" class="selected">Clients</a></li>
-		  <li><a href="#advantages">Add Clients</a></li>
+		  <li><a href="#about" class="selected">Drivers</a></li>
+		  <li><a href="#advantages">Add Drivers</a></li>
 		</ul>
 		<div class="tabContent" id="about">
 		  
@@ -51,7 +51,7 @@
 					<div class="col-md-2">Action</div>
 				</div>
 				<div id="displayData">
-				<?php getClient(0,"all");?>
+				<?php getDrivers(0,"all");?>
 				</div>
 				</div>
 		</div>

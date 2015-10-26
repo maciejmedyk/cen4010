@@ -1,20 +1,40 @@
 <?php
-include_once("session.php"); 
-include_once("../header.php"); 
-include_once("../incnavmenu.php")
-?>
+	include_once("session.php"); 
+	include_once("header.php"); 
+	?>
 <body>
-<div>
-    <?php include("menu.php"); ?>
-    <!--<a href="alogout.php"<button type="link" id="logoutButton" class="btn btn-default">      Log Out       </button></a>-->
-</div><br>
-<div id="aWireFrame1">
-
-</div>
-<div id="aWireFrame2">
-    <b align="center" id="welcome">Admin : <?php echo $login_name; ?></b>
-</div>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
+	<div id="header-topbar-option-demo" class="page-header-topbar">
+		<nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
+			<?php include("logo.php");?>
+			<div class="topbar-main">
+				<a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
+				
+				<?php include("info.php");?>
+			</div>
+		</nav>
+	</div>
+	<div>
+		<?php include("menu.php"); ?>
+	</div>
+	<div id="page-wrapper">
+		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+			<div class="page-header pull-left">
+				<div class="page-title">
+					Deliveries
+				</div>
+			</div>
+			<div class="clearfix">
+			</div>
+		</div>
+		<!-- CONTENT STARTS HERE-->
+		
+		
+		
+		
+		
+		<!-- CONTENT ENDS HERE-->
+	</div>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<?php include("footer.php");?>
 </body>
 </html>

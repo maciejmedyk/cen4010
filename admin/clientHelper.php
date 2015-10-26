@@ -5,7 +5,11 @@ if($_POST["action"] == "clientEdit"){
 }
 
 if($_POST['action']== "clientDelete"){
-	deleteClient($_POST['cID']);
+	actionClient($_POST['cID'],0);
+}
+
+if($_POST['action'] == "clientDeleteConfirm"){
+	actionClient($_POST['cID'],1);
 }
 
 if($_POST["action"] == "submitClientEdit"){
@@ -42,8 +46,6 @@ if($_POST["action"] == "submitClientEdit"){
 		$Active = 0;
 	}
 	
-	echo $FA." ".$FR." ".$Active." </br>";
-	
 	
 	$query = "UPDATE clients SET 
 				cFirstName ='$fName ', 
@@ -61,6 +63,47 @@ if($_POST["action"] == "submitClientEdit"){
 				WHERE cID='$cID'";
     $db->query($query);
 	
-	echo $query;
+}
+
+
+if($_POST["action"] == "submitNewClient"){
+	$fName    = $_POST['fName'];
+	$lName    = $_POST['lName'];
+	$email    = $_POST['email'];
+	$phone    = $_POST['phone'];
+	$addr1    = $_POST['addr1'];
+	$addr2    = $_POST['addr2'];
+	$city     = $_POST['city'];
+	$state    = $_POST['state'];
+	$zip      = $_POST['zip'];
+	$delNotes = $_POST['delNotes'];
+	$FA       = $_POST['FA'];
+	$FR       = $_POST['FR'];
+	$Active   = $_POST['Active'];
+	
+	if($FA == "true"){
+		$FA = 1;
+	} else {
+		$FA = 0;
+	}
+	
+	if($FR == "true"){
+		$FR = 1;
+	} else {
+		$FR = 0;
+	}
+	
+	if($Active == "true"){
+		$Active = 1;
+	} else {
+		$Active = 0;
+	}
+	
+	
+	$query = "INSERT INTO clients (cFirstName,cLastName,cAddress1,cAddress2,cCity,cState,cZip,cPhone,cFoodAllergies,cFoodRestrictions,cDeliveryNotes,cActive) 
+							VALUES ('$fName', '$lName', '$addr1', '$addr2', '$city', '$state', '$zip', '$phone', '$FA', '$FR', '$delNotes', '1')";
+    $db->query($query);
+	
+	echo "Client Added";
 }
 ?>
