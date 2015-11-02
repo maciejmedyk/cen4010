@@ -37,15 +37,31 @@ function getClient($id, $count){
 function getDrivers($id, $count){
 	if($count == "all"){
 		include('../connection.php');
-	$query = "SELECT dID, dFirstName, dLastName, dActive 
+	$query = "SELECT *
 				FROM drivers
 				ORDER BY dLastName ASC";
 
 	$sql = $db->query($query);
 	$row_cnt = $sql->num_rows;
 		if ($row_cnt == 0){
-			echo "<div class='msg'>No Driver Has Been Added</div>";
+			echo "<div class='alert alert-warning fade in msg'>There are currently no drivers in the database.</div>";
 		} else {
+			echo "<table class='alignleft table table-hover'>
+			<thead>
+			<tr>
+			<th><i class='fa fa-check-square'></iclass></th>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Username</th>
+			<th>Vehicle</th>
+			<th>Vehicle Tag</th>
+			<th>Insurance</th>
+			<th>Insurance Policy</th>
+			<th>Status</th>
+			</tr>
+			</thead>
+			<tbody>";
+
 			while ($info = $sql->fetch_array()) {
 				if($info['dActive'] == 1){
 					$active ="Yes";
@@ -54,15 +70,28 @@ function getDrivers($id, $count){
 					$active ="No";
 					$action = "Activate";
 				}
-				echo '<div class="strip">
-						<div class="col-md-6">'.$info['dLastName'].' '.$info['dFirstName'].'</div>
-						<div class="col-md-2"></div>
-						<div class="col-md-2">'.$active.'</div>
-						<div class="col-md-1"><div onclick="editDriver('.$info['dID'].')" >Edit</div></div>
-						<div class="col-md-1"><div onclick="actionDriver('.$info['dID'].')">'.$action.'</div></div>
-					</div>';
+
+				echo "<tr>
+					<td><a href='#' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a></td>
+					<td>" . $info['dID'] . "</td>
+					<td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
+					<td>" . $info['dUsername'] . "</td>
+					<td>" . $info['dVehicleYear'] . " " . $info['dVehicleMake'] . " " . $info['dVehicleModel'] . "</td>
+					<td>" . $info['dVehicleTag'] . "</td>
+					<td>" . $info['dInsuranceCo'] . "</td>
+					<td>" . $info['dInsurancePolicy'] . "</td>
+					<td>" . $info['dStatusComment'] . "</td>
+				</tr>";
+
+				#echo '<div class="strip">
+				#		<div class="col-md-6">'.$info['dLastName'].' '.$info['dFirstName'].'</div>
+				#		<div class="col-md-2"></div>
+				#		<div class="col-md-2">'.$active.'</div>
+				#		<div class="col-md-1"><div onclick="editDriver('.$info['dID'].')" >Edit</div></div>
+				#		<div class="col-md-1"><div onclick="actionDriver('.$info['dID'].')">'.$action.'</div></div>
+				#	</div>';
 			}
-			
+			echo "</tbody></table>";
 		}
 	} else {
 		
