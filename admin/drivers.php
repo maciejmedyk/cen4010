@@ -37,10 +37,10 @@
 		<div class="content">
 		
 		<ul id="tabs">
-		  <li><a href="#about" class="selected">Drivers</a></li>
-		  <li><a href="#advantages">Add Drivers</a></li>
+		  <li><a href="#driverInfoTab" class="selected">Drivers</a></li>
+		  <li><a href="#addDriversTab">Add Drivers</a></li>
 		</ul>
-		<div class="tabContent" id="about">
+		<div class="tabContent" id="driverInfoTab">
 		  
 			
 				<div class="table-row row">
@@ -55,71 +55,105 @@
 				</div>
 				</div>
 		</div>
-		<div class="tabContent hide" id="advantages">
-		  <form id="editClientForm" role="form" method="post">
+		<div class="tabContent hide" id="addDriversTab">
+			<div class="container">
+				<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
 
-                <div class="form-group input-group row">
-				
-                    <label class="col-md-3 control-label">First Name</label>
-					<div class="col-md-9">
-					  <input id="fName" type="text" class="form-control" name="fName" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="fName">First Name:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="fName" name="fName" placeholder="Enter first name">
+						</div>
 					</div>
-					
-					<label class="col-md-3 control-label">Last Name</label>
-					<div class="col-md-9">
-					  <input id="lName" type="text" class="form-control" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="lName">Last Name:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="lName" name="lName" placeholder="Enter last name">
+						</div>
 					</div>
-					
-                   
-                    
-                </div>
-                <div class="form-group input-group row">
-                    <label class="col-md-3 control-label">Email</label>
-					<div class="col-md-9">
-					  <input id="email" type="text" class="form-control" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="email">Email:</label>
+						<div class="col-sm-6">
+							<input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+						</div>
 					</div>
-					<label class="col-md-3 control-label">Phone#</label>
-					<div class="col-md-9">
-					  <input id="phone" type="text" class="form-control" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="pwd">Password:</label>
+						<div class="col-sm-6">
+							<input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter PIN">
+						</div>
 					</div>
-                    
-                </div>
-                
-                <div class="form-group input-group row">
-                    <label class="col-md-3 control-label">Address</label>
-					<div class="col-md-9">
-					  <input id="addr1" type="text" class="form-control" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="phone">Phone Number:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone number">
+						</div>
 					</div>
-					<label class="col-md-3 control-label">Address 2</label>
-					<div class="col-md-9">
-					  <input id="addr2" type="text" class="form-control" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="dLicense">Drivers License #:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="dLicense" name="dLicense" placeholder="Enter drivers license number">
+						</div>
 					</div>
-					<label class="col-md-3 control-label">City</label>
-					<div class="col-md-9">
-					  <input id="city" type="text" class="form-control" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehMake">Vehicle Make:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehMake" name="vehMake" placeholder="Enter vehicle's make">
+						</div>
 					</div>
-					<label class="col-md-3 control-label">Zip</label>
-					<div class="col-md-9">
-					  <input id="zip" type="text" class="form-control" >
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehModel">Vehicle Model:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehModel" name="vehModel" placeholder="Enter vehicle's model">
+						</div>
 					</div>
-					<label class="col-md-3 control-label">State</label>
-					<div class="col-md-9">
-					  <input id="state" type="text" class="form-control">
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehYear">Vehicle Year:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehYear" name="vehYear" placeholder="Enter vehicle's year">
+						</div>
 					</div>
-					
-                   
-                </div>
-                <div class="form-group input-group row">
-                    <label>Delivery Notes</label>					
-					  <textarea id="delNotes" class="form-control" rows="4" style="min-width: 100%">Spice girl fan</textarea>                    
-                </div>
-                <div class="checkbox row">
-					<label><input id="FA" type="checkbox" value="1">Food Allergies</label>
-					<label><input id="FR" type="checkbox" value="1">Food Restrictions</label>
-                </div>
-				<div id="errorMSG"></div>
-                <div id="addClient" class="btn btn-success">Add Client</div>
-            </form>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehTag">Vehicle Tag:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehTag" name="vehTag" placeholder="Enter vehicle's tag">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="insCo">Insurance Company:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="insCo" name="insCo" placeholder="Enter insurance company">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="insPolicy">Policy Number:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="insPolicy" name="insPolicy" placeholder="Enter insurance policy number">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="notes">Driver Notes:</label>
+						<div class="col-sm-6">
+							<textarea id="delNotes" name="notes" class="form-control" rows="6" style="min-width: 100%"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<div class="checkbox">
+								<label><input id="FA" type="checkbox" value="1">Food Allergies: </label>
+								<label><input id="FR" type="checkbox" value="1">Food Restrictions: </label>
+							</div>
+						</div>
+					</div>
+					<div id="errorMSG"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<div id="addClient" class="btn btn-success">Add Client</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
 		</div>
 
 			<div>
