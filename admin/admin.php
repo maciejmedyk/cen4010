@@ -1,5 +1,5 @@
-﻿<?php
-include('alogin.php'); // Includes Login Script
+<?php
+include('../scripts/login.php'); // Includes Login Script
 
 if(isset($_SESSION['login_user'])){
     header("location: ahome.php");
