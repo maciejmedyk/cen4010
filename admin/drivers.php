@@ -41,19 +41,9 @@
 		  <li><a href="#addDriversTab">Add Drivers</a></li>
 		</ul>
 		<div class="tabContent" id="driverInfoTab">
-		  
-			
-				<div class="table-row row">
-				<div class="title">
-					<div class="col-md-6">Full Name</div>
-					<div class="col-md-2">Phone#</div>
-					<div class="col-md-1">Active</div>
-					<div class="col-md-2">Action</div>
-				</div>
-				<div id="displayData">
+			<div id="displayData">
 				<?php getDrivers(0,"all");?>
-				</div>
-				</div>
+			</div>
 		</div>
 		<div class="tabContent hide" id="addDriversTab">
 			<div class="container">

@@ -70,7 +70,7 @@ function getDrivers($id, $count){
 			echo "<div class='alert alert-warning fade in msg'>There are currently no drivers in the database.</div>";
 		} else {
 			echo "<table class='alignleft table table-hover'>
-			<thead>
+			<thead class='tableHead'>
 			<tr>
 			<th><i class='fa fa-check-square'></iclass></th>
 			<th>ID</th>
