@@ -7097,3 +7097,7 @@ ul#tabs li a.selected { color: #000; background-color: #f1f0ee; font-weight: bol
 div.tabContent { border: 1px solid #c9c3ba; padding: 0.5em; background-color: #f1f0ee; }
 div.tabContent.hide { display: none; }
     
+/*Tables*/
+.tableHead {
+  background-color: cornflowerblue;
+}

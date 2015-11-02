@@ -2,32 +2,55 @@
 function getClient($id, $count){
 	if($count == "all"){
 		include('../connection.php');
-	$query = "SELECT cID, cFirstName, cLastName, cPhone, cActive 
+	$query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes
 				FROM clients
 				ORDER BY cLastName ASC";
 
 	$sql = $db->query($query);
 	$row_cnt = $sql->num_rows;
 		if ($row_cnt == 0){
-			echo "<div class='msg'>No Clients Has Been Added</div>";
+			echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
 		} else {
+			echo "<table class='alignleft table table-hover'>
+				<thead class='tableHead'>
+				<tr>
+				<th><i class='fa fa-check-square'></iclass></th>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Phone</th>
+				<th>Status</th>
+				<th>Delivery Notes</th>
+				</tr>
+				</thead>
+				<tbody>";
+			
+			
 			while ($info = $sql->fetch_array()) {
 				if($info['cActive'] == 1){
-					$active ="Yes";
-					$action = "Deactivate";
+					$active ="Active";
+					#$action = "Deactivate";
 				} else {
-					$active ="No";
-					$action = "Activate";
+					$active ="Inactive";
+					#$action = "Activate";
 				}
-				echo '<div class="strip">
+				echo "<tr>
+					<td><a href='#' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
+					<td>" . $info['cID'] . "</td>
+					<td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+					<td>" . $info['cPhone'] . "</td>
+					<td>" . $active . "</td>
+					<td>" . $info['cDeliveryNotes'] . "</td>
+				</tr>";
+				
+				/*echo '<div class="strip">
 						<div class="col-md-6">'.$info['cLastName'].' '.$info['cFirstName'].'</div>
 						<div class="col-md-2">'.$info['cPhone'].'</div>
 						<div class="col-md-2">'.$active.'</div>
 						<div class="col-md-1"><div onclick="editClient('.$info['cID'].')" >Edit</div></div>
 						<div class="col-md-1"><div onclick="actionClient('.$info['cID'].')">'.$action.'</div></div>
-					</div>';
+					</div>';*/
 			}
-			
+			echo "</tbody></table>";
 		}
 	} else {
 		

@@ -41,21 +41,10 @@
 		  <li><a href="#addClientTab">Add Clients</a></li>
 		</ul>
 		<div class="tabContent" id="clients">
-		  
-			
-				<div class="table-row row">
-				<div class="title">
-					<div class="col-md-6">Full Name</div>
-					<div class="col-md-2">Phone#</div>
-					<div class="col-md-1">Active</div>
-					<div class="col-md-2">Action</div>
-				</div>
-				<div id="displayData">
+			<div id="displayData">
 				<?php getClient(0,"all");?>
-				</div>
-				</div>
+			</div>
 		</div>
-
 <!--
 
 Tab with form to add clients below
