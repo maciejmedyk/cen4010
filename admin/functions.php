@@ -95,7 +95,7 @@ function getDrivers($id, $count){
 				}
 
 				echo "<tr>
-					<td><a href='#' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a></td>
+					<td><a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a></td>
 					<td>" . $info['dID'] . "</td>
 					<td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
 					<td>" . $info['dUsername'] . "</td>
@@ -277,71 +277,95 @@ function editDriver($clientID){
 	$sql = $db->query($query);
 	$info = $sql->fetch_array();
 	echo '<div class="formTitle">Edit Client Information</div>';
-	echo '<form id="editClientForm" role="form" method="post">
-                <br>
-				<input id="cID" type="hidden" value="'.$clientID.'">
-                <div class="form-group input-group row">
-				
-                    <label  class="col-md-3 control-label">First Name</label>
-					<div class="col-md-9">
-					  <input id="fName" type="text" class="form-control" value="'.$info['dFirstName'].'" name="fName">
+	echo '<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
+
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="fName">First Name:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="fName" name="fName" value="'.$info['dFirstName'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="lName">Last Name:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="lName" name="lName" value="'.$info['dLastName'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="email">Email:</label>
+						<div class="col-sm-6">
+							<input type="email" class="form-control" id="email" name="email" value="'.$info['dEmail'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="phone">Phone Number:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="phone" name="phone" value="'.$info['dPhoneNumber'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="dLicense">Drivers License #:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="dLicense" name="dLicense" value="'.$info['dLicenseNumber'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehMake">Vehicle Make:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehMake" name="vehMake" value="'.$info['dVehicleModel'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehModel">Vehicle Model:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehModel" name="vehModel" value="'.$info['dVehicleModel'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehYear">Vehicle Year:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehYear" name="vehYear" value="'.$info['dVehicleYear'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="vehTag">Vehicle Tag:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="vehTag" name="vehTag" value="'.$info['dVehicleTag'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="insCo">Insurance Company:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="insCo" name="insCo" value="'.$info['dInsuranceCo'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="insPolicy">Policy Number:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="insPolicy" name="insPolicy" value="'.$info['dInsurancePolicy'].'">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="notes">Driver Notes:</label>
+						<div class="col-sm-6">
+							<textarea id="delNotes" name="notes" class="form-control" rows="6" style="min-width: 100%">
+							'.$info['dStatusComment'].'
+							</textarea>
+						</div>
 					</div>
 					
-					<label  class="col-md-3 control-label">Last Name</label>
-					<div class="col-md-9">
-					  <input id="lName" type="text" class="form-control" value="'.$info['dLastName'].'" >
+					<div id="errorMSG"></div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<div id="addClient" class="btn btn-success">Edit Driver</div>
+						</div>
 					</div>
-					
-                   
-                    
-                </div>
-                <div class="form-group input-group row">
-                    <label  class="col-md-3 control-label">Email</label>
-					<div class="col-md-9">
-					  <input id="email" type="text" class="form-control" value="" >
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<div id="changePassword" class="btn btn-success">Generate New Password</div>
+						</div>
 					</div>
-					<label  class="col-md-3 control-label">Phone#</label>
-					<div class="col-md-9">
-					  <input id="phone" type="text" class="form-control" value="'.$info['dPhone'].'" >
-					</div>
-                    
-                </div>
-                
-                <div class="form-group input-group row">
-                    <label  class="col-md-3 control-label">Address</label>
-					<div class="col-md-9">
-					  <input id="addr1" type="text" class="form-control" value="'.$info['dAddress1'].'" >
-					</div>
-					<label  class="col-md-3 control-label">Address 2</label>
-					<div class="col-md-9">
-					  <input id="addr2" type="text" class="form-control" value="'.$info['dAddress2'].'" >
-					</div>
-					<label  class="col-md-3 control-label">City</label>
-					<div class="col-md-9">
-					  <input id="city" type="text" class="form-control" value="'.$info['dCity'].'" >
-					</div>
-					<label  class="col-md-3 control-label">Zip</label>
-					<div class="col-md-9">
-					  <input id="zip" type="text" class="form-control" value="'.$info['dZip'].'" >
-					</div>
-					<label  class="col-md-3 control-label">State</label>
-					<div class="col-md-9">
-					  <input id="state" type="text" class="form-control" value="'.$info['dState'].'" >
-					</div>
-					
-                   
-                </div>
-                <div class="form-group input-group row">
-                    <label  >Delivery Notes</label>					
-					  <textarea id="delNotes" class="form-control" rows="4" style="min-width: 100%">'.$info['dDeliveryNotes'].'</textarea>                    
-                </div>
-                <div class="checkbox row">
-					<label><input id="FA" type="checkbox" value="1">Food Allergies</label>
-					<label><input id="FR" type="checkbox" value="1">Food Restrictions</label>
-                    <label><input id="Active" type="checkbox" value="1" checked="">Is Active</label>
-                </div>
-				<div id="errorMSG"></div>
-                <div id="editClient" class="btn btn-success">Edit Client</div>
-            </form>';
+
+				</form>';
 }
 ?>
