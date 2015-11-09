@@ -1,142 +1,134 @@
 <?php
 function getClient($id, $count){
+    include('../connection.php');
 	if($count == "all"){
-		include('../connection.php');
-	$query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes
+        $query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes
 				FROM clients
 				ORDER BY cLastName ASC";
-
+    }elseif($count == "search"){
+        $query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes 
+            FROM clients
+            WHERE cFirstName LIKE '%$id%' OR cLastName LIKE '%$id%' OR cPhone LIKE '%$id%'
+            ORDER BY cLastName ASC";
+    }
+    
 	$sql = $db->query($query);
 	$row_cnt = $sql->num_rows;
-		if ($row_cnt == 0){
-			echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
-		} else {
-			echo "<table class='alignleft table table-hover'>
-				<thead class='tableHead'>
-				<tr>
-				<th><i class='fa fa-check-square'></iclass></th>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Phone</th>
-				<th>Status</th>
-				<th>Delivery Notes</th>
-				</tr>
-				</thead>
-				<tbody>";
-			
-			
-			while ($info = $sql->fetch_array()) {
-				if($info['cActive'] == 1){
-					$active ="Active";
-					#$action = "Deactivate";
-				} else {
-					$active ="Inactive";
-					#$action = "Activate";
-				}
-				echo "<tr>
-					<td><a href='clientEdit.php?cID=".$info['cID']."' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
-					<td>" . $info['cID'] . "</td>
-					<td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
-					<td>" . $info['cPhone'] . "</td>
-					<td>" . $active . "</td>
-					<td>" . $info['cDeliveryNotes'] . "</td>
-				</tr>";
-				
-				/*echo '<div class="strip">
-						<div class="col-md-6">'.$info['cLastName'].' '.$info['cFirstName'].'</div>
-						<div class="col-md-2">'.$info['cPhone'].'</div>
-						<div class="col-md-2">'.$active.'</div>
-						<div class="col-md-1"><div onclick="editClient('.$info['cID'].')" >Edit</div></div>
-						<div class="col-md-1"><div onclick="actionClient('.$info['cID'].')">'.$action.'</div></div>
-					</div>';*/
-			}
-			echo "</tbody></table>";
-		}
-	} else {
-		
-	}
+    if ($row_cnt == 0){
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
+        if ($count == "search")echo "<div class='alert alert-warning fade in msg'>There are currently no clients that match that query.</div>";
+    } else {
+        echo "<table class='alignleft table table-hover'>
+            <thead class='tableHead'>
+            <tr>
+            <th><i class='fa fa-check-square'></iclass></th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Delivery Notes</th>
+            </tr>
+            </thead>
+            <tbody>";
+
+
+        while ($info = $sql->fetch_array()) {
+            if($info['cActive'] == 1){
+                $active ="Active";
+                #$action = "Deactivate";
+            } else {
+                $active ="Inactive";
+                #$action = "Activate";
+            }
+            echo "<tr>
+                <td><a href='clientEdit.php?cID=".$info['cID']."' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
+                <td>" . $info['cID'] . "</td>
+                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . $info['cPhone'] . "</td>
+                <td>" . $active . "</td>
+                <td>" . $info['cDeliveryNotes'] . "</td>
+            </tr>";
+        }
+        echo "</tbody></table>";
+    }
 }
 
 function getDrivers($id, $count){
+    include('../connection.php');
 	if($count == "all"){
-		include('../connection.php');
-	$query = "SELECT *
-				FROM drivers
-				ORDER BY dLastName ASC";
+        $query = "SELECT *
+                FROM drivers
+                ORDER BY dLastName ASC";
+    }elseif($count == "search"){
+        $query = "SELECT *
+            FROM drivers
+            WHERE dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%' OR dUsername LIKE '%$id%'
+            ORDER BY dLastName ASC";
+    }
 
-	$sql = $db->query($query);
-	$row_cnt = $sql->num_rows;
-		if ($row_cnt == 0){
-			echo "<div class='alert alert-warning fade in msg'>There are currently no drivers in the database.</div>";
-		} else {
-			echo "<table class='alignleft table table-hover'>
-			<thead class='tableHead'>
-			<tr>
-			<th width='25%'><i class='fa fa-check-square'></iclass></th>
-			<th width='5%'>ID</th>
-			<th width='10%'>Name</th>
-			<th width='10%'>Username</th>
-			<th width='15%'>Vehicle</th>
-			<th width='10%'>Vehicle Tag</th>
-			<th width='10%'>Insurance</th>
-			<th width='10%'>Insurance Policy</th>
-			<th width='5%'>Status</th>
-			</tr>
-			</thead>
-			<tbody>";
+    $sql = $db->query($query);
+    $row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers in the database.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
+    } else {
+        echo "<table class='alignleft table table-hover'>
+        <thead class='tableHead'>
+        <tr>
+        <th width='25%'><i class='fa fa-check-square'></iclass></th>
+        <th width='5%'>ID</th>
+        <th width='10%'>Name</th>
+        <th width='10%'>Username</th>
+        <th width='15%'>Vehicle</th>
+        <th width='10%'>Vehicle Tag</th>
+        <th width='10%'>Insurance</th>
+        <th width='10%'>Insurance Policy</th>
+        <th width='5%'>Status</th>
+        </tr>
+        </thead>
+        <tbody>";
 
-			while ($info = $sql->fetch_array()) {
-				if($info['dActive'] == 1){
-					$active ="Yes";
-					$action = "Deactivate";
-				} else {
-					$active ="No";
-					$action = "Activate";
-				}
-				
-				if(isRetired($info['dID']) ){
-					$dlabel = "Retire";
-					$status = "Active";
-				} else {
-					$dlabel = "Re-enable";
-					$status = "Retired";
-				}
-				
-				if(isLocked($info['dID']) ){
-					$locked = "<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-danger' data-driverID='" . $info['dID'] . "'>Unlock Driver</a>";
-				} else {
-					$locked = "";
-				}
+        while ($info = $sql->fetch_array()) {
+            if($info['dActive'] == 1){
+                $active ="Yes";
+                $action = "Deactivate";
+            } else {
+                $active ="No";
+                $action = "Activate";
+            }
 
-				echo "<tr>
-					<td>
-						<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a>						
-						<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>".$dlabel." Driver</a>
-						".$locked."
-					</td>
-					<td>" . $info['dID'] . "</td>
-					<td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
-					<td>" . $info['dUsername'] . "</td>
-					<td>" . $info['dVehicleYear'] . " " . $info['dVehicleMake'] . " " . $info['dVehicleModel'] . "</td>
-					<td>" . $info['dVehicleTag'] . "</td>
-					<td>" . $info['dInsuranceCo'] . "</td>
-					<td>" . $info['dInsurancePolicy'] . "</td>
-					<td>" . $status. "</td>
-				</tr>";
+            if(isRetired($info['dID']) ){
+                $dlabel = "Retire";
+                $status = "Active";
+            } else {
+                $dlabel = "Re-enable";
+                $status = "Retired";
+            }
 
-				#echo '<div class="strip">
-				#		<div class="col-md-6">'.$info['dLastName'].' '.$info['dFirstName'].'</div>
-				#		<div class="col-md-2"></div>
-				#		<div class="col-md-2">'.$active.'</div>
-				#		<div class="col-md-1"><div onclick="editDriver('.$info['dID'].')" >Edit</div></div>
-				#		<div class="col-md-1"><div onclick="actionDriver('.$info['dID'].')">'.$action.'</div></div>
-				#	</div>';
-			}
-			echo "</tbody></table>";
-		}
-	} else {
-		
-	}
+            if(isLocked($info['dID']) ){
+                $locked = "<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-danger' data-driverID='" . $info['dID'] . "'>Unlock Driver</a>";
+            } else {
+                $locked = "";
+            }
+
+            echo "<tr>
+                <td>
+                    <a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a>						
+                    <a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>".$dlabel." Driver</a>
+                    ".$locked."
+                </td>
+                <td>" . $info['dID'] . "</td>
+                <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
+                <td>" . $info['dUsername'] . "</td>
+                <td>" . $info['dVehicleYear'] . " " . $info['dVehicleMake'] . " " . $info['dVehicleModel'] . "</td>
+                <td>" . $info['dVehicleTag'] . "</td>
+                <td>" . $info['dInsuranceCo'] . "</td>
+                <td>" . $info['dInsurancePolicy'] . "</td>
+                <td>" . $status. "</td>
+            </tr>";
+        }
+        echo "</tbody></table>";
+    }
 }
 
 function isRetired($dID){
@@ -170,35 +162,11 @@ function isLocked($dID){
 }
 
 function searchClient($name){
-	include('../connection.php');
-	$query = "SELECT cID, cFirstName, cLastName, cPhone, cActive 
-				FROM clients
-				WHERE cFirstName LIKE '%$name%' OR cLastName LIKE '%$name%' OR cPhone LIKE '%$name%'
-				ORDER BY cLastName ASC";
+    getClient($name, "search");
+}
 
-	$sql = $db->query($query);
-	$row_cnt = $sql->num_rows;
-		if ($row_cnt == 0){
-			echo "<div class='msg'>No clients can be found</div>";
-		} else {
-			
-			while ($info = $sql->fetch_array()) {
-				if($info['cActive'] == 1){
-					$active ="Yes";
-				} else {
-					$active ="No";
-				}
-				echo '<div class="strip">
-						<div class="col-md-6">'.$info['cLastName'].' '.$info['cFirstName'].'</div>
-						<div class="col-md-2">'.$info['cPhone'].'</div>
-						<div class="col-md-2">'.$active.'</div>
-						<div class="col-md-1"><div onclick="editClient('.$info['cID'].')" >Edit</div></div>
-						<div class="col-md-1"><div onclick="deleteClient('.$info['cID'].')">Delete</div></div>
-					</div>';
-			}
-			
-		}
-	
+function searchDriver($name){
+    getDrivers($name, "search");
 }
 
 function actionClient($clientID, $step){
@@ -331,7 +299,7 @@ function editClient($clientID){
 					<div id="errorMSG"></div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
-							<div id="addClient" class="btn btn-success">Save</div>
+							<div id="editClient" class="btn btn-success">Save</div>
                             <a href="clients.php" class="btn btn-danger">Cancel</a>
 						</div>
 					</div>

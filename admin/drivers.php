@@ -13,7 +13,7 @@
 					<div class="input-icon right text-white">
 						<a href="#"><i class="fa fa-search"></i></a>
 						<input id="search" type="text" placeholder="Search here..." class="form-control text-white">
-						<input id="searchIN" type="hidden" value="client">
+						<input id="searchIN" type="hidden" value="driver">
 					</div>
 			
 				</form>

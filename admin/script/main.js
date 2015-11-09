@@ -10,7 +10,6 @@ $( "#search" ).keyup(function() {
 		data: { searchFor: searchT , where: where}
 	}).done(function( page ) {
 		$("#displayData").html(page);
-		
 	});
 });
 
@@ -100,6 +99,7 @@ function editDriver(cID){
 			data: { action:"driverEdit",cID: cID }
 		}).done(function( page ) {
 			$(".popUp").html(page);
+        alert(page);
 		});
 }
 
@@ -121,7 +121,7 @@ $(document).on('click','#editClient',function(){
 	var Active = $("#Active").is(':checked');
 	var MSG = "";
 	console.log("Edit - "+ fName);
-	if(textValidate(fName) || textValidate(lName) || phoneValidate(phone) || emailValidate(email) || textValidate(addr1) || textValidate(city) || textValidate(state) || textValidate(zip)){
+	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
 		
 		$.ajax({
 			method: "POST",
@@ -324,7 +324,9 @@ $(document).on('click','#editDriver',function(){
 					delNotes: delNotes }
 		}).done(function( page ) {
 			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
-			errorMSG(page, 0);
+			//errorMSG(page, 0);
+            errorMSG("Success!, now redirecting you to the drivers list.",0);
+            window.location.replace("drivers.php");
 		});
 		
 		
