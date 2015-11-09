@@ -78,11 +78,11 @@ if($_POST["action"] == "submitNewDriver"){
 	//Generate Password
 	$pass = gPassword();
 	
-	if($Active == "true"){
+	/*if($Active == "true"){
 		$Active = 1;
 	} else {
 		$Active = 0;
-	}
+	}*/
 	
 	
 	$query = "INSERT INTO drivers (dFirstName,dLastName, dPhoneNumber, dEmail, dLicenseNumber, dVehicleYear, dVehicleMake, dVehicleModel, dVehicleTag, dInsuranceCo, dInsurancePolicy, dUsername, dPassword, dActive, dStatusComment, dSchedule) 

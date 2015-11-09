@@ -72,15 +72,15 @@ function getDrivers($id, $count){
 			echo "<table class='alignleft table table-hover'>
 			<thead class='tableHead'>
 			<tr>
-			<th><i class='fa fa-check-square'></iclass></th>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Username</th>
-			<th>Vehicle</th>
-			<th>Vehicle Tag</th>
-			<th>Insurance</th>
-			<th>Insurance Policy</th>
-			<th>Status</th>
+			<th width='25%'><i class='fa fa-check-square'></iclass></th>
+			<th width='5%'>ID</th>
+			<th width='10%'>Name</th>
+			<th width='10%'>Username</th>
+			<th width='15%'>Vehicle</th>
+			<th width='10%'>Vehicle Tag</th>
+			<th width='10%'>Insurance</th>
+			<th width='10%'>Insurance Policy</th>
+			<th width='5%'>Status</th>
 			</tr>
 			</thead>
 			<tbody>";
@@ -93,9 +93,27 @@ function getDrivers($id, $count){
 					$active ="No";
 					$action = "Activate";
 				}
+				
+				if(isRetired($info['dID']) ){
+					$dlabel = "Retire";
+					$status = "Active";
+				} else {
+					$dlabel = "Re-enable";
+					$status = "Retired";
+				}
+				
+				if(isLocked($info['dID']) ){
+					$locked = "<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-danger' data-driverID='" . $info['dID'] . "'>Unlock Driver</a>";
+				} else {
+					$locked = "";
+				}
 
 				echo "<tr>
-					<td><a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a></td>
+					<td>
+						<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a>						
+						<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>".$dlabel." Driver</a>
+						".$locked."
+					</td>
 					<td>" . $info['dID'] . "</td>
 					<td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
 					<td>" . $info['dUsername'] . "</td>
@@ -103,7 +121,7 @@ function getDrivers($id, $count){
 					<td>" . $info['dVehicleTag'] . "</td>
 					<td>" . $info['dInsuranceCo'] . "</td>
 					<td>" . $info['dInsurancePolicy'] . "</td>
-					<td>" . $info['dStatusComment'] . "</td>
+					<td>" . $status. "</td>
 				</tr>";
 
 				#echo '<div class="strip">
@@ -118,6 +136,36 @@ function getDrivers($id, $count){
 		}
 	} else {
 		
+	}
+}
+
+function isRetired($dID){
+	include('../connection.php');
+	$query = "SELECT *
+				FROM drivers
+				WHERE dID = $dID AND dActive = 0";
+
+	$sql = $db->query($query);
+	$row_cnt = $sql->num_rows;
+	if ($row_cnt == 0){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function isLocked($dID){
+	include('../connection.php');
+	$query = "SELECT *
+				FROM trap
+				WHERE dID = $dID AND lockCount > 9";
+
+	$sql = $db->query($query);
+	$row_cnt = $sql->num_rows;
+	if ($row_cnt > 0){
+		return true;
+	} else {
+		return false;
 	}
 }
 

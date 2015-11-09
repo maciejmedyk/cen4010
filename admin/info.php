@@ -6,7 +6,7 @@
 		
 	</li>
 	<li>
-		<a href="Login.html"><i class="fa fa-key"></i>Log Out</a>
+		<a href="logout.php"><i class="fa fa-key"></i>Log Out</a>
 	</li>
 	
 	
