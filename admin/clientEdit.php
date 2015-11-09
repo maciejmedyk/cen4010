@@ -27,7 +27,7 @@
 		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
 			<div class="page-header pull-left">
 				<div class="page-title">
-					Clients
+					Edit Client Information <a href="clients.php" class="dTableButton btn btn-xs btn-success float_r">Back To Client List</a>
 				</div>
 			</div>
 			<div class="clearfix">
@@ -36,13 +36,10 @@
 		<!-- CONTENT STARTS HERE-->
 		<div class="content">
 		
-		<ul id="tabs">
-		  <li><a href="#clients" class="selected">Clients</a></li>
-		  <li><a href="#addClientTab">Add Clients</a></li>
-		</ul>
+		
 		<div class="tabContent" id="clients">
 			<div id="displayData">
-				<?php getClient(0,"all");?>
+				<?php editClient($_GET['cID']);?>
 			</div>
 		</div>
 <!--
@@ -73,12 +70,12 @@ Tab with form to add clients below
 							<input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
 						</div>
 					</div>
-					<!--<div class="form-group">
+					<div class="form-group">
 						<label class="control-label col-sm-2" for="pwd">Password:</label>
 						<div class="col-sm-6">
 							<input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
 						</div>
-					</div>-->
+					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="phone">Phone Number:</label>
 						<div class="col-sm-6">
@@ -88,18 +85,9 @@ Tab with form to add clients below
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="address">Address:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="addr1" name="address" placeholder="Enter street address">
+							<input type="text" class="form-control" id="address" name="address" placeholder="Enter street address">
 						</div>
 					</div>
-					
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="address">Address:</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" id="addr2" name="address" placeholder="Enter street address">
-						</div>
-					</div>
-					
-					
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="city">City:</label>
 						<div class="col-sm-6">

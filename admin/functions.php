@@ -34,7 +34,7 @@ function getClient($id, $count){
 					#$action = "Activate";
 				}
 				echo "<tr>
-					<td><a href='#' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
+					<td><a href='clientEdit.php?cID=".$info['cID']."' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
 					<td>" . $info['cID'] . "</td>
 					<td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
 					<td>" . $info['cPhone'] . "</td>
@@ -200,7 +200,7 @@ function editClient($clientID){
 				ORDER BY cLastName ASC";
 	$sql = $db->query($query);
 	$info = $sql->fetch_array();
-	echo '<div class="formTitle">Edit Client Information</div>';
+	//echo '<div class="formTitle">Edit Client Information</div>';
 	echo '<form id="editClientForm" role="form" method="post">
                 <br>
 				<input id="cID" type="hidden" value="'.$clientID.'">
@@ -264,21 +264,27 @@ function editClient($clientID){
 					<label><input id="FR" type="checkbox" value="1">Food Restrictions</label>
                     <label><input id="Active" type="checkbox" value="1" checked="">Is Active</label>
                 </div>
-				<div id="errorMSG"></div>
                 <div id="editClient" class="btn btn-success">Edit Client</div>
             </form>';
 }
 
-function editDriver($clientID){
+function editDriver($driverID){
 	include('../connection.php');
 	$query = "SELECT *
 				FROM drivers
-				WHERE dID = $clientID";
+				WHERE dID = $driverID";
 	$sql = $db->query($query);
 	$info = $sql->fetch_array();
-	echo '<div class="formTitle">Edit Client Information</div>';
-	echo '<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
-
+	$schedule = $info['dSchedule'];
+	$schedule = explode(",", $schedule);
+	$MoC = (in_array("Mo", $schedule) ? "checked" : "");
+	$TuC = (in_array("Tu", $schedule) ? "checked" : "");
+	$WeC = (in_array("We", $schedule) ? "checked" : "");
+	$ThC = (in_array("Th", $schedule) ? "checked" : "");
+	$FrC = (in_array("Fr", $schedule) ? "checked" : "");
+	
+	echo '<form id="editDriverForm" class="form-horizontal" action="#" role="form" method="post">
+					<input id="dID" type="hidden" value="'.$driverID.'">
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="fName">First Name:</label>
 						<div class="col-sm-6">
@@ -312,7 +318,7 @@ function editDriver($clientID){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="vehMake">Vehicle Make:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="vehMake" name="vehMake" value="'.$info['dVehicleModel'].'">
+							<input type="text" class="form-control" id="vehMake" name="vehMake" value="'.$info['dVehicleMake'].'">
 						</div>
 					</div>
 					<div class="form-group">
@@ -354,18 +360,91 @@ function editDriver($clientID){
 						</div>
 					</div>
 					
-					<div id="errorMSG"></div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
-							<div id="addClient" class="btn btn-success">Edit Driver</div>
+							<div class="checkbox">
+								<legend>Delivery Days *</legend>
+								<label><input type="checkbox" name="schedule" value="Mo" '.$MoC.'>Monday</label>
+								<label><input type="checkbox" name="schedule" value="Tu" '.$TuC.'>Tuesday</label>
+								<label><input type="checkbox" name="schedule" value="We" '.$WeC.'>Wednesday</label>
+								<label><input type="checkbox" name="schedule" value="Th" '.$ThC.'>Thursday</label>
+								<label><input type="checkbox" name="schedule" value="Fr" '.$FrC.'>Friday</label>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-6">
+							<div id="editDriver" class="btn btn-success">Edit Driver</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
-							<div id="changePassword" class="btn btn-success">Generate New Password</div>
+							<div id="changePassword" class="btn btn-success" onclick="changePassword('.$driverID.')">Generate New Password</div>
 						</div>
 					</div>
 
 				</form>';
+}
+
+function gUsername($name, $last){
+	include('../connection.php');
+	if($last == "recursive"){
+		$userName = $name;
+	} else {
+		$userName = substr($name, 0, 1);
+		$userName .= $last;
+	}
+	
+	// Check if username is taken
+	$query = 'SELECT * FROM drivers where dUsername = "'.$userName.'"';
+
+	$sql = $db->query($query);
+	$taken = $sql->num_rows;
+
+	if($taken > 0){
+		$number = rand(10, 999);
+		$userName .= $number;
+	    return gUsername($userName, "recursive");
+	} else {
+	  return $userName;
+	}
+}
+
+function gPassword(){
+	$lArray = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+	$nol = 0;
+	$pass = "";
+	$next = "";
+	for ($i = 0; $i <= 5; $i++) {
+		$nol = rand(0,1);
+		
+		if($nol == 0){
+			$next = rand(0,9);
+		} else {
+			$next = $lArray[rand(0,25)];
+		}
+		$pass .= $next;
+	}
+	return $pass;
+}
+
+function slice($input, $slice) {
+    $arg = explode(':', $slice);
+    $start = intval($arg[0]);
+    if ($start < 0) {
+        $start += strlen($input);
+    }
+    if (count($arg) === 1) {
+        return substr($input, $start, 1);
+    }
+    if (trim($arg[1]) === '') {
+        return substr($input, $start);
+    }
+    $end = intval($arg[1]);
+    if ($end < 0) {
+        $end += strlen($input);
+    }
+    return substr($input, $start, $end - $start);
 }
 ?>

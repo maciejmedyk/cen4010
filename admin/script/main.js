@@ -17,6 +17,7 @@ $( "#search" ).keyup(function() {
 //errorType = int 0 => fail, 1 => success
 function errorMSG(errorString, errorType){
 	console.log(errorString);
+	$(".mask").css({"display":"block"});
 	$( "#errorMSG" ).html( errorString );
 }
 
@@ -70,15 +71,23 @@ $("#adminForm").click(function(){
 */
 // Get client edit Form
 function editClient(cID){
-	$(".mask").css({"display":"block"});
+	if($("#showEdit"+cID).is(':visible')){
+		$("#showEditDiv"+cID).animate({height:"0px"},400,function(){
+			$("#showEdit"+cID).css({"display":"none"});
+		});
+	} else {
+		$("#showEdit"+cID).css({"display":"block"});
+		$("#showEditDiv"+cID).animate({height:"600px"},400);
+	}
 	
-	$.ajax({
+	
+	/*$.ajax({
 			method: "POST",
 			url: "clientHelper.php",
 			data: { action:"clientEdit",cID: cID }
 		}).done(function( page ) {
 			$(".popUp").html(page);
-		});
+		});*/
 }
 
 // Get client edit Form
@@ -111,7 +120,7 @@ $(document).on('click','#editClient',function(){
 	var FR = $("#FR").is(':checked');
 	var Active = $("#Active").is(':checked');
 	var MSG = "";
-	
+	console.log("Edit - "+ fName);
 	if(textValidate(fName) || textValidate(lName) || phoneValidate(phone) || emailValidate(email) || textValidate(addr1) || textValidate(city) || textValidate(state) || textValidate(zip)){
 		
 		$.ajax({
@@ -119,8 +128,10 @@ $(document).on('click','#editClient',function(){
 			url: "clientHelper.php",
 			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, Active:Active }
 		}).done(function( page ) {
+			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
 			errorMSG(page, 0);
 		});
+		
 		
 	} else {
 		MSG += "Please Fill in all required fields.</br>";
@@ -206,6 +217,140 @@ function actionClient(cID, step){
 	}
 }
 
+/*Submit New Drivers*/
+$(document).on('click','#addDriver',function(){
+	//console.log("Submit New Drivers");
+	
+	//var str = $("#editDriverForm").serialize();
+	var cID = $("#cID").val();
+	var fName = $("#fName").val();
+	var lName = $("#lName").val();
+	var email = $("#email").val();
+	var phone = $("#phone").val();
+	var license = $("#dLicense").val();
+	var make = $("#vehMake").val();
+	var model = $("#vehModel").val();
+	var year = $("#vehYear").val();
+	var tag = $("#vehTag").val();
+	var insurance = $("#insCo").val();
+	var policyNumber = $("#insPolicy").val();
+	var delNotes = $("#delNotes").val();
+	var Active = 1;
+	var MSG = "";
+
+	var schedule = [];
+	 $.each($("input[name='schedule']:checked"), function(){            
+                schedule.push($(this).val());
+            });
+		//console.log("add to array " + schedule);
+	
+	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(schedule)){
+		
+		$.ajax({
+			method: "POST",
+			url: "driverHelper.php",
+			data: { action:"submitNewDriver",
+					cID: cID, 
+					fName: fName, 
+					lName: lName, 
+					email: email, 
+					phone: phone, 
+					license: license, 
+					make: make, 
+					model:  model, 
+					year: year, 
+					tag: tag,
+					insurance: insurance, 
+					policyNumber: policyNumber, 
+					delNotes: delNotes,
+					schedule: schedule,
+					Active:Active }
+		}).done(function( page ) {
+			errorMSG(page, 0);
+			$("#editDriverForm").find("input[type=text], input[type=email], textarea").val("").removeAttr('checked');
+			$("#editDriverForm").find("input[name='schedule']").removeAttr("checked");
+			
+			
+		});
+		
+	} else {
+		MSG += "Please Fill in all required (*) fields.</br>";
+		errorMSG(MSG, 0);
+	}
+	
+});
+
+/*Submit Driver Edit*/
+$(document).on('click','#editDriver',function(){
+	var dID = $("#dID").val();
+	var fName = $("#fName").val();
+	var lName = $("#lName").val();
+	var email = $("#email").val();
+	var phone = $("#phone").val();
+	var license = $("#dLicense").val();
+	var make = $("#vehMake").val();
+	var model = $("#vehModel").val();
+	var year = $("#vehYear").val();
+	var tag = $("#vehTag").val();
+	var insurance = $("#insCo").val();
+	var policyNumber = $("#insPolicy").val();
+	var delNotes = $("#delNotes").val();
+	var schedule = [];
+	 $.each($("input[name='schedule']:checked"), function(){            
+                schedule.push($(this).val());
+            });
+	var MSG = "";
+
+	
+	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email)){
+		
+		$.ajax({
+			method: "POST",
+			url: "driverHelper.php",
+			data: { action:"submitDriverEdit",
+					dID: dID, 
+					fName: fName, 
+					lName: lName, 
+					email: email, 
+					phone: phone, 
+					license: license, 
+					make: make, 
+					model:  model, 
+					year: year, 
+					tag: tag,
+					insurance: insurance, 
+					policyNumber: policyNumber,
+					schedule: schedule,
+					delNotes: delNotes }
+		}).done(function( page ) {
+			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
+			errorMSG(page, 0);
+		});
+		
+		
+	} else {
+		MSG += "Please Fill in all required fields.</br>";
+		if(!emailValidate(email)){
+			MSG += "Please Enter a Valid Email.</br>";
+		}
+		if(!phoneValidate(phone)){
+			MSG += "Please Enter a Valid Phone Number.</br>";
+		}
+		
+		errorMSG(MSG, 0);
+	} 
+	
+});
+
+function changePassword(dID){
+	$.ajax({
+			method: "POST",
+			url: "driverHelper.php",
+			data: { action:"driverNewpass", dID: dID }
+		}).done(function( page ) {
+			errorMSG(page, 0);
+		});
+}
 
 // Login Forms
 $("#driverLog").click(function(){
@@ -233,17 +378,53 @@ $(".popClose").click(function(){
 
 /*Validate Text*/
 function textValidate(text){
-	return true;
+	 if (text.length == 0) {
+		return false;
+	} else {
+		return true;
+	}
 }
 /*Validate Email*/
-function emailValidate(text){
-	return true;
+function emailValidate(email){
+	var error="";
+    var tfld = trim(email);                        // value of field with whitespace trimmed off
+    var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/ ;
+    var illegalChars= /[\(\)\<\>\,\;\:\\\"\[\]]/ ;
+    
+    if (email == "") {
+		return false;
+    } else if (!emailFilter.test(tfld)) {
+		return false;
+    } else if (email.match(illegalChars)) {
+		return false;
+    } else {
+        return true;
+    }
 }
 /*Validate Phone Number*/
-function phoneValidate(text){
-	return true;
+function phoneValidate(phone){
+	
+	var stripped = phone.replace(/[\(\)\.\-\ ]/g, '');     
+   if (phone == "") {
+		return false;
+    } else if (isNaN(parseInt(stripped))) {
+		return false;
+    } else if (!(stripped.length == 10)) {
+		return false;
+    } else{
+		return true;
+	}
+	
+}
+/*Highlight required*/
+function highlightRequired(idName){
+	$("#"+idName).css({"border":"1px solid red"});
 }
 
+function trim(s)
+{
+  return s.replace(/^\s+|\s+$/, '');
+} 
 
 /*
 ##########################################
@@ -253,8 +434,10 @@ function phoneValidate(text){
 
 
 $( document ).ready(function() {
+	if(document.getElementById('tabs')){
+		init();
+	}
 	
-	init(); 
 });
 var tabLinks = new Array();
 var contentDivs = new Array();

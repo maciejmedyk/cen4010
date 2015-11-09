@@ -1,9 +1,9 @@
-<div class="mask">
-	
+<div class="mask">	
 	<div class="popBody">
 	<div class="popClose">X</div>
 	<div class="popUp"></div>
-	</div>
+	<div id="errorMSG"></div>
+</div>
 	
 </div>
 

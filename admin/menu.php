@@ -3,6 +3,10 @@
                 <ul id="side-menu" class="nav">
                     
                      <div class="clearfix"></div>
+					<li><a href="index.php"><i class="fa fa-bars fa-fw">
+                        <div class="icon-bg bg-orange"></div>
+                    </i><span class="menu-title">MOW Admin</span></a></li>
+					
                     <li class="active"><a href="index.php"><i class="fa fa-tachometer fa-fw">
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Deliveries</span></a></li>

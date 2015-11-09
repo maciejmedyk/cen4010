@@ -809,6 +809,9 @@ hr {
 }
 #sidebar {
   background: #3C3C3C;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 .navbar-static-side {
   transition: 0.3s all linear;
@@ -7031,7 +7034,8 @@ ul.chats li.out .message {
 	position:fixed;
 	top:0;
 	left:0;
-	background:rgba(0,0,0,.8);	
+	background:rgba(0,0,0,.8);
+	z-index: 1000;		
 }
 .popClose{
 	background: red;
@@ -7085,6 +7089,14 @@ ul.chats li.out .message {
 	margin:15px auto 5px auto;
 	font-size:20px;
 	text-align:center;
+}
+
+.showEdit{
+	display:none;
+}
+.showEditDiv{
+	height:0;
+	overflow:none;
 }
 
 /*Tabs*/

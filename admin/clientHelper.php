@@ -28,6 +28,33 @@ if($_POST["action"] == "submitClientEdit"){
 	$FR       = $_POST['FR'];
 	$Active   = $_POST['Active'];
 	
+	$address = "$addr1 $addr2 $city $state $zip";
+	
+	$address = str_replace("#", "", $address);
+	$address = str_replace(" ", "-", $address);
+	$address = preg_replace("/--+/", "+", $address);
+	$address = str_replace("-", "+", $address);
+	if(substr($address, -1) == "+"){
+		$address = substr($address, 0, -1);
+	}
+	$json = "";
+	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA");
+	//echo $json;
+	if($json != ""){
+		$json = json_decode($json);
+
+		$lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+		$lng = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+		
+		if($lat == "" && $lng == ""){
+			$lat = $json->{'results'}[0]->{'location'}->{'lat'};
+			$lng = $json->{'results'}[0]->{'location'}->{'lng'};
+		}else if($lat == ""){
+			$lat = 'empty';
+			$lng = 'empty';
+		}
+	}
+	
 	if($FA == "true"){
 		$FA = 1;
 	} else {
@@ -54,7 +81,9 @@ if($_POST["action"] == "submitClientEdit"){
 				cAddress2 ='$addr2', 
 				cCity ='$city', 
 				cState ='$state', 
-				cZip ='$zip', 
+				cZip ='$zip',
+				cLat ='$lat',
+				cLng ='$lng',
 				cPhone ='$phone', 
 				cFoodAllergies ='$FA', 
 				cFoodRestrictions ='$FR', 
@@ -62,6 +91,8 @@ if($_POST["action"] == "submitClientEdit"){
 				cActive = '$Active'
 				WHERE cID='$cID'";
     $db->query($query);
+	
+	echo "Client info has been updated ".$fName;
 	
 }
 
@@ -80,6 +111,32 @@ if($_POST["action"] == "submitNewClient"){
 	$FA       = $_POST['FA'];
 	$FR       = $_POST['FR'];
 	$Active   = $_POST['Active'];
+	
+	$address = "$addr1 $addr2 $city $state $zip";
+	
+	$address = str_replace("#", "", $address);
+	$address = str_replace(" ", "-", $address);
+	$address = preg_replace("/--+/", "+", $address);
+	$address = str_replace("-", "+", $address);
+	if(substr($address, -1) == "+"){
+		$address = substr($address, 0, -1);
+	}
+	
+	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA");
+	$json = json_decode($json);
+
+	$lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+	$lng = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+	
+	if($lat == "" && $lng == ""){
+		$lat = $json->{'results'}[0]->{'location'}->{'lat'};
+		$lng = $json->{'results'}[0]->{'location'}->{'lng'};
+	}else if($lat == ""){
+		$lat = 'empty';
+		$lng = 'empty';
+	}
+	
+	echo $lat." ".$lng;
 	
 	if($FA == "true"){
 		$FA = 1;
@@ -100,8 +157,8 @@ if($_POST["action"] == "submitNewClient"){
 	}
 	
 	
-	$query = "INSERT INTO clients (cFirstName,cLastName,cAddress1,cAddress2,cCity,cState,cZip,cPhone,cFoodAllergies,cFoodRestrictions,cDeliveryNotes,cActive) 
-							VALUES ('$fName', '$lName', '$addr1', '$addr2', '$city', '$state', '$zip', '$phone', '$FA', '$FR', '$delNotes', '1')";
+	$query = "INSERT INTO clients (cFirstName,cLastName,cAddress1,cAddress2,cCity,cState,cZip,cLat,cLng,cPhone,cFoodAllergies,cFoodRestrictions,cDeliveryNotes,cActive) 
+							VALUES ('$fName', '$lName', '$addr1', '$addr2', '$city', '$state', '$zip','$lat','$lng', '$phone', '$FA', '$FR', '$delNotes', '1')";
     $db->query($query);
 	
 	echo "Client Added";

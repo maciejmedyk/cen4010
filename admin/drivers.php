@@ -47,34 +47,28 @@
 		</div>
 		<div class="tabContent hide" id="addDriversTab">
 			<div class="container">
-				<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
+				<form id="editDriverForm" class="form-horizontal" action="#" role="form" method="post">
 
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="fName">First Name:</label>
+						<label class="control-label col-sm-2" for="fName">*First Name:</label>
 						<div class="col-sm-6">
 							<input type="text" class="form-control" id="fName" name="fName" placeholder="Enter first name">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="lName">Last Name:</label>
+						<label class="control-label col-sm-2" for="lName">*Last Name:</label>
 						<div class="col-sm-6">
 							<input type="text" class="form-control" id="lName" name="lName" placeholder="Enter last name">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="email">Email:</label>
+						<label class="control-label col-sm-2" for="email">*Email:</label>
 						<div class="col-sm-6">
 							<input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="pwd">Password:</label>
-						<div class="col-sm-6">
-							<input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter PIN">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="phone">Phone Number:</label>
+						<label class="control-label col-sm-2" for="phone">*Phone Number:</label>
 						<div class="col-sm-6">
 							<input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone number">
 						</div>
@@ -130,19 +124,24 @@
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
 							<div class="checkbox">
-								<label><input id="FA" type="checkbox" value="1">Food Allergies: </label>
-								<label><input id="FR" type="checkbox" value="1">Food Restrictions: </label>
+								<legend>Delivery Days *</legend>
+								<label><input type="checkbox" name="schedule" value="Mo">Monday</label>
+								<label><input type="checkbox" name="schedule" value="Tu">Tuesday</label>
+								<label><input type="checkbox" name="schedule" value="We">Wednesday</label>
+								<label><input type="checkbox" name="schedule" value="Th">Thursday</label>
+								<label><input type="checkbox" name="schedule" value="Fr">Friday</label>
 							</div>
 						</div>
 					</div>
-					<div id="errorMSG"></div>
+					
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
-							<div id="addClient" class="btn btn-success">Add Client</div>
+							<div id="addDriver" class="btn btn-success">Add Driver</div>
 						</div>
 					</div>
 
 				</form>
+				<!--<div id="errorMSG"></div>-->
 			</div>
 		</div>
 
