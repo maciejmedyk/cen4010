@@ -72,7 +72,7 @@ function getDrivers($id, $count){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers in the database.</div>";
         if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
     } else {
-        echo "<table class='alignleft table table-hover'>
+        echo "<table id='driverTable' class='alignleft table table-hover'>
         <thead class='tableHead'>
         <tr>
         <th width='25%'><i class='fa fa-check-square'></iclass></th>
@@ -111,7 +111,7 @@ function getDrivers($id, $count){
                 $locked = "";
             }
 
-            echo "<tr>
+            echo "<tr data-status='" . $status . "'>
                 <td>
                     <a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a>						
                     <a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>".$dlabel." Driver</a>
@@ -216,19 +216,25 @@ function editClient($clientID){
 				ORDER BY cLastName ASC";
 	$sql = $db->query($query);
 	$info = $sql->fetch_array();
+    
+    $activeChecked = "";
+    if ($info['cActive'] == 1){
+        $activeChecked = "checked";
+    }
+    
 	//echo '<div class="formTitle">Edit Client Information</div>';
     echo '<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
                     <input id="cID" type="hidden" value="'.$clientID.'">
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="fName">First Name:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="fName" name="fName" value="'.$info['cFirstName'].'">
+							<input type="text" class="form-control" id="fName" name="fName" value="'.$info['cFirstName'].'" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="lName">Last Name:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="lName" name="lName" value="'.$info['cLastName'].'">
+							<input type="text" class="form-control" id="lName" name="lName" value="'.$info['cLastName'].'" required>
 						</div>
 					</div>
 					<div class="form-group">
@@ -246,20 +252,20 @@ function editClient($clientID){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="phone">Phone Number:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="phone" name="phone" value="'.$info['cPhone'].'">
+							<input type="text" class="form-control" id="phone" name="phone" value="'.$info['cPhone'].'" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="address">Address:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="addr1" name="address" value="'.$info['cAddress1'].'">
+							<input type="text" class="form-control" id="addr1" name="address" value="'.$info['cAddress1'].'" required>
 						</div>
 					</div>
 					
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="address">Address:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="addr2" name="address" value="'.$info['cFirstName'].'">
+							<input type="text" class="form-control" id="addr2" name="address" value="'.$info['cAddress2'].'">
 						</div>
 					</div>
 					
@@ -267,19 +273,19 @@ function editClient($clientID){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="city">City:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="city" name="city" value="'.$info['cCity'].'">
+							<input type="text" class="form-control" id="city" name="city" value="'.$info['cCity'].'" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="state">State:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="state" name="state" value="'.$info['cState'].'">
+							<input type="text" class="form-control" id="state" name="state" value="'.$info['cState'].'" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="zip">ZIP Code:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="zip" name="zip" value="'.$info['cZip'].'">
+							<input type="text" class="form-control" id="zip" name="zip" value="'.$info['cZip'].'" required>
 						</div>
 					</div>
 					<div class="form-group">
@@ -291,8 +297,9 @@ function editClient($clientID){
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
 							<div class="checkbox">
-								<label><input id="FA" type="checkbox" value="1">Food Allergies: </label>
-								<label><input id="FR" type="checkbox" value="1">Food Restrictions: </label>
+								<label><input id="FA" type="checkbox" value="1">Food Allergies </label>
+								<label><input id="FR" type="checkbox" value="1">Food Restrictions </label>
+                                <label style="color: red;"><input id="isActive" type="checkbox" value="1" ' . $activeChecked . '>Client is Active </label>
 							</div>
 						</div>
 					</div>

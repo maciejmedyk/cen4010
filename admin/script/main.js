@@ -62,6 +62,39 @@ $("#adminForm").click(function(){
 	}
 });
 
+//Filters the drivers list according to if the driver is active.
+$(document).ready(function() {
+   
+    $("#showInactiveDriver").click(function() {
+        if ($("#showInactiveDriver").is(":checked")){
+            $('#driverTable > tbody > tr').each(function() {
+                $(this).removeClass( "hidden" );
+            });  
+        }else{
+            $('#driverTable > tbody > tr').each(function() {
+                if ( $(this).data('status') == "Retired"){
+                    $(this).addClass( "hidden" );
+                }
+            });  
+        }
+    });
+    
+    $("#showInactiveClients").click(function() {
+        if ($("#showInactiveClients").is(":checked")){
+            $('#clientTable > tbody > tr').each(function() {
+                $(this).removeClass( "hidden" );
+            });  
+        }else{
+            $('#clientTable > tbody > tr').each(function() {
+                if ( $(this).data('status') == "Retired"){
+                    $(this).addClass( "hidden" );
+                }
+            });  
+        }
+    });
+    
+});
+
 
 /*
 #########################################
@@ -118,7 +151,7 @@ $(document).on('click','#editClient',function(){
 	var delNotes = $("#delNotes").val();
 	var FA = $("#FA").is(':checked');
 	var FR = $("#FR").is(':checked');
-	var Active = $("#Active").is(':checked');
+	var Active = $("#isActive").is(':checked');
 	var MSG = "";
 	console.log("Edit - "+ fName);
 	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){

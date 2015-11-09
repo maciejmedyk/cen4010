@@ -36,7 +36,13 @@
 		</div>
 		<!-- CONTENT STARTS HERE-->
 		<div class="content">
-		
+            <form>
+                <fieldset>
+                    <legend>Filters:</legend>
+                        <input id="showInactiveDriver" type="checkbox" value="show" name="showInactive"/> Show inactive drivers.
+                </fieldset>
+            </form> 
+
 		<ul id="tabs">
 		  <li><a href="#driverInfoTab" class="selected">Drivers</a></li>
 		  <li><a href="#addDriversTab">Add Drivers</a></li>
