@@ -1,7 +1,7 @@
 <?php
 	include_once("session.php"); 
 	include_once("header.php");
-	$page = "Deliveries";
+	$page = "Account";
 	?>
 <body>
 	<div id="header-topbar-option-demo" class="page-header-topbar">
@@ -21,7 +21,7 @@
 		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
 			<div class="page-header pull-left">
 				<div class="page-title">
-					Deliveries
+					Account
 				</div>
 			</div>
 			<div class="clearfix">
