@@ -1,6 +1,7 @@
 <?php
 	include_once("session.php"); 
 	include_once("header.php"); 
+    $page="Drivers";
 	?>
 <body>
 	<div id="header-topbar-option-demo" class="page-header-topbar">
@@ -27,7 +28,7 @@
 		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
 			<div class="page-header pull-left">
 				<div class="page-title">
-					Edit Driver Information <a href="drivers.php" class="dTableButton btn btn-xs btn-success float_r">Back To Driver List</a>
+					Edit Driver Information <!--a href="drivers.php" class="dTableButton btn btn-xs btn-success float_r">Back To Driver List</a-->
 				</div>
 			</div>
 			<div class="clearfix">
