@@ -223,7 +223,11 @@ function editClient($clientID){
     }
     
 	//echo '<div class="formTitle">Edit Client Information</div>';
-    echo '<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
+    echo ' <div id="errorMSG" class="alert" style="display: none">
+            </div>
+    
+            <br/>
+            <form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
                     <input id="cID" type="hidden" value="'.$clientID.'">
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="fName">First Name:</label>
@@ -246,7 +250,7 @@ function editClient($clientID){
 					<!--<div class="form-group">
 						<label class="control-label col-sm-2" for="pwd">Password:</label>
 						<div class="col-sm-6">
-							<input type="password" class="form-control" id="pwd" name="pwd" value="'.$info['cFirstName'].'">
+							<input type="password" class="form-control" id="pwd" name="pwd" value="">
 						</div>
 					</div>-->
 					<div class="form-group">
@@ -291,22 +295,40 @@ function editClient($clientID){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="delNotes">Delivery Notes:</label>
 						<div class="col-sm-6">
-							<textarea id="delNotes" name="delNotes" class="form-control" rows="6" style="min-width: 100%"></textarea>
+							<textarea id="delNotes" name="delNotes" class="form-control" rows="6" value="'.$info['cDeliveryNotes'].'" style="min-width: 100%"></textarea>
 						</div>
 					</div>
+                    
+                    
+                    
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="FAList">Food Alergies:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="FAList" name="FAList" value="'.$info['FAList'].'" placeholder="Example: nuts,shellfish,wheat">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="zip">Food Restrictions:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="FRList" name="FRList" value="'.$info['FRList'].'" placeholder="Example: milk,bacon">
+						</div>
+					</div>
+                    
+                    
+                    
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
 							<div class="checkbox">
-								<label><input id="FA" type="checkbox" value="1">Food Allergies </label>
-								<label><input id="FR" type="checkbox" value="1">Food Restrictions </label>
-                                <label style="color: red;"><input id="isActive" type="checkbox" value="1" ' . $activeChecked . '>Client is Active </label>
+								<!--label><input id="FA" type="checkbox" value="1">Food Allergies </label>
+								<label><input id="FR" type="checkbox" value="1">Food Restrictions </label-->
+                                <label style="color: red;"><input id="isActive" type="checkbox" value="1" ' . $activeChecked . '>Is Active</label>
 							</div>
 						</div>
 					</div>
-					<div id="errorMSG"></div>
+					<!--div id="errorMSG"></div-->
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
-							<div id="editClient" class="btn btn-success">Save</div>
+							<div id="editClient" class="btn btn-success">Save</div>&nbsp;
                             <a href="clients.php" class="btn btn-danger">Cancel</a>
 						</div>
 					</div>

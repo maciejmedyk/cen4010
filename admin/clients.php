@@ -54,6 +54,7 @@ Tab with form to add clients below
 
 		<div class="tabContent hide" id="addClientTab">
 			<div class="container">
+                <br/>
 				<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
 
 					<div class="form-group">
@@ -87,16 +88,16 @@ Tab with form to add clients below
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="address">Address:</label>
+						<label class="control-label col-sm-2" for="address1">Address:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="addr1" name="address" placeholder="Enter street address">
+							<input type="text" class="form-control" id="addr1" name="address1" placeholder="Enter street address">
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="address">Address:</label>
+						<label class="control-label col-sm-2" for="address2">Address:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" id="addr2" name="address" placeholder="Enter street address">
+							<input type="text" class="form-control" id="addr2" name="address2" placeholder="Enter secondary street address">
 						</div>
 					</div>
 					
@@ -125,11 +126,30 @@ Tab with form to add clients below
 							<textarea id="delNotes" name="delNotes" class="form-control" rows="6" style="min-width: 100%"></textarea>
 						</div>
 					</div>
+                    
+                    
+                    
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="FAList">Food Alergies:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="FAList" name="FAList" placeholder="Example: nuts,shellfish,wheat">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="zip">Food Restrictions:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="FRList" name="FRList" placeholder="Example: milk,bacon">
+						</div>
+					</div>
+                    
+                    
+                    
+                    
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
 							<div class="checkbox">
-								<label><input id="FA" type="checkbox" value="1">Food Allergies: </label>
-								<label><input id="FR" type="checkbox" value="1">Food Restrictions: </label>
+								<label style="color: red;" ><input id="activeCheckbox" type="checkbox" checked value="1">Is Active</label>
+                                <!--label><input id="FR" type="checkbox" value="1">Food Restrictions </label-->
 							</div>
 						</div>
 					</div>

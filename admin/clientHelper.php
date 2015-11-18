@@ -26,8 +26,10 @@ if($_POST["action"] == "submitClientEdit"){
 	$delNotes = $_POST['delNotes'];
 	$FA       = $_POST['FA'];
 	$FR       = $_POST['FR'];
+    $FAList   = $_POST['FAList'];
+    $FRList   = $_POST['FRList'];
 	$Active   = $_POST['Active'];
-	
+
 	$address = "$addr1 $addr2 $city $state $zip";
 	
 	$address = str_replace("#", "", $address);
@@ -55,16 +57,16 @@ if($_POST["action"] == "submitClientEdit"){
 		}
 	}
 	
-	if($FA == "true"){
-		$FA = 1;
-	} else {
+	if($FAList == ""){
 		$FA = 0;
+	} else {
+		$FA = 1;
 	}
 	
-	if($FR == "true"){
-		$FR = 1;
-	} else {
+	if($FRList == ""){
 		$FR = 0;
+	} else {
+		$FR = 1;
 	}
 	
 	if($Active == "true"){
@@ -72,7 +74,6 @@ if($_POST["action"] == "submitClientEdit"){
 	} else {
 		$Active = 0;
 	}
-	
 	
 	$query = "UPDATE clients SET 
 				cFirstName ='$fName ', 
@@ -89,10 +90,12 @@ if($_POST["action"] == "submitClientEdit"){
 				cFoodRestrictions ='$FR', 
 				cDeliveryNotes ='$delNotes',
 				cActive = '$Active'
+                FAList = '$FAList',
+                FRList = '$FRList',
 				WHERE cID='$cID'";
     $db->query($query);
-	
-	echo "Client info has been updated ".$fName;
+	echo $FRList . $FAList . $delNotes;
+	echo "Client info for ".$fName." ".$lName." has been updated. ";
 	
 }
 
@@ -110,6 +113,8 @@ if($_POST["action"] == "submitNewClient"){
 	$delNotes = $_POST['delNotes'];
 	$FA       = $_POST['FA'];
 	$FR       = $_POST['FR'];
+    $FAList   = $_POST['FAList'];
+    $FRList   = $_POST['FRList'];
 	$Active   = $_POST['Active'];
 	
 	$address = "$addr1 $addr2 $city $state $zip";
@@ -138,16 +143,16 @@ if($_POST["action"] == "submitNewClient"){
 	
 	echo $lat." ".$lng;
 	
-	if($FA == "true"){
-		$FA = 1;
-	} else {
+	if($FA == ""){
 		$FA = 0;
+	} else {
+		$FA = 1;
 	}
 	
-	if($FR == "true"){
-		$FR = 1;
-	} else {
+	if($FR == ""){
 		$FR = 0;
+	} else {
+		$FR = 1;
 	}
 	
 	if($Active == "true"){
@@ -157,8 +162,8 @@ if($_POST["action"] == "submitNewClient"){
 	}
 	
 	
-	$query = "INSERT INTO clients (cFirstName,cLastName,cAddress1,cAddress2,cCity,cState,cZip,cLat,cLng,cPhone,cFoodAllergies,cFoodRestrictions,cDeliveryNotes,cActive) 
-							VALUES ('$fName', '$lName', '$addr1', '$addr2', '$city', '$state', '$zip','$lat','$lng', '$phone', '$FA', '$FR', '$delNotes', '1')";
+	$query = "INSERT INTO clients (cFirstName,cLastName,cAddress1,cAddress2,cCity,cState,cZip,cLat,cLng,cPhone,cFoodAllergies,cFoodRestrictions,cDeliveryNotes,cActive,FAList,FRList) 
+							VALUES ('$fName', '$lName', '$addr1', '$addr2', '$city', '$state', '$zip','$lat','$lng', '$phone', '$FA', '$FR', '$delNotes', '1', '$FAList', '$FRList')";
     $db->query($query);
 	
 	echo "Client Added";

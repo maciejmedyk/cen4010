@@ -16,51 +16,18 @@ $( "#search" ).keyup(function() {
 //errorType = int 0 => fail, 1 => success
 function errorMSG(errorString, errorType){
 	console.log(errorString);
-	$(".mask").css({"display":"block"});
-	$( "#errorMSG" ).html( errorString );
+	//$(".mask").css({"display":"block"});
+	//$( "#errorMSG" ).html( errorString );
+    
+    //Im using this with bootstrap alerts till you work out what you are doing with that ugly popup :P
+    $( "#errorMSG" ).html( errorString );
+    if(errorType == 0){
+        $( "#errorMSG" ).addClass("alert-danger").fadeIn();
+    }else{
+        $( "#errorMSG" ).addClass("alert-success").fadeIn();
+    }
 }
 
-$("#driverForm").click(function(){
-	var userName = $("#username").val();
-	var password = $("#password").val();
-	if(userName == "" || password == ""){
-		errorMSG("Username or Password is invalid.",0);
-	} else {
-		$.ajax({
-			method: "POST",
-			url: "scripts/login.php",
-			data: { userName: userName, password: password, userType: "Driver" }
-		}).done(function( msg ) {
-			if(msg == 0){
-				errorMSG("Loged in.",0);
-				window.location.href = "/driver/index.php";
-			} else {
-				errorMSG(msg,1);
-			}
-		});
-	}
-});
-
-$("#adminForm").click(function(){
-	var userName = $("#username").val();
-	var password = $("#password").val();
-	if(userName == "" || password == ""){
-		errorMSG("Username or Password is invalid.",0);
-	} else {
-		$.ajax({
-			method: "POST",
-			url: "scripts/login.php",
-			data: { userName: userName, password: password, userType: "Admin" }
-		}).done(function( msg ) {
-			if(msg == 0){
-				errorMSG("Loged in.",0);
-				window.location.href = "/admin/index.php";
-			} else {
-				errorMSG(msg,1);
-			}
-		});
-	}
-});
 
 //Filters the drivers list according to if the driver is active.
 $(document).ready(function() {
@@ -149,20 +116,36 @@ $(document).on('click','#editClient',function(){
 	var state = $("#state").val();
 	var zip = $("#zip").val();
 	var delNotes = $("#delNotes").val();
-	var FA = $("#FA").is(':checked');
-	var FR = $("#FR").is(':checked');
+	//var FA = $("#FA").is(':checked');
+	//var FR = $("#FR").is(':checked');
+    var FAList = $("#FAList").val();
+	var FRList = $("#FRList").val();
 	var Active = $("#isActive").is(':checked');
+
+    //Set the alergies checkbox data if an alergy is typed into the box.
+    if(FAList == ""){
+        FA = false;   
+    }else{
+        FA = true;
+    }
+    //Set the food restrictions checkbox data if a restriction is typed into the box.
+    if(FAList == ""){
+        FR = false;   
+    }else{
+        FR = true;
+    }
+    
 	var MSG = "";
 	console.log("Edit - "+ fName);
-	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
+	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && /*emailValidate(email) &&*/ textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
 		
 		$.ajax({
 			method: "POST",
 			url: "clientHelper.php",
-			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, Active:Active }
+			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, FAList:FAList, FRList:FRList, Active:Active }
 		}).done(function( page ) {
 			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
-			errorMSG(page, 0);
+			errorMSG(page, 1);
 		});
 		
 		
@@ -174,7 +157,7 @@ $(document).on('click','#editClient',function(){
 		if(!phoneValidate(phone)){
 			MSG += "Please Enter a Valid Phone Number.</br>";
 		}
-		
+
 		errorMSG(MSG, 0);
 	} 
 	
