@@ -33,7 +33,7 @@ $("#driverForms").click(function(){
 		}).done(function( msg ) {
 			if(msg == 0){
 				errorMSG("Loged in.",0);
-				window.location.href = "/driver/index.php";
+				window.location.href = "driver/index.php";
 			} else {
 				errorMSG(msg,1);
 			}
@@ -54,7 +54,7 @@ $("#adminForms").click(function(){
 		}).done(function( msg ) {
 			if(msg == 0){
 				errorMSG("Loged in.",0);
-				window.location.href = "/admin/index.php";
+				window.location.href = "admin/index.php";
 			} else {
 				errorMSG(msg,1);
 			}
