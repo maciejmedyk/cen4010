@@ -561,4 +561,181 @@ function slice($input, $slice) {
     }
     return substr($input, $start, $end - $start);
 }
+
+function getTodaysDay($d){
+	if($d == null){
+		$d = date("w");
+	}
+	switch ($d) {
+    case 0:
+        $dayW = "Su";
+        break;
+    case 1:
+        $dayW = "Mo";
+        break;
+    case 2:
+        $dayW = "Tu";
+        break;
+	case 3:
+        $dayW = "We";
+        break;
+	case 4:
+        $dayW = "Th";
+        break;
+	case 5:
+        $dayW = "Fr";
+        break;
+	case 6:
+        $dayW = "Sa";
+        break;
+	}
+	return $dayW;
+}
+
+function countDrivers(){
+	
+}
+function countClients(){
+	
+}
+function populateRoutes(){
+	include('../connection.php');
+	set_time_limit(120);
+	$thisWeek = date('W');
+	$query = "SELECT cID FROM clients WHERE cActive = 1";
+	$sql = $db->query($query);
+	 while ($info = $sql->fetch_array()) {
+		$cID = $info['cID'];
+		// Check if client is in for this week.
+		if(!inForThisWeek($cID, $thisWeek,$db)){
+			// Today is
+			for($i = 1; $i <= 5; $i++){
+				$delDay = date('Y-m-d',time()+( $i - date('w'))*24*3600);
+				$rDay = getTodaysDay($i);
+				
+				//echo $delDay.' '.$info['cID'].' '.$rDay.' '.$thisWeek.'</br>';
+				
+				
+					$query = "INSERT INTO routes (cID,rDate,rDay,rWeek) 
+								VALUES ('$cID', '$delDay', '$rDay', '$thisWeek')";
+					$db->query($query);
+				
+			}
+		} else {
+			echo $cID. " Client in for this week</br>";
+		}
+		
+	}
+	echo "Done";
+	
+	
+	
+}
+function insertDriver(){
+	include('../connection.php');
+	set_time_limit(120);
+	$query = "SELECT dID, lat, lng,dSchedule FROM drivers WHERE dActive = 1";
+	$sql = $db->query($query);
+	while( $dInfo = $sql->fetch_array()){
+		$driver_array[] = $dInfo;
+	}
+	//print_r($driver_array);
+	$rQuery = "SELECT
+			  routes.rID,
+			  routes.cID,
+			  routes.rDay,
+			  clients.cLng,
+			  clients.cLat
+			FROM routes
+			  INNER JOIN clients
+			WHERE routes.cID = clients.cID";
+	$route = $db->query($rQuery);
+	while($cInfo = $route->fetch_array()){
+		//echo "----------------------------------</br>";
+		//echo $cInfo['rID'].' '.$cInfo['cID'].' '.$cInfo['rDay'].' '.$cInfo['cLat'].' '.$cInfo['cLng'].'</br>';
+		$driver = closestDriver($cInfo['cLat'],$cInfo['cLng'], $cInfo['rDay'], $driver_array);
+		
+		$rID = $cInfo['rID'];
+		$updateQ = "UPDATE routes SET dID =$driver WHERE rID=$rID";
+		//echo $updateQ.'</br>';
+		$db->query($updateQ);
+		//echo "----------------------------------</br>";
+	}
+}
+
+function closestDriver($cLat,$cLng, $dDay, &$dArray){
+	if($cLat == null || $cLng == null){
+		//echo "Invalid location </br>";
+		return 0;
+	} else {
+		$closestDriver = 0;
+		$sDistance = 6371000;
+		$cDistance = 6371000;
+		//echo $cLat.' '.$cLng.'</br>';
+		foreach ($dArray as $key => $driver) {
+			$driverID = $driver[0];
+			$driverLat = $driver[1];
+			$driverLng = $driver[2];
+			$driverSchedule = $driver[3];
+			$driverScheduleArray = explode(",",$driverSchedule);
+			// Check delivery Day
+			if(in_array($dDay, $driverScheduleArray)){
+				//echo $driverID.' ';
+				$cDistance = vincentyGreatCircleDistance($cLat,$cLng,$driverLat,$driverLng);
+				if($cDistance < $sDistance){
+					$closestDriver = $driverID;
+					$sDistance = $cDistance;
+				}
+			} else {
+				//echo "($driverID) I dont work that day ($driverSchedule | $dDay | ) </br>";
+			}
+			//echo $sDistance.' '.$cDistance.'</br>';
+		}
+		//echo $closestDriver.'</br>';
+		return $closestDriver;
+	}
+}
+
+function vincentyGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000){
+  // convert from degrees to radians
+  $latFrom = deg2rad($latitudeFrom);
+  $lonFrom = deg2rad($longitudeFrom);
+  $latTo = deg2rad($latitudeTo);
+  $lonTo = deg2rad($longitudeTo);
+
+  $lonDelta = $lonTo - $lonFrom;
+  $a = pow(cos($latTo) * sin($lonDelta), 2) +
+    pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+  $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+
+  $angle = atan2(sqrt($a), $b);
+  return $angle * $earthRadius;
+}
+
+function inForThisWeek($cID, $thisWeek,$db){
+
+	$query = "SELECT * FROM routes where cID = $cID AND rWeek = '$thisWeek'";
+
+	$sql = $db->query($query);
+	$iWeek = $sql->num_rows;
+
+	if($iWeek > 0){
+		return true;
+	} else {
+	  return false;
+	}
+}
+function initRoutes(){
+	$time_pre = microtime(true);
+	// Populate the routes DB
+	populateRoutes();
+	// Select Driver
+	insertDriver();
+	$time_post = microtime(true);
+	$exec_time = $time_post - $time_pre;
+	
+	echo "DONE: ".$exec_time;
+	
+	
+}
 ?>
