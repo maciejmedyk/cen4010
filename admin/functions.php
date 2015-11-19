@@ -223,8 +223,7 @@ function editClient($clientID){
     }
     
 	//echo '<div class="formTitle">Edit Client Information</div>';
-    echo ' <div id="errorMSG" class="alert" style="display: none">
-            </div>
+    echo ' 
     
             <br/>
             <form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">

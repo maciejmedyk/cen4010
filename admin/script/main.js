@@ -1,37 +1,33 @@
-// Search Function
-
-$( "#search" ).keyup(function() {
-	var searchT = $("#search").val();
-	var type = $("#type").val();
-	var where = $("#searchIN").val();
-	$.ajax({
-		method: "POST",
-		url: "search.php",
-		data: { searchFor: searchT , where: where}
-	}).done(function( page ) {
-		$("#displayData").html(page);
-	});
-});
-
-//errorType = int 0 => fail, 1 => success
-function errorMSG(errorString, errorType){
-	console.log(errorString);
-	//$(".mask").css({"display":"block"});
-	//$( "#errorMSG" ).html( errorString );
-    
-    //Im using this with bootstrap alerts till you work out what you are doing with that ugly popup :P
-    $( "#errorMSG" ).html( errorString );
-    if(errorType == 0){
-        $( "#errorMSG" ).addClass("alert-danger").fadeIn();
-    }else{
-        $( "#errorMSG" ).addClass("alert-success").fadeIn();
-    }
-}
-
-
-//Filters the drivers list according to if the driver is active.
 $(document).ready(function() {
    
+    //
+    // Search Function
+    //
+    $("#search").keyup(function() {
+        var searchT = $("#search").val();
+        var type = $("#type").val();
+        var where = $("#searchIN").val();
+        $.ajax({
+            method: "POST",
+            url: "search.php",
+            data: { searchFor: searchT , where: where}
+        }).done(function( page ) {
+            $("#displayData").html(page);
+        });
+    });
+    
+    //
+    //Close Error Message
+    //
+    $("#closeError").click(function(e){
+        $("#errorWrapper").fadeOut();
+        return false;
+    });
+    
+        
+    //
+    //Filters the list to show only the active elements.
+    //
     $("#showInactiveDriver").click(function() {
         if ($("#showInactiveDriver").is(":checked")){
             $('#driverTable > tbody > tr').each(function() {
@@ -42,7 +38,7 @@ $(document).ready(function() {
                 if ( $(this).data('status') == "Retired"){
                     $(this).addClass( "hidden" );
                 }
-            });  
+            });
         }
     });
     
@@ -60,15 +56,37 @@ $(document).ready(function() {
         }
     });
     
-});
+}); //End Document ready.
 
 
 /*
 #########################################
 ############ ADMIN FUNCTIONS ############
 #########################################
-*/
+//
+//  ERROR HANDLING
+//  errorType = int 0 => fail, 1 => success
+//*/
+function errorMSG(errorString, errorType){
+	console.log(errorString);
+	//$(".mask").css({"display":"block"});
+	//$( "#errorMSG" ).html( errorString );
+    
+    //Im using this with bootstrap alerts till you work out what you are doing with that ugly popup :P
+    $( "#errorWrapper" ).fadeOut(function(){
+        $( "#errorMSG" ).html( errorString );
+        $( "#errorWrapper" ).removeClass("alert-success alert-danger");
+        if(errorType == 0){
+            $( "#errorWrapper" ).addClass("alert-danger").fadeIn();
+        }else{
+            $( "#errorWrapper" ).addClass("alert-success").fadeIn();
+        }
+    });
+}
+
+//
 // Get client edit Form
+//
 function editClient(cID){
 	if($("#showEdit"+cID).is(':visible')){
 		$("#showEditDiv"+cID).animate({height:"0px"},400,function(){
@@ -142,7 +160,7 @@ $(document).on('click','#editClient',function(){
 		$.ajax({
 			method: "POST",
 			url: "clientHelper.php",
-			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, FAList:FAList, FRList:FRList, Active:Active }
+			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA: FA, FR: FR, FAList: FAList, FRList: FRList, Active:Active }
 		}).done(function( page ) {
 			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
 			errorMSG(page, 1);
@@ -176,19 +194,21 @@ $(document).on('click','#addClient',function(){
 	var state = $("#state").val();
 	var zip = $("#zip").val();
 	var delNotes = $("#delNotes").val();
-	var FA = $("#FA").is(':checked');
-	var FR = $("#FR").is(':checked');
+	//var FA = $("#FA").is(':checked');
+	//var FR = $("#FR").is(':checked');
+    var FAList = $("#FAList").val();
+	var FRList = $("#FRList").val();
 	var Active = 1;
 	var MSG = "";
 	
-	if(textValidate(fName) || textValidate(lName) || phoneValidate(phone) || emailValidate(email) || textValidate(addr1) || textValidate(city) || textValidate(state) || textValidate(zip)){
+	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
 		
 		$.ajax({
 			method: "POST",
 			url: "clientHelper.php",
-			data: { action:"submitNewClient",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, Active:Active }
+			data: { action:"submitNewClient",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, FAList: FAList, FRList: FRList, Active:Active }
 		}).done(function( page ) {
-			errorMSG(page, 0);
+			errorMSG(page, 1);
 		});
 		
 	} else {

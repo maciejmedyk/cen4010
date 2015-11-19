@@ -33,14 +33,16 @@
 			</div>
 			<div class="clearfix">
 			</div>
+            <div id="errorMSG" class="alert" style="display: none"></div>
 		</div>
 		<!-- CONTENT STARTS HERE-->
 		<div class="content">
 		
 		
 		<div class="tabContent" id="clients">
-			<div id="displayData">
-                <div class="container">
+			
+            <div class="container">
+                <div id="displayData">
                     <?php editClient($_GET['cID']);?>
                 </div>
 			</div>

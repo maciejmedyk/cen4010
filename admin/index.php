@@ -28,9 +28,7 @@
 			</div>
 		</div>
 		<!-- CONTENT STARTS HERE-->
-		<div  class="alert  alert-danger">   
-                <h4 id="errorMSG" class="alert-heading"></h4>  
-            </div>
+
 		
 		
 		
