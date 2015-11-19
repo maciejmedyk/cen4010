@@ -19,14 +19,8 @@
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="styles/main.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
 	
-	<!-- Stylesheets -->
-    <link href="<?php echo $baseURL;?>css/bootstrap.min.css" rel="stylesheet">
-	<link href="<?php echo $baseURL;?>css/map.css" rel="stylesheet">
-	
-	<!-- JavaScript -->
-	<script src="<?php echo $baseURL;?>js/jquery.js"></script>
 </head>
 

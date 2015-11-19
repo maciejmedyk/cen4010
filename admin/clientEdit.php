@@ -25,15 +25,22 @@
 		<?php include("menu.php"); ?>
 	</div>
 	<div id="page-wrapper">
+    <!-- Page Title -->
 		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
 			<div class="page-header pull-left">
 				<div class="page-title">
-					Edit Client Information <!--a href="clients.php" class="dTableButton btn btn-xs btn-success float_r">Back To Client List</a-->
+					Edit Client
 				</div>
 			</div>
-			<div class="clearfix">
-			</div>
-            <div id="errorMSG" class="alert" style="display: none"></div>
+			<div class="clearfix"></div>
+            
+            <!-- Universal error or success message. Called with errorMSG(message, type) -->
+            <div id="">
+                <div id="errorWrapper" class="alert alert-dismissable" style="display: none">
+                    <button id="closeError" type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    <div id="errorMSG"></div>
+                </div>
+            </div>
 		</div>
 		<!-- CONTENT STARTS HERE-->
 		<div class="content">

@@ -1,4 +1,19 @@
 <?php
+
+//Used to log php info to the javascript console.
+function consoleLog($msg){
+    echo "<script>console.log('$msg');</script>";
+}
+
+//Redirect to different page.
+function Redirect($url, $permanent = false)
+{
+    if (headers_sent() === false) {
+    	header('Location: ' . $url, true, ($permanent === true) ? 301 : 302);
+    }
+    exit();
+}
+
 function getClient($id, $count){
     include('../connection.php');
 	if($count == "all"){

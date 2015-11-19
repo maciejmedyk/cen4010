@@ -47,6 +47,7 @@ body {
   color: #999999;
   background-color: #f0f2f5;
   height: 100%;
+  padding-top: 50px;
 }
 input,
 button,
@@ -137,7 +138,6 @@ hr {
   }
 }
 #topbar {
-  background: #ffffff;
   width: 100%;
   height: 50px;
 }
@@ -167,6 +167,14 @@ hr {
   font-family: 'Lato', sans-serif;
   font-size: 30px;
 }
+
+#logoText{
+   font-size: 30px; 
+      display: block;
+  font-weight: lighter;
+  font-family: 'Lato', sans-serif;
+}
+
 #topbar .topbar-main {
   display: block;
   height: 100%;
@@ -815,6 +823,8 @@ hr {
 }
 .navbar-static-side {
   transition: 0.3s all linear;
+    margin-top: 50px;
+    min-height: 100%;
 }
 .navbar-static-side ul li {
   border-bottom: 1px solid #484848;
@@ -2278,6 +2288,14 @@ ul.nav.nav-tabs li.active a {
   margin-top: 5px;
 }
 @media (max-width: 767px) {
+    body{
+        padding-top: 50px;
+        padding-left: 50px;
+    }
+    .menu-title{
+        display: none;
+    }
+    
   ul.timeline:before {
     left: 40px;
   }

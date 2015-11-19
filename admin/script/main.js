@@ -1,5 +1,11 @@
 $(document).ready(function() {
-   
+    
+/*$(window).resize(function(){
+	if ($(window).width() <= 700){	
+		$("#menu-toggle").click();
+	}	
+});*/
+    
     //
     // Search Function
     //

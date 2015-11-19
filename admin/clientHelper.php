@@ -1,5 +1,6 @@
 <?php
 include_once("session.php"); 
+
 if($_POST["action"] == "clientEdit"){
 	editClient($_POST['cID']);
 }
@@ -41,7 +42,7 @@ if($_POST["action"] == "submitClientEdit"){
 	}
 	$json = "";
 	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA");
-	//echo $json;
+
 	if($json != ""){
 		$json = json_decode($json);
 
@@ -94,9 +95,12 @@ if($_POST["action"] == "submitClientEdit"){
                 FRList = '$FRList',
 				WHERE cID='$cID'";
     $db->query($query);
-	echo $FRList . $FAList . $delNotes;
-	echo "Client info for ".$fName." ".$lName." has been updated. ";
-	
+    
+    
+    $_SESSION['errorMSG'] = "Client info for ".$fName." ".$lName." has been successfully updated.";
+    $_SESSION['errorType'] = 1;
+    
+    echo "<script> window.location.replace('reports.php') </script>";
 }
 
 
