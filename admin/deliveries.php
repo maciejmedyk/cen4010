@@ -1,9 +1,9 @@
 <?php
 	include_once("session.php"); 
 	include_once("header.php");
-	$page = "Clients";
-    $pageTitle = "Edit Client";
-    $search = false;
+	$page = "Deliveries";
+    $pageTitle = "Delivery Scheduling";
+    $search = true;
 ?>
 <body>
 <?php include("menus.php"); ?>
@@ -32,38 +32,17 @@
         
         <!-- Main Content goes here -->
         <div class="container-fluid">
-            <div class="content">
-                <div class="tabContent" id="clients">
-                    <div class="container">
-                        <div id="displayData">
-                            <?php editClient($_GET['cID']);?>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+
+
+            
+            
+            
         </div>
         <!-- /.container-fluid -->
     </div>
     <!-- /#page-wrapper -->
     </div>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<?php include("footer.php");?>
-</body>
-</html>
-
-		
-		
-		
-
-<!--
-
-Tab with form to add clients below
-
--->
-
-
-		<!-- CONTENT ENDS HERE-->
-	</div>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>

@@ -3,6 +3,7 @@
 	include_once("header.php");
 	$page = "Reports";
     $pageTitle = "Reports";
+    $search = true;
 ?>
 <body>
 <?php include("menus.php"); ?>

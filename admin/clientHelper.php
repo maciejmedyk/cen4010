@@ -90,17 +90,19 @@ if($_POST["action"] == "submitClientEdit"){
 				cFoodAllergies ='$FA', 
 				cFoodRestrictions ='$FR', 
 				cDeliveryNotes ='$delNotes',
-				cActive = '$Active'
-                FAList = '$FAList',
-                FRList = '$FRList',
-				WHERE cID='$cID'";
-    $db->query($query);
+				cActive ='$Active',
+                FAList ='$FAList',
+                FRList ='$FRList'
+				WHERE cID ='$cID';
+                ";
     
-    
-    $_SESSION['errorMSG'] = "Client info for ".$fName." ".$lName." has been successfully updated.";
-    $_SESSION['errorType'] = 1;
-    
-    echo "<script> window.location.replace('reports.php') </script>";
+    if (!$db->query($query)) {
+        print_r($db->error_list);
+    }else{
+        $_SESSION['errorMSG'] = "Client info for ".$fName." ".$lName." has been successfully updated.";
+        $_SESSION['errorType'] = 1;
+        echo "<script> window.location.replace('clients.php') </script>";
+    }
 }
 
 

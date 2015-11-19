@@ -1,22 +1,12 @@
 <?php
 	include_once("session.php"); 
 	include_once("header.php");
-	$page = "Account";
-    $pageTitle = "Administrator Accounts";
+	$page = "Accounts";
+    $pageTitle = "Administration Accounts";
+    $search = true;
 ?>
 <body>
-    <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-fixed-top">
-        <?php include("logo.php");?>
-        <div class="topbar-main">
-            <a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
-
-            <?php include("info.php");?>
-        </div>
-    
-	<div>
-		<?php include("menu.php"); ?>
-	</div>
-    </nav>
+<?php include("menus.php"); ?>
 	<div id="page-wrapper">
         
     <!-- 

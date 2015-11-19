@@ -2,40 +2,39 @@
 	include_once("session.php"); 
 	include_once("header.php");
 	$page = "Drivers";
-	?>
+    $pageTitle = "Drivers";
+    $search = true;
+?>
 <body>
-	<div id="header-topbar-option-demo" class="page-header-topbar">
-		<nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
-			<?php include("logo.php");?>
-			<div class="topbar-main">
-				<a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
-				<form id="topbar-search" action="" method="" class="hidden-sm hidden-xs" _lpchecked="1">
-					<div class="input-icon right text-white">
-						<a href="#"><i class="fa fa-search"></i></a>
-						<input id="search" type="text" placeholder="Search here..." class="form-control text-white">
-						<input id="searchIN" type="hidden" value="driver">
-					</div>
-			
-				</form>
-				<?php include("info.php");?>
-			</div>
-		</nav>
-	</div>
-	<div>
-		<?php include("menu.php"); ?>
-	</div>
+<body>
+<?php include("menus.php"); ?>
 	<div id="page-wrapper">
+        
+    <!-- 
+        Page Title
+    -->
 		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
 			<div class="page-header pull-left">
 				<div class="page-title">
-					Drivers
+					<?php echo $pageTitle ?>
 				</div>
 			</div>
-			<div class="clearfix">
-			</div>
+			<div class="clearfix"></div>
+            
+            <!-- Universal error or success message. Called with errorMSG(message, type) -->
+            <div id="">
+                <div id="errorWrapper" class="alert alert-dismissable" style="display: none">
+                    <button id="closeError" type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                    <div id="errorMSG"></div>
+                </div>
+            </div>
 		</div>
-		<!-- CONTENT STARTS HERE-->
-		<div class="content">
+        
+        
+        <!-- Main Content goes here -->
+        <div class="container-fluid">
+
+            		<div class="content">
             <form>
                 <fieldset>
                     <legend>Filters:</legend>
@@ -151,6 +150,22 @@
 				<!--<div id="errorMSG"></div>-->
 			</div>
 		</div>
+
+
+            
+            
+            
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+    </div>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<?php include("footer.php");?>
+</body>
+</html>
+		<!-- CONTENT STARTS HERE-->
+
 
 			<div>
 			
