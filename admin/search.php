@@ -23,9 +23,9 @@ if($where == "Clients"){
 	}
 } elseif($where == "Reports"){
     if(strlen($search) == 0){
-		//Get all data here
+		getEmergencyTable(0, "all");
 	} else {
-		//Get specific data here.	
+		searchEmergencies($search);	
 	}
 } elseif($where == "Accounts"){
     if(strlen($search) == 0){

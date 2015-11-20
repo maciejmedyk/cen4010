@@ -38,12 +38,18 @@
                 <li><a href="#eventsTab">Event Log</a></li>
             </ul>
             <div class="tabContent" id="alertsTab">
-                <?php getEmergencyTable(0, "all"); ?>
+                <div id="emergencyMap"></div>
+                <div id="displayData">
+                    <?php getEmergencyTable(0, "all"); ?>
+                    
+                </div>
             </div>
+            
             <div class="tabContent" id="notesTab">
-
+                <?php getNotesTable(0, "all"); ?>
             </div>
             <div class="tabContent" id="eventsTab">
+                
 
             </div>
 
@@ -58,4 +64,8 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>
+
+<script src="script/eMapFunctions.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
 </html>

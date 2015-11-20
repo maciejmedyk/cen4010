@@ -1,3 +1,14 @@
+#emergencyMap {
+    height: 465px;
+    width: 100%;
+    margin: 7px;
+}
+
+.tableScrollable {
+  overflow-y: auto;      
+  max-height: 300px;
+}
+
 .icon-spin {
   display: inline-block;
   -moz-animation: spin 2s infinite linear;

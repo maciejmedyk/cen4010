@@ -198,6 +198,9 @@ function searchDeliveries($string){
 
 }
 
+function searchEmergencies($search){
+    getEmergencyTable($search, "search");
+}
 
 function actionClient($clientID, $step){
 	include('../connection.php');
@@ -683,15 +686,17 @@ function getEmergencyTable($id, $count){
         $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
                 FROM emergency, drivers
                 WHERE emergency.dID = drivers.dID
-                ORDER BY eDate DESC";
+                ORDER BY eDate DESC;";
     }elseif($count == "search"){
-        $query = "SELECT *
-            FROM emergency
-            WHERE eID LIKE '%$id%' OR eDate LIKE '%$id%' OR dID LIKE '%$id%'
-            ORDER BY eDate DESC";
+        //This query needs fixing.
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+            FROM emergency, drivers
+            WHERE eID LIKE '%$id%' OR eDate LIKE '%$id%' OR dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%'
+            ORDER BY eDate DESC;";
     }else{
-        $query = "SELECT * 
-                FROM emergency
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+                FROM emergency, drivers
+                WHERE emergency.dID = drivers.dID
                 ORDER BY eDate DESC
                 LIMIT ".$count.";";
     }
@@ -703,7 +708,7 @@ function getEmergencyTable($id, $count){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no emergency events posted.</div>";
         if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no events that match your query.</div>";
     } else {
-        echo "<table id='emergencyTable' class='alignleft table table-hover'>
+        echo "<div class='tableScrollable'><table id='emergencyTable' class='alignleft table table-hover'>
         <thead class='tableHead'>
         <tr>
             <th>ID</th>
@@ -719,14 +724,20 @@ function getEmergencyTable($id, $count){
         while ($info = $sql->fetch_array()) {
             
             if($info['eCoordinates'] != ""){
-                $json = "";
+                
+                //This converts the coordinates to an address which can be displayed in the chart
+                /*$json = "";
                 $coords = str_replace(' ', '', $info['eCoordinates']);
                 $search =  "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$coords; 
                 $json = file_get_contents($search);
                 if($json != ""){
                     $json = json_decode($json);
                     $location = $json->{'results'}[1]->{'formatted_address'};
-                }
+                }*/
+                
+                $array = explode(' ', $info['eCoordinates'], 2);
+                $location = "{lat: ".$array[0]." lng: ".$array[1]."}";
+                
             }else{
                 $location = "";
             }
@@ -736,14 +747,73 @@ function getEmergencyTable($id, $count){
                 <td>" . $info['eID'] . "</td>
                 <td>" . $info['eDate'] . "</td>
                 <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
-                <td><a href=# >" . $location . "</a></td>
+                <td><a href=# onclick='replaceMarker($location)'  >".(($location != '')? 'Show on map' : 'No Data')."</a></td>
                 <td>" . $info['eResolved'] . "</td>
                 <td>Notes?</td>
+            </tr>";
+        }
+        echo "</tbody></table></div>";
+    }
+}
+
+//
+//Gets a table of all the notes attached to clients.
+//
+function getNotesTable($id, $count){
+        include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT notes.*, clients.cFirstName, clients.cLastName
+                FROM notes, clients
+                WHERE notes.cID = clients.cID
+                ORDER BY nDate DESC";
+    }elseif($count == "search"){
+        //This query needs fixing.
+        $query = "SELECT notes.*, clients.cFirstName, clients.cLastName
+            FROM notes, clients
+            WHERE notes.nID LIKE '%$id%' OR nDate LIKE '%$id%' OR cFirstName LIKE '%$id%' OR cLastName LIKE '%$id%'
+            ORDER BY nDate DESC";
+    }else{
+        $query = "SELECT notes.*, clients.cFirstName, clients.cLastName
+                FROM notes, clients
+                WHERE notes.cID = clients.cID
+                ORDER BY nDate DESC
+                LIMIT ".$count.";";
+    }
+
+    $sql = $db->query($query);
+    $row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        print_r( $db->error_list );
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no notes posted.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no notes that match your query.</div>";
+    } else {
+        echo "<table id='notesTable' class='alignleft table table-hover'>
+        <thead class='tableHead'>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Note</th>
+            <th>Urgent</th>
+        </tr>
+        </thead>
+        <tbody height='40px'>";
+
+        while ($info = $sql->fetch_array()) {
+            
+            echo "<tr style='" . (($info['nUrgent'] == 1)? 'background-color: #FFEAEA;' : '' ) . "' data=nID'" . $info['nID'] . "' data-cID='" . $info['cID'] . "'>
+                </td>
+                <td>" . $info['nID'] . "</td>
+                <td>" . $info['nDate'] . "</td>
+                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . $info['nComment'] . "</td>
+                <td>" . (($info['nUrgent'] == 1)? 'true' : 'false') . "</td>
             </tr>";
         }
         echo "</tbody></table>";
     }
 }
+
 function gUsername($name, $last){
 	include('../connection.php');
 	if($last == "recursive"){
