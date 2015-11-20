@@ -1,5 +1,4 @@
 <?php
-
 //Used to log php info to the javascript console.
 function consoleLog($msg){
     echo "<script>console.log('$msg');</script>";
@@ -175,6 +174,9 @@ function isLocked($dID){
 	}
 }
 
+//
+//Search functions just forward the request in the appropriate manner.
+//
 function searchClient($name){
     getClient($name, "search");
 }
@@ -186,6 +188,16 @@ function searchAdmin($name){
 function searchDriver($name){
     getDrivers($name, "search");
 }
+
+function searchReports($string){
+    getReportsTable($string, "search");
+}
+
+function searchDeliveries($string){
+    getDeliveriesTable($string, "search");
+
+}
+
 
 function actionClient($clientID, $step){
 	include('../connection.php');
@@ -573,7 +585,7 @@ function getAdminForm($adminID){
                     </form></div>
         ';
 
-} //End getAdminForm()
+}
 
 //
 //Gets the administrators table populated with data.
@@ -648,6 +660,90 @@ function getAdminTable($id, $count){
     }
 }
 
+//
+//Gets the settings form.
+//
+function getSettingsForm(){
+    
+}
+
+//
+//
+//
+function getClientNotesTable($id, $count){
+    
+}
+
+//
+//Gets a table of all the emergency notifications sent to the server.
+//
+function getEmergencyTable($id, $count){
+        include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+                FROM emergency, drivers
+                WHERE emergency.dID = drivers.dID
+                ORDER BY eDate DESC";
+    }elseif($count == "search"){
+        $query = "SELECT *
+            FROM emergency
+            WHERE eID LIKE '%$id%' OR eDate LIKE '%$id%' OR dID LIKE '%$id%'
+            ORDER BY eDate DESC";
+    }else{
+        $query = "SELECT * 
+                FROM emergency
+                ORDER BY eDate DESC
+                LIMIT ".$count.";";
+    }
+
+    $sql = $db->query($query);
+    $row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        print_r( $db->error_list );
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no emergency events posted.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no events that match your query.</div>";
+    } else {
+        echo "<table id='emergencyTable' class='alignleft table table-hover'>
+        <thead class='tableHead'>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Submitted By</th>
+            <th>Location</th>
+            <th>Resolved</th>
+            <th>Note</th>
+        </tr>
+        </thead>
+        <tbody>";
+
+        while ($info = $sql->fetch_array()) {
+            
+            if($info['eCoordinates'] != ""){
+                $json = "";
+                $coords = str_replace(' ', '', $info['eCoordinates']);
+                $search =  "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$coords; 
+                $json = file_get_contents($search);
+                if($json != ""){
+                    $json = json_decode($json);
+                    $location = $json->{'results'}[1]->{'formatted_address'};
+                }
+            }else{
+                $location = "";
+            }
+            
+            echo "<tr data-coords='" . $info['eCoordinates'] . "' data-eID='" . $info['eID'] . "'>
+                </td>
+                <td>" . $info['eID'] . "</td>
+                <td>" . $info['eDate'] . "</td>
+                <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
+                <td><a href=# >" . $location . "</a></td>
+                <td>" . $info['eResolved'] . "</td>
+                <td>Notes?</td>
+            </tr>";
+        }
+        echo "</tbody></table>";
+    }
+}
 function gUsername($name, $last){
 	include('../connection.php');
 	if($last == "recursive"){

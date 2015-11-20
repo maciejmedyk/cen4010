@@ -9,8 +9,8 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 
-    <script src="script/bootstrap.min.js"></script>
     <script src="script/jquery-1.10.2.min.js"></script>
+    <script src="script/bootstrap.min.js"></script>
     <!--<script src="script/jquery-ui.js"></script>
     <script src="script/jquery-migrate-1.2.1.min.js"></script>
     <script src="script/bootstrap-hover-dropdown.js"></script>

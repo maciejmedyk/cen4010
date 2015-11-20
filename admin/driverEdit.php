@@ -1,9 +1,9 @@
 <?php
 	include_once("session.php"); 
 	include_once("header.php");
-	$page = "Reports";
-    $pageTitle = "Reports";
-    $search = true;
+	$page = "Drivers";
+    $pageTitle = "Edit Driver";
+    $search = false;
 ?>
 <body>
 <?php include("menus.php"); ?>
@@ -31,7 +31,7 @@
         
         
         <!-- Main Content goes here -->
-        <div class="container-fluid">
+        <div class="container">
             <div class="content">
                 <div class="tabContent" id="clients">
                     <div id="displayData">

@@ -38,7 +38,7 @@
                 <li><a href="#eventsTab">Event Log</a></li>
             </ul>
             <div class="tabContent" id="alertsTab">
-
+                <?php getEmergencyTable(0, "all"); ?>
             </div>
             <div class="tabContent" id="notesTab">
 
