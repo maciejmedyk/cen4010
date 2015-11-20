@@ -29,9 +29,9 @@ if($where == "Clients"){
 	}
 } elseif($where == "Accounts"){
     if(strlen($search) == 0){
-		//Get all data here
+		getAdminTable(0, "all");
 	} else {
-		//Get specific data here.	
+		searchAdmin($search);
 	}
 }
 ?>

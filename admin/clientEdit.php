@@ -50,21 +50,3 @@
 	<?php include("footer.php");?>
 </body>
 </html>
-
-		
-		
-		
-
-<!--
-
-Tab with form to add clients below
-
--->
-
-
-		<!-- CONTENT ENDS HERE-->
-	</div>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<?php include("footer.php");?>
-</body>
-</html>

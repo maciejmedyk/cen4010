@@ -2,8 +2,8 @@
 	include_once("session.php"); 
 	include_once("header.php");
 	$page = "Accounts";
-    $pageTitle = "Administration Accounts";
-    $search = true;
+    $pageTitle = "Edit Administrator";
+    $search = false;
 ?>
 <body>
 <?php include("menus.php"); ?>
@@ -32,41 +32,15 @@
         
         <!-- Main Content goes here -->
         <div class="container-fluid">
-
-            <ul id="tabs">
-                <li><a href="#adminListTab" class="selected">Administrators</a></li>
-                <li><a href="#addAdminTab">Add Admin</a></li>
-                <li><a href="#settingsTab">Settings</a></li>
-            </ul>
-            
-            
-            <!--
-                List of administrators.
-            -->
-            <div class="tabContent" id="adminListTab">
-                <div id="displayData">
-                    <?php getAdminTable(0, "all"); ?>
+            <div class="content">
+                <div class="tabContent" id="clients">
+                    <div class="container">
+                        <div id="displayData">
+                            <?php getAdminForm($_GET['sID']);?>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            
-            <!--
-                Add an administrator tab.
-            -->
-            <div class="tabContent hide" id="addAdminTab">
-                    <?php getAdminForm(-1); ?>
-            </div>
-            
-            
-            <!--
-                MOW Tracker settings page.
-            -->
-            <div class="tabContent hide" id="settingsTab">
-
-            </div>
-
-
-
         </div>
         <!-- /.container-fluid -->
     </div>

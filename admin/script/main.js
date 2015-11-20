@@ -1,11 +1,5 @@
 $(document).ready(function() {
-    
-/*$(window).resize(function(){
-	if ($(window).width() <= 700){	
-		$("#menu-toggle").click();
-	}	
-});*/
-    
+        
     //
     // Search Function
     //
@@ -29,7 +23,6 @@ $(document).ready(function() {
         $("#errorWrapper").fadeOut();
         return false;
     });
-    
         
     //
     //Filters the list to show only the active elements.
@@ -113,7 +106,7 @@ function editClient(cID){
 		});*/
 }
 
-// Get client edit Form
+// Get driver edit Form
 function editDriver(cID){
 	$(".mask").css({"display":"block"});
 	
@@ -365,10 +358,7 @@ $(document).on('click','#editDriver',function(){
 					schedule: schedule,
 					delNotes: delNotes }
 		}).done(function( page ) {
-			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
-			//errorMSG(page, 0);
-            errorMSG("Success!, now redirecting you to the drivers list.",0);
-            window.location.replace("drivers.php");
+			errorMSG(page, 0);
 		});
 		
 		
@@ -383,7 +373,52 @@ $(document).on('click','#editDriver',function(){
 		
 		errorMSG(MSG, 0);
 	} 
-	
+
+});
+
+/*Submit New Administrator Form*/
+$(document).on('click','#addAdminButton',function(){
+	var sID = $("#sID").val();
+	var fName = $("#fName").val();
+	var lName = $("#lName").val();
+	var email = $("#email").val();
+	var pwd = $("#pwd").val();
+	var secQuestion = $("#securityQuestion").val();
+	var secAnswer = $("#securityAnswer").val();
+    var active = $("#activeCheck").is(':checked');
+	var sa = $("#superAdminCheck").is(':checked');
+	var MSG = "";
+	    
+	if(textValidate(fName) && textValidate(lName)){
+		
+		$.ajax({
+			method: "POST",
+			url: "accountHelper.php",
+			data: { action:"submitAdmin",
+					sID: sID, 
+					fName: fName, 
+					lName: lName, 
+					email: email, 
+					pwd: pwd, 
+					secQuestion: secQuestion, 
+					secAnswer: secAnswer,
+                    type: sa,
+                    active: active
+                  }
+		}).done(function( page ) {
+            //If the PHP page returns an error without redirect, display it.
+            errorMSG(page, 0);
+		});
+		
+	} else {
+		MSG += "Please Fill in all required fields.</br>";
+		if(!emailValidate(email)){
+			MSG += "Please Enter a Valid Email.</br>";
+		}
+        
+		errorMSG(MSG, 0);
+	} 
+
 });
 
 function changePassword(dID){

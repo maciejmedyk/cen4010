@@ -60,9 +60,9 @@
 
                     </li>
 
-                    <li <?php if($page === 'Account') echo 'class="active"'?> ><a href="account.php"><i class="fa fa-th-list fa-fw">
+                    <li <?php if($page === 'Accounts') echo 'class="active"'?> ><a href="account.php"><i class="fa fa-th-list fa-fw">
                         <div class="icon-bg bg-blue"></div>
-                    </i><span class="menu-title">Account</span></a>
+                    </i><span class="menu-title">Accounts</span></a>
 
                     </li>
 

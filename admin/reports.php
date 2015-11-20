@@ -32,8 +32,20 @@
         
         <!-- Main Content goes here -->
         <div class="container-fluid">
+            <ul id="tabs">
+                <li><a href="#alertsTab" class="selected">Emergency Alerts</a></li>
+                <li><a href="#notesTab">Client Notes</a></li>
+                <li><a href="#eventsTab">Event Log</a></li>
+            </ul>
+            <div class="tabContent" id="alertsTab">
 
+            </div>
+            <div class="tabContent" id="notesTab">
 
+            </div>
+            <div class="tabContent" id="eventsTab">
+
+            </div>
 
             
             
