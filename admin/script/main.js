@@ -20,6 +20,15 @@ function errorMSG(errorString, errorType){
 	$( "#errorMSG" ).html( errorString );
 }
 
+function loading(msg){
+	$(".loadingMask").css({"display":"block"});
+	$( "#lMSG" ).html( msg );
+}
+
+function endLoading(){
+	$(".loadingMask").css({"display":"none"});
+}
+
 $("#driverForm").click(function(){
 	var userName = $("#username").val();
 	var password = $("#password").val();
@@ -538,6 +547,110 @@ function getHash( url ) {
   var hashPos = url.lastIndexOf ( '#' );
   return url.substring( hashPos + 1 );
 }
+
+
+/*
+################################################
+############# DELIVERIES FUNCTIONS #############
+################################################
+*/
+
+var stopCounter = 0;
+var dateControl = "today";
+
+$("#delYesterday").click(function(){
+	deliveryDay('yesterday');
+	dateControl = "yesterday";
+	stopCounter = 1;
+});
+
+$("#delToday").click(function(){
+	deliveryDay('today');
+	dateControl = "today";
+	stopCounter = 0;
+});
+
+
+$("#delTomorrow").click(function(){
+	deliveryDay('tomorrow');
+	dateControl = "tomorrow";
+	stopCounter = 1;
+});
+
+function deliveryDay(showDay){
+	console.log(showDay);
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"changeDate", showDay:showDay}
+		}).done(function( page ) {
+			$("#displayData").html(page);
+		});
+}
+
+function deliveryRefresh(){
+	if(stopCounter == 0){
+		deliveryDay('today')
+		console.log("Reloaded");
+	}
+}
+
+
+
+$("#genCopy").click(function(){
+	console.log("init Load");
+	loading("This may take a few minutes.</br>Please don't reload the page!");
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"genCopy"}
+		}).done(function( page ) {
+			endLoading();
+			errorMSG(page, 1);
+		});
+});
+
+$("#genNew").click(function(){
+	console.log("init Load");
+	loading("This may take a few minutes.</br>Please don't reload the page!");
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"genNew"}
+		}).done(function( page ) {
+			endLoading();
+			errorMSG(page, 1);
+		});
+});
+
+
+$("#genToday").click(function(){
+	console.log("init Load");
+	loading("This may take a few minutes.</br>Please don't reload the page!");
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"genToday"}
+		}).done(function( page ) {
+			endLoading();
+			errorMSG(page, 1);
+		});
+});
+
+function changeDriver(rID, dID){
+
+	console.log("rID "+ rID +" dID "+dID);
+
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"changeDriver",rID:rID,dID:dID}
+		}).done(function( page ) {
+			errorMSG(page, 1);
+			deliveryDay(dateControl);
+		});
+}
+
 
 
     

@@ -592,46 +592,106 @@ function getTodaysDay($d){
 	return $dayW;
 }
 
-function countDrivers(){
-	
+// FIX SUNDAY BUG
+function getWeek(){
+	$d = date("w");
+	$w = date('W');
+	if($d == 0){
+		$w++;
+	}
+	return $w;
 }
-function countClients(){
-	
-}
-function populateRoutes(){
+
+function copyLastWeek(){
+	$time_pre = microtime(true);
 	include('../connection.php');
 	set_time_limit(120);
-	$thisWeek = date('W');
+	$lastWeek = getWeek()-1;
+	$thisWeek = getWeek();
+	$query = "SELECT
+			  routes.rID,
+			  routes.rWeek,
+			  routes.dID,
+			  routes.cID,
+			  routes.rDay
+			FROM routes
+			  INNER JOIN clients
+			WHERE routes.cID = clients.cID
+			AND clients.cActive = 1
+			AND routes.rWeek = $lastWeek";
+	//echo $query;
+	$sql = $db->query($query);
+	 while ($info = $sql->fetch_array()) {
+		$cID = $info['cID'];
+		$dID = $info['dID'];
+		// Check if client is in for this week.
+		if(!inForThisWeek($cID,$thisWeek,$db)){
+			// Today is
+			for($i = 1; $i <= 5; $i++){
+				$delDay = date('Y/m/d',time()+( $i - date('w'))*24*3600);
+				$rDay = getTodaysDay($i);
+				
+				//echo $delDay.' '.$info['cID'].' '.$rDay.' '.$thisWeek.'</br>';
+				
+					$unixDate = unixTime($delDay);
+					$query = "INSERT INTO routes (cID,dID,rDate,unixDate,rDay,rWeek) 
+								VALUES ('$cID','$dID', '$delDay','$unixDate', '$rDay', '$thisWeek')";
+					//echo $query;
+					$db->query($query);
+				
+			}
+		}
+	}
+	$time_post = microtime(true);
+	$exec_time = $time_post - $time_pre;
+	
+	echo "Last weeks routes has been copyed: ".format_period($exec_time)."</br>";
+}
+
+function populateRoutes(){
+	$time_pre = microtime(true);
+	include('../connection.php');
+	set_time_limit(120);
+	$reportS = 0;
+	$reportW = 0;
+	$thisWeek = getWeek();
 	$query = "SELECT cID FROM clients WHERE cActive = 1";
 	$sql = $db->query($query);
 	 while ($info = $sql->fetch_array()) {
 		$cID = $info['cID'];
 		// Check if client is in for this week.
-		if(!inForThisWeek($cID, $thisWeek,$db)){
+		if(!inForThisWeek($cID,$thisWeek,$db)){
 			// Today is
 			for($i = 1; $i <= 5; $i++){
-				$delDay = date('Y-m-d',time()+( $i - date('w'))*24*3600);
+				$delDay = date('Y/m/d',time()+( $i - date('w'))*24*3600);
 				$rDay = getTodaysDay($i);
 				
 				//echo $delDay.' '.$info['cID'].' '.$rDay.' '.$thisWeek.'</br>';
 				
-				
-					$query = "INSERT INTO routes (cID,rDate,rDay,rWeek) 
-								VALUES ('$cID', '$delDay', '$rDay', '$thisWeek')";
+				$unixDate = unixTime($delDay);
+			
+					$query = "INSERT INTO routes (cID,rDate,unixDate,rDay,rWeek) 
+								VALUES ('$cID', '$delDay','$unixDate', '$rDay', '$thisWeek')";
+					//echo $query;
 					$db->query($query);
+					$reportS++;
 				
 			}
 		} else {
-			echo $cID. " Client in for this week</br>";
+			$reportW++;
 		}
 		
 	}
-	echo "Done";
-	
+
+	$time_post = microtime(true);
+	$exec_time = $time_post - $time_pre;
+	echo "$reportS Clients were populated -- $reportW Clients were already  populated for this week</br>";
+	echo "Routes has been populated: ".format_period($exec_time)."</br>";
 	
 	
 }
-function insertDriver(){
+function insertDriver($date){
+	$time_pre = microtime(true);
 	include('../connection.php');
 	set_time_limit(120);
 	$query = "SELECT dID, lat, lng,dSchedule FROM drivers WHERE dActive = 1";
@@ -639,8 +699,8 @@ function insertDriver(){
 	while( $dInfo = $sql->fetch_array()){
 		$driver_array[] = $dInfo;
 	}
-	//print_r($driver_array);
-	$rQuery = "SELECT
+	if($date == 0){
+		$rQuery = "SELECT
 			  routes.rID,
 			  routes.cID,
 			  routes.rDay,
@@ -649,6 +709,20 @@ function insertDriver(){
 			FROM routes
 			  INNER JOIN clients
 			WHERE routes.cID = clients.cID";
+	} else {
+		$todayUnixDate = mktime(6, 0, 0, date('n'), date('j'), date('Y'));
+		//echo $todayUnixDate;
+		$rQuery = "SELECT
+			  routes.rID,
+			  routes.cID,
+			  routes.rDay,
+			  clients.cLng,
+			  clients.cLat
+			FROM routes
+			  INNER JOIN clients
+			WHERE routes.unixDate = $todayUnixDate AND  routes.cID = clients.cID";
+	}
+	//echo $rQuery;
 	$route = $db->query($rQuery);
 	while($cInfo = $route->fetch_array()){
 		//echo "----------------------------------</br>";
@@ -661,6 +735,10 @@ function insertDriver(){
 		$db->query($updateQ);
 		//echo "----------------------------------</br>";
 	}
+	$time_post = microtime(true);
+	$exec_time = $time_post - $time_pre;
+	
+	echo "Drivers has been assigned: ".format_period($exec_time)."</br>";
 }
 
 function closestDriver($cLat,$cLng, $dDay, &$dArray){
@@ -716,6 +794,7 @@ function inForThisWeek($cID, $thisWeek,$db){
 
 	$query = "SELECT * FROM routes where cID = $cID AND rWeek = '$thisWeek'";
 
+
 	$sql = $db->query($query);
 	$iWeek = $sql->num_rows;
 
@@ -730,12 +809,128 @@ function initRoutes(){
 	// Populate the routes DB
 	populateRoutes();
 	// Select Driver
-	insertDriver();
+	insertDriver(0);
 	$time_post = microtime(true);
 	$exec_time = $time_post - $time_pre;
 	
-	echo "DONE: ".$exec_time;
+	echo "New Schedules as Been Created: ".format_period($exec_time)."</br>";
 	
 	
+}
+
+
+function getDeliverys($weekNumber, $dDay,$d){
+	include('../connection.php');
+	$listOfAllDrivers = genDList($db);
+	$rQuery = "SELECT
+				  clients.cFirstName,
+				  clients.cLastName,
+				  drivers.dID,
+				  drivers.dFirstName,
+				  drivers.dLastName,
+				  drivers.dPhoneNumber,
+				  routes.rID,
+				  routes.rDate,
+				  routes.rSuccess,
+				  routes.rReschedule
+				FROM routes
+				  INNER JOIN clients
+				  INNER JOIN drivers
+				WHERE clients.cID = routes.cID
+				AND drivers.dID = routes.dID
+				AND routes.rWeek = $weekNumber
+				AND routes.rDay = '$dDay'";
+	//echo $rQuery;
+	$route = $db->query($rQuery);
+	$delCount = $route->num_rows;
+	echo '<div>'.date("F j, Y", time() +$d).'</div>';
+	echo "<table class='alignleft table table-hover'>
+            <thead class='tableHead'>
+            <tr>
+				<th>Driver</th>
+				<th>Driver Number</th>
+				<th>Client</th>
+				<th>Status</th>
+            </tr>
+            </thead>
+            <tbody>";
+
+	if($delCount == 0){
+		echo "<tr>
+				<th>No delivery today!</th>
+			  </tr>";
+	} else {
+		while($dInfo = $route->fetch_array()){
+			if($dInfo['rSuccess'] == 1){
+				$status ="Delivered";
+				#$action = "Deactivate";
+			} else {
+				$status ="Enroute";
+				#$action = "Activate";
+			}
+			$rID = $dInfo['rID'];
+			$dID = $dInfo['dID'];
+			$clientName = $dInfo['cLastName'].' '.$dInfo['cFirstName'];
+			$driverName = $dInfo['dLastName'].' '.$dInfo['dFirstName'];
+			$driverNumber = $dInfo['dPhoneNumber'];
+			
+			/*if($dDay == getTodaysDay(date('w'))){
+				$selectD = "<select onchange='changeDriver($rID,this.options[this.selectedIndex].value)'>
+							<option value='$dID'>$driverName</option>				
+							$listOfAllDrivers
+							</select>";
+			} else {
+				$selectD = $driverName;
+			}*/
+			
+			$selectD = "<select onchange='changeDriver($rID,this.options[this.selectedIndex].value)'>
+							<option value='$dID'>$driverName</option>				
+							$listOfAllDrivers
+							</select>";
+			
+			echo "<tr>
+					<td>
+					$selectD
+					</td>
+					<td>$driverNumber</td>
+					<td>$clientName</td>
+					<td>$status</td>
+				</tr>";
+		}
+	}
+	echo "</tbody></table>";
+
+}
+
+function genDList($db){
+	
+	$query = "SELECT dID,dLastName,dFirstName FROM drivers WHERE dActive = 1 ORDER BY dLastName ASC";
+
+    $sql = $db->query($query);
+    $list = '';
+    while ($info = $sql->fetch_array()) {
+		$dID = $info['dID'];
+		$driverName = $info['dLastName'].' '.$info['dFirstName'];
+		$list .= '<option value="'.$dID.'">'.$driverName.'</option>';
+	}
+	return $list;
+}
+
+function rangeWeek($datestr) {
+	$dt = strtotime($datestr);
+	echo date('N', $dt)==1 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('last monday', $dt));
+	echo " - ";
+	echo date('N', $dt)==7 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('next sunday', $dt));
+}
+
+function unixTime($thisDate){
+	//echo $thisDate."</br>";
+	$xDate = explode("/", $thisDate);
+	return mktime(6, 0, 0, $xDate[1], $xDate[2], $xDate[0]);
+}
+
+function format_period($seconds_input){
+  $hours = (int)($minutes = (int)($seconds = (int)($milliseconds = (int)($seconds_input * 1000)) / 1000) / 60) / 60;
+  return $hours.':'.($minutes%60).':'.($seconds%60).(($milliseconds===0)?'':'.'.rtrim($milliseconds%1000, '0'));
 }
 ?>

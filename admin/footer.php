@@ -1,10 +1,21 @@
 <div class="mask">	
 	<div class="popBody">
-	<div class="popClose">X</div>
-	<div class="popUp"></div>
-	<div id="errorMSG"></div>
+		<div class="popClose">X</div>
+		<div class="popUp"></div>
+		<div id="errorMSG"></div>
+	</div>
 </div>
-	
+
+<div class="loadingMask">
+	<div class="load-wrapp">
+		<div class="load-3">
+			<p>Loading</p>
+			<p id="lMSG"></p>
+			<div class="line"></div>
+			<div class="line"></div>
+			<div class="line"></div>
+		</div>
+	</div>
 </div>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
