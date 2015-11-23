@@ -30,7 +30,9 @@
 		<!-- CONTENT STARTS HERE-->
 		
 		
-		
+		<?php 
+			initRoutes();
+		?>
 		
 		
 		<!-- CONTENT ENDS HERE-->
