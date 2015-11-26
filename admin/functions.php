@@ -144,6 +144,105 @@ function getDrivers($id, $count){
     }
 }
 
+function getOverviewDrivers($id, $count){
+    include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT *
+                FROM drivers
+                ORDER BY dLastName ASC";
+    }elseif($count == "search"){
+        $query = "SELECT *
+            FROM drivers
+            WHERE dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%' OR dUsername LIKE '%$id%'
+            ORDER BY dLastName ASC";
+    }
+
+    $sql = $db->query($query);
+    $row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers in the database.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
+    } else {
+
+        $output = "";
+        while ($info = $sql->fetch_array()) {
+            
+            if($info['dActive'] == 1){
+                $output .= "
+                <div class='panel panel-default'>             
+                    <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . " " . $info['dFirstName'] . "</div>
+                    <div class='panel-body'>
+                        <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
+                            <div class='progress-bar-info progress-bar' role='progressbar' aria-valuenow='70' aria-valuemin='0' aria-valuemax='100' style='width:70%'>
+                                70%
+                            </div>
+                        </div>
+                        Phone: " . $info['dPhoneNumber'] . "<br />
+                        Status: En-Route
+                    </div>
+                </div>
+                ";
+            }
+        }
+        $output .= $output;
+        $output .= $output;
+        $output .= $output;
+        $output .= $output;
+        echo $output;
+    }
+}
+
+function getOverviewClient($id, $count){
+    include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes
+				FROM clients
+				ORDER BY cLastName ASC";
+    }elseif($count == "search"){
+        $query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes 
+            FROM clients
+            WHERE cFirstName LIKE '%$id%' OR cLastName LIKE '%$id%' OR cPhone LIKE '%$id%'
+            ORDER BY cLastName ASC";
+    }
+    
+	$sql = $db->query($query);
+	$row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
+        if ($count == "search")echo "<div class='alert alert-warning fade in msg'>There are currently no clients that match that query.</div>";
+    } else {
+        echo "Drivers Clients";
+        echo "<table class='alignleft table table-hover'>
+            <thead class='tableHead'>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>";
+
+
+        while ($info = $sql->fetch_array()) {
+            if($info['cActive'] == 1){
+                $active ="Active";
+                #$action = "Deactivate";
+            } else {
+                $active ="Inactive";
+                #$action = "Activate";
+            }
+            echo "<tr>
+                <td>" . $info['cID'] . "</td>
+                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . $info['cPhone'] . "</td>
+                <td>" . $active . "</td>
+            </tr>";
+        }
+        echo "</tbody></table>";
+    }
+}
+
 function isRetired($dID){
 	include('../connection.php');
 	$query = "SELECT *

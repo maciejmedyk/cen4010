@@ -7159,6 +7159,10 @@ div.tabContent.hide { display: none; }
     width: 100%;
 }
 
+#overviewMap {
+    margin-bottom: 5px;
+}
+
 .fullHeight {
     height: 100%;
 }

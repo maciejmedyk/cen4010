@@ -31,7 +31,7 @@
         
         
         <!-- Main Content goes here -->
-        <div style="height: 100%;" class="container-fluid">
+        <div style="" class="fullHeight container-fluid">
             <div class="tabWrapper">
                 <ul id="tabs">
                     <li><a href="#alertsTab" class="selected">Emergency Alerts</a></li>
