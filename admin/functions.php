@@ -12,6 +12,12 @@ function Redirect($url, $permanent = false){
     exit();
 }
 
+function formatPhone($number){
+    if ($number != ""){
+        return preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $number);
+    }
+}
+
 function getClient($id, $count){
     include('../connection.php');
 	if($count == "all"){
@@ -57,7 +63,7 @@ function getClient($id, $count){
                 <td><a href='clientEdit.php?cID=".$info['cID']."' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
                 <td>" . $info['cID'] . "</td>
                 <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
-                <td>" . $info['cPhone'] . "</td>
+                <td>" . formatPhone($info['cPhone']) . "</td>
                 <td>" . $active . "</td>
                 <td>" . $info['cDeliveryNotes'] . "</td>
             </tr>";
@@ -177,7 +183,7 @@ function getOverviewDrivers($id, $count){
                                 70%
                             </div>
                         </div>
-                        Phone: " . $info['dPhoneNumber'] . "<br />
+                        Phone: " . formatPhone($info['dPhoneNumber']) . "<br />
                         Status: En-Route
                     </div>
                 </div>
@@ -235,7 +241,7 @@ function getOverviewClient($id, $count){
             echo "<tr>
                 <td>" . $info['cID'] . "</td>
                 <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
-                <td>" . $info['cPhone'] . "</td>
+                <td>" . formatPhone($info['cPhone']) . "</td>
                 <td>" . $active . "</td>
             </tr>";
         }
@@ -1285,7 +1291,7 @@ function getDeliverys($weekNumber, $dDay,$d){
 			$dID = $dInfo['dID'];
 			$clientName = $dInfo['cLastName'].' '.$dInfo['cFirstName'];
 			$driverName = $dInfo['dLastName'].' '.$dInfo['dFirstName'];
-			$driverNumber = $dInfo['dPhoneNumber'];
+			$driverNumber = formatPhone($dInfo['dPhoneNumber']);
 			
 			/*if($dDay == getTodaysDay(date('w'))){
 				$selectD = "<select onchange='changeDriver($rID,this.options[this.selectedIndex].value)'>

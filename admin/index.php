@@ -36,11 +36,11 @@
                 <div class="fullHeight container-fluid tabContent" id="overviewTab">
                     
                     <div class="fullHeight row">
-                        <div class="col-sm-6 scrollable-y" id="displayData">
+                        <div class="col-sm-4 scrollable-y" id="displayData">
                             <?php getOverviewDrivers(0, "all"); ?>
                         </div>
 
-                        <div class="fullHeight col-sm-6">
+                        <div class="fullHeight col-sm-8">
 
                             <div style="height: 50%;" id="overviewMap"></div>
 
