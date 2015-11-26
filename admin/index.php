@@ -61,7 +61,7 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>
-<script src="script/eMapFunctions.js"></script>
+<script src="script/overviewMapFunctions.js"></script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
 </html>

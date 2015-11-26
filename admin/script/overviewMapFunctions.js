@@ -4,7 +4,7 @@ var marker;
 function initMap() {
   var location = {lat: 26.127516, lng: -80.202787};
 
-  map = new google.maps.Map(document.getElementById('emergencyMap'), {
+  map = new google.maps.Map(document.getElementById('overviewMap'), {
     zoom: 13,
     center: location
   });
