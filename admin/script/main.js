@@ -1,3 +1,20 @@
+/*/errorType = int 0 => fail, 1 => success
+function errorMSG(errorString, errorType){
+	console.log(errorString);
+	$(".mask").css({"display":"block"});
+	$( "#errorMSG" ).html( errorString );
+}
+
+function loading(msg){
+	$(".loadingMask").css({"display":"block"});
+	$( "#lMSG" ).html( msg );
+}
+
+function endLoading(){
+	$(".loadingMask").css({"display":"none"});
+}*/
+
+//Filters the drivers list according to if the driver is active.
 $(document).ready(function() {
         
     //
@@ -51,12 +68,11 @@ $(document).ready(function() {
                 if ( $(this).data('status') == "Retired"){
                     $(this).addClass( "hidden" );
                 }
-            });  
+            });
         }
     });
     
 }); //End Document ready.
-
 
 /*
 #########################################
@@ -199,15 +215,16 @@ $(document).on('click','#addClient',function(){
 	var FRList = $("#FRList").val();
 	var Active = 1;
 	var MSG = "";
-	
+	console.log("Makes it to validate");
 	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
-		
+		console.log("validation passes");
 		$.ajax({
 			method: "POST",
 			url: "clientHelper.php",
-			data: { action:"submitNewClient",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, FAList: FAList, FRList: FRList, Active:Active }
+			data: { action:"submitNewClient",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FAList: FAList, FRList: FRList, Active:Active }
 		}).done(function( page ) {
 			errorMSG(page, 1);
+            $('#editClientForm')[0].reset();
 		});
 		
 	} else {
@@ -442,7 +459,6 @@ $("#adminLog").click(function(){
 	$( ".driver_L" ).addClass( "disable" );
 });
 
-
 /*Close POPUP*/
 $(".popClose").click(function(){
 	$(".mask").css({"display":"none"});
@@ -582,6 +598,110 @@ function getHash( url ) {
   var hashPos = url.lastIndexOf ( '#' );
   return url.substring( hashPos + 1 );
 }
+
+
+/*
+################################################
+############# DELIVERIES FUNCTIONS #############
+################################################
+*/
+
+var stopCounter = 0;
+var dateControl = "today";
+
+$("#delYesterday").click(function(){
+	deliveryDay('yesterday');
+	dateControl = "yesterday";
+	stopCounter = 1;
+});
+
+$("#delToday").click(function(){
+	deliveryDay('today');
+	dateControl = "today";
+	stopCounter = 0;
+});
+
+
+$("#delTomorrow").click(function(){
+	deliveryDay('tomorrow');
+	dateControl = "tomorrow";
+	stopCounter = 1;
+});
+
+function deliveryDay(showDay){
+	console.log(showDay);
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"changeDate", showDay:showDay}
+		}).done(function( page ) {
+			$("#displayData").html(page);
+		});
+}
+
+function deliveryRefresh(){
+	if(stopCounter == 0){
+		deliveryDay('today')
+		console.log("Reloaded");
+	}
+}
+
+
+
+$("#genCopy").click(function(){
+	console.log("init Load");
+	loading("This may take a few minutes.</br>Please don't reload the page!");
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"genCopy"}
+		}).done(function( page ) {
+			endLoading();
+			errorMSG(page, 1);
+		});
+});
+
+$("#genNew").click(function(){
+	console.log("init Load");
+	loading("This may take a few minutes.</br>Please don't reload the page!");
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"genNew"}
+		}).done(function( page ) {
+			endLoading();
+			errorMSG(page, 1);
+		});
+});
+
+
+$("#genToday").click(function(){
+	console.log("init Load");
+	loading("This may take a few minutes.</br>Please don't reload the page!");
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"genToday"}
+		}).done(function( page ) {
+			endLoading();
+			errorMSG(page, 1);
+		});
+});
+
+function changeDriver(rID, dID){
+
+	console.log("rID "+ rID +" dID "+dID);
+
+	$.ajax({
+			method: "POST",
+			url: "deliveriesHelper.php",
+			data: { action:"changeDriver",rID:rID,dID:dID}
+		}).done(function( page ) {
+			errorMSG(page, 1);
+			deliveryDay(dateControl);
+		});
+}
+
 
 
     

@@ -7,7 +7,7 @@
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">MOW Admin</span></a></li>
 					
-                    <li <?php if($page === 'Deliveries') echo 'class="active"'?> ><a href="index.php"><i class="fa fa-tachometer fa-fw">
+                    <li <?php if($page === 'Deliveries') echo 'class="active"'?> ><a href="deliveries.php"><i class="fa fa-tachometer fa-fw">
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Deliveries</span></a></li>
                     
