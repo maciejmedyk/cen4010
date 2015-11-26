@@ -31,47 +31,49 @@
         
         
         <!-- Main Content goes here -->
-        <div class="container-fluid">
+        <div class="fullHeight container-fluid">
+            <div class="tabWrapper">
 
-            <ul id="tabs">
-                <li><a href="#adminListTab" class="selected">Administrators</a></li>
-                <li><a href="#addAdminTab">Add Admin</a></li>
-                <li><a href="#settingsTab">Settings</a></li>
-            </ul>
-            
-            
-            <!--
-                List of administrators.
-            -->
-            <div class="tabContent" id="adminListTab">
-                <div id="displayData">
-                    <?php getAdminTable(0, "all"); ?>
+                <ul id="tabs">
+                    <li><a href="#adminListTab" class="selected">Administrators</a></li>
+                    <li><a href="#addAdminTab">Add Admin</a></li>
+                    <li><a href="#settingsTab">Settings</a></li>
+                </ul>
+
+
+                <!--
+                    List of administrators.
+                -->
+                <div class="scrollable-y tabContent" id="adminListTab">
+                    <div id="displayData">
+                        <?php getAdminTable(0, "all"); ?>
+                    </div>
                 </div>
+
+
+                <!--
+                    Add an administrator tab.
+                -->
+                <div class="scrollable-y tabContent hide" id="addAdminTab">
+                        <?php getAdminForm(-1); ?>
+                </div>
+
+
+                <!--
+                    MOW Tracker settings page.
+                -->
+                <div class="scrollable-y tabContent hide" id="settingsTab">
+
+                </div>
+
+
             </div>
-            
-            
-            <!--
-                Add an administrator tab.
-            -->
-            <div class="tabContent hide" id="addAdminTab">
-                    <?php getAdminForm(-1); ?>
-            </div>
-            
-            
-            <!--
-                MOW Tracker settings page.
-            -->
-            <div class="tabContent hide" id="settingsTab">
-
-            </div>
-
-
-
+            <!--tabWrapper-->
         </div>
         <!-- /.container-fluid -->
     </div>
     <!-- /#page-wrapper -->
-    </div>
+    
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>

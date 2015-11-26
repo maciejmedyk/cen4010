@@ -31,21 +31,24 @@
         
         
         <!-- Main Content goes here -->
-        <div class="container-fluid">
-            <div class="content">
-                <div class="tabContent" id="clients">
-                    <div class="container">
-                        <div id="displayData">
-                            <?php editClient($_GET['cID']);?>
+        <div class="fullHeight container-fluid">
+            <div class="tabWrapper">
+                <div class="content">
+                    <div class="scrollable-y tabContent" id="clients">
+                        <div class="fullHeight container-fluid">
+                            <div id="displayData">
+                                <?php editClient($_GET['cID']);?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--/tabWrapper -->
         </div>
         <!-- /.container-fluid -->
     </div>
     <!-- /#page-wrapper -->
-    </div>
+
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>

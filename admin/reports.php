@@ -31,34 +31,37 @@
         
         
         <!-- Main Content goes here -->
-        <div class="container-fluid">
-            <ul id="tabs">
-                <li><a href="#alertsTab" class="selected">Emergency Alerts</a></li>
-                <li><a href="#notesTab">Client Notes</a></li>
-                <li><a href="#eventsTab">Event Log</a></li>
-            </ul>
-            <div class="tabContent" id="alertsTab">
-                <div id="emergencyMap"></div>
-                <div id="displayData">
-                    <?php getEmergencyTable(0, "all"); ?>
+        <div style="height: 100%;" class="container-fluid">
+            <div class="tabWrapper">
+                <ul id="tabs">
+                    <li><a href="#alertsTab" class="selected">Emergency Alerts</a></li>
+                    <li><a href="#notesTab">Client Notes</a></li>
+                    <li><a href="#eventsTab">Event Log</a></li>
+                </ul>
+                <div class="tabContent" id="alertsTab">
+                    
+                    <div id="emergencyMap"></div>
+                    
+                    <div class="scrollable-y60" id="displayData">
+                        <?php getEmergencyTable(0, "all"); ?>
+                    </div>
                     
                 </div>
-            </div>
-            
-            <div class="tabContent" id="notesTab">
-                <?php getNotesTable(0, "all"); ?>
-            </div>
-            <div class="tabContent" id="eventsTab">
+
+                <div class="tabContent" id="notesTab">
+                    <div class="scrollable-y" id="">
+                        <?php getNotesTable(0, "all"); ?>
+                    </div>
+                </div>
+                <div class="tabContent" id="eventsTab">
+                    <div class="scrollable-y" id="">
+                        <?php /*getEventsTable(0, "all");*/ ?>
+                    </div>
+                </div>
                 
-
             </div>
-
-            
-            
-            
-        </div>
         <!-- /.container-fluid -->
-    </div>
+        </div>
     <!-- /#page-wrapper -->
     </div>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->

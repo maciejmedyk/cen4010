@@ -31,16 +31,14 @@
         
         
         <!-- Main Content goes here -->
-        <div class="container-fluid">
-            
-            <div class="content">
-
+        <div class="fullHeight container-fluid">
+            <div class="tabWrapper">
                 <ul id="tabs">
                   <li><a href="#clients" class="selected">Clients</a></li>
                   <li><a href="#addClientTab">Add Clients</a></li>
                 </ul>
-                <div class="tabContent" id="clients">
-                    <div id="displayData">
+                <div class="scrollable-y tabContent" id="clients">
+                    <div class="" id="displayData">
                         <?php getClient(0,"all");?>
                     </div>
                 </div>
@@ -51,8 +49,8 @@ Tab with form to add clients below
 
 -->
 
-            <div class="tabContent hide" id="addClientTab">
-                <div class="container">
+            <div class="scrollable-y tabContent hide" id="addClientTab">
+                <div class="fullHeight container-fluid">
                     <br/>
                     <form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
 

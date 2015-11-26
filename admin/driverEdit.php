@@ -31,13 +31,18 @@
         
         
         <!-- Main Content goes here -->
-        <div class="container">
-            <div class="content">
-                <div class="tabContent" id="clients">
-                    <div id="displayData">
-                        <?php editDriver($_GET['dID']);?>
+        <div class="fullHeight container-fluid">
+            <div class="tabWrapper">
+                <div class="content">
+                    <div class="scrollable-y tabContent" id="drivers">
+                        <div class="fullHeight container-fluid">
+                            <div id="displayData">
+                                <?php editDriver($_GET['dID']);?>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            <!-- tabWrapper -->
             </div>
         <!-- /.container-fluid -->
         </div>

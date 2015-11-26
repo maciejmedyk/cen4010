@@ -524,7 +524,7 @@ function getAdminForm($adminID){
         $superChecked = ($info['sSuperAdmin'] == 1)? "checked" : "";
     }
 
-    echo '          <br /><div class="container">
+    echo '          <br /><div class="">
                     <form id="editAdminForm" class="form-horizontal" action="#" role="form" method="post">
                     <input type="text" id="sID" '.$sID.' hidden>
                         <div class="form-group">
@@ -708,7 +708,7 @@ function getEmergencyTable($id, $count){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no emergency events posted.</div>";
         if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no events that match your query.</div>";
     } else {
-        echo "<div class='tableScrollable'><table id='emergencyTable' class='alignleft table table-hover'>
+        echo "<div class=''><table id='emergencyTable' class='alignleft table table-hover'>
         <thead class='tableHead'>
         <tr>
             <th>ID</th>
@@ -787,7 +787,7 @@ function getNotesTable($id, $count){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no notes posted.</div>";
         if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no notes that match your query.</div>";
     } else {
-        echo "<table id='notesTable' class='alignleft table table-hover'>
+        echo "<table id='notesTable' class='scrollable-y alignleft table table-hover'>
         <thead class='tableHead'>
         <tr>
             <th>ID</th>
@@ -797,7 +797,7 @@ function getNotesTable($id, $count){
             <th>Urgent</th>
         </tr>
         </thead>
-        <tbody height='40px'>";
+        <tbody class='scrollable-y'>";
 
         while ($info = $sql->fetch_array()) {
             

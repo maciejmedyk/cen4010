@@ -33,7 +33,7 @@
     //Will display error message on page load if set in session variable.
     //Usefull for success messages after redirect.
     //
-    if($_SESSION['errorMSG'] != ""){
+    if(isset($_SESSION['errorMSG']) && $_SESSION['errorMSG'] != ""){
         
         $errorMSG = $_SESSION['errorMSG'];
         $errorType = $_SESSION['errorType'];

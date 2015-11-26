@@ -540,7 +540,7 @@ function init() {
   for ( var id in tabLinks ) {
 	tabLinks[id].onclick = showTab;
 	tabLinks[id].onfocus = function() { this.blur() };
-	if ( i == 0 ) tabLinks[id].className = 'selected';
+	if ( i == 0 ) tabLinks[id].classList.add('selected');
 	i++;
   }
 
@@ -548,7 +548,7 @@ function init() {
   var i = 0;
 
   for ( var id in contentDivs ) {
-	if ( i != 0 ) contentDivs[id].className = 'tabContent hide';
+	if ( i != 0 ) contentDivs[id].classList.add('hide');
 	i++;
   }
 }
@@ -560,11 +560,11 @@ function showTab() {
   // Also show the selected content div, and hide all others.
   for ( var id in contentDivs ) {
 	if ( id == selectedId ) {
-	  tabLinks[id].className = 'selected';
-	  contentDivs[id].className = 'tabContent';
+	  tabLinks[id].classList.add('selected');
+	  contentDivs[id].classList.remove('hide');
 	} else {
-	  tabLinks[id].className = '';
-	  contentDivs[id].className = 'tabContent hide';
+	  tabLinks[id].classList.remove('selected');
+	  contentDivs[id].classList.add('hide');
 	}
   }
 
