@@ -1,5 +1,6 @@
 <?php
 include_once("session.php"); 
+
 if($_POST["action"] == "clientEdit"){
 	editClient($_POST['cID']);
 }
@@ -26,8 +27,10 @@ if($_POST["action"] == "submitClientEdit"){
 	$delNotes = $_POST['delNotes'];
 	$FA       = $_POST['FA'];
 	$FR       = $_POST['FR'];
+    $FAList   = $_POST['FAList'];
+    $FRList   = $_POST['FRList'];
 	$Active   = $_POST['Active'];
-	
+
 	$address = "$addr1 $addr2 $city $state $zip";
 	
 	$address = str_replace("#", "", $address);
@@ -39,7 +42,7 @@ if($_POST["action"] == "submitClientEdit"){
 	}
 	$json = "";
 	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA");
-	//echo $json;
+
 	if($json != ""){
 		$json = json_decode($json);
 
@@ -55,16 +58,16 @@ if($_POST["action"] == "submitClientEdit"){
 		}
 	}
 	
-	if($FA == "true"){
-		$FA = 1;
-	} else {
+	if($FAList == ""){
 		$FA = 0;
+	} else {
+		$FA = 1;
 	}
 	
-	if($FR == "true"){
-		$FR = 1;
-	} else {
+	if($FRList == ""){
 		$FR = 0;
+	} else {
+		$FR = 1;
 	}
 	
 	if($Active == "true"){
@@ -72,7 +75,6 @@ if($_POST["action"] == "submitClientEdit"){
 	} else {
 		$Active = 0;
 	}
-	
 	
 	$query = "UPDATE clients SET 
 				cFirstName ='$fName ', 
@@ -88,12 +90,19 @@ if($_POST["action"] == "submitClientEdit"){
 				cFoodAllergies ='$FA', 
 				cFoodRestrictions ='$FR', 
 				cDeliveryNotes ='$delNotes',
-				cActive = '$Active'
-				WHERE cID='$cID'";
-    $db->query($query);
-	
-	echo "Client info has been updated ".$fName;
-	
+				cActive ='$Active',
+                FAList ='$FAList',
+                FRList ='$FRList'
+				WHERE cID ='$cID';
+                ";
+    
+    if (!$db->query($query)) {
+        print_r($db->error_list);
+    }else{
+        $_SESSION['errorMSG'] = "Client info for ".$fName." ".$lName." has been successfully updated.";
+        $_SESSION['errorType'] = 1;
+        echo "<script> window.location.replace('clients.php') </script>";
+    }
 }
 
 
@@ -108,8 +117,10 @@ if($_POST["action"] == "submitNewClient"){
 	$state    = $_POST['state'];
 	$zip      = $_POST['zip'];
 	$delNotes = $_POST['delNotes'];
-	$FA       = $_POST['FA'];
-	$FR       = $_POST['FR'];
+	//$FA       = $_POST['FA'];
+	//$FR       = $_POST['FR'];
+    $FAList   = $_POST['FAList'];
+    $FRList   = $_POST['FRList'];
 	$Active   = $_POST['Active'];
 	
 	$address = "$addr1 $addr2 $city $state $zip";
@@ -125,6 +136,7 @@ if($_POST["action"] == "submitNewClient"){
 	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA");
 	$json = json_decode($json);
 
+    //These keep giving undefined offset errors but it works fine.
 	$lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
 	$lng = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
 	
@@ -136,18 +148,16 @@ if($_POST["action"] == "submitNewClient"){
 		$lng = 'empty';
 	}
 	
-	echo $lat." ".$lng;
-	
-	if($FA == "true"){
-		$FA = 1;
-	} else {
+	if($FAList == ""){
 		$FA = 0;
+	} else {
+		$FA = 1;
 	}
 	
-	if($FR == "true"){
-		$FR = 1;
-	} else {
+	if($FRList == ""){
 		$FR = 0;
+	} else {
+		$FR = 1;
 	}
 	
 	if($Active == "true"){
@@ -157,10 +167,15 @@ if($_POST["action"] == "submitNewClient"){
 	}
 	
 	
-	$query = "INSERT INTO clients (cFirstName,cLastName,cAddress1,cAddress2,cCity,cState,cZip,cLat,cLng,cPhone,cFoodAllergies,cFoodRestrictions,cDeliveryNotes,cActive) 
-							VALUES ('$fName', '$lName', '$addr1', '$addr2', '$city', '$state', '$zip','$lat','$lng', '$phone', '$FA', '$FR', '$delNotes', '1')";
-    $db->query($query);
+	$query = "INSERT INTO clients (cFirstName,cLastName,cAddress1,cAddress2,cCity,cState,cZip,cLat,cLng,cPhone,cFoodAllergies,cFoodRestrictions,cDeliveryNotes,cActive,FAList,FRList) 
+							VALUES ('$fName', '$lName', '$addr1', '$addr2', '$city', '$state', '$zip','$lat','$lng', '$phone', '$FA', '$FR', '$delNotes', '1', '$FAList', '$FRList')";
 	
-	echo "Client Added";
+    if (!$db->query($query)) {
+        print_r($db->error_list);
+    }else{
+        $_SESSION['errorMSG'] = $fName." ".$lName." has been successfully added to the list.";
+        $_SESSION['errorType'] = 1;
+        echo "<script> window.location.replace('clients.php') </script>";
+    }
 }
 ?>

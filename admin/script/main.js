@@ -1,19 +1,4 @@
-// Search Function
-
-$( "#search" ).keyup(function() {
-	var searchT = $("#search").val();
-	var type = $("#type").val();
-	var where = $("#searchIN").val();
-	$.ajax({
-		method: "POST",
-		url: "search.php",
-		data: { searchFor: searchT , where: where}
-	}).done(function( page ) {
-		$("#displayData").html(page);
-	});
-});
-
-//errorType = int 0 => fail, 1 => success
+/*/errorType = int 0 => fail, 1 => success
 function errorMSG(errorString, errorType){
 	console.log(errorString);
 	$(".mask").css({"display":"block"});
@@ -27,53 +12,38 @@ function loading(msg){
 
 function endLoading(){
 	$(".loadingMask").css({"display":"none"});
-}
-
-$("#driverForm").click(function(){
-	var userName = $("#username").val();
-	var password = $("#password").val();
-	if(userName == "" || password == ""){
-		errorMSG("Username or Password is invalid.",0);
-	} else {
-		$.ajax({
-			method: "POST",
-			url: "scripts/login.php",
-			data: { userName: userName, password: password, userType: "Driver" }
-		}).done(function( msg ) {
-			if(msg == 0){
-				errorMSG("Loged in.",0);
-				window.location.href = "/driver/index.php";
-			} else {
-				errorMSG(msg,1);
-			}
-		});
-	}
-});
-
-$("#adminForm").click(function(){
-	var userName = $("#username").val();
-	var password = $("#password").val();
-	if(userName == "" || password == ""){
-		errorMSG("Username or Password is invalid.",0);
-	} else {
-		$.ajax({
-			method: "POST",
-			url: "scripts/login.php",
-			data: { userName: userName, password: password, userType: "Admin" }
-		}).done(function( msg ) {
-			if(msg == 0){
-				errorMSG("Loged in.",0);
-				window.location.href = "/admin/index.php";
-			} else {
-				errorMSG(msg,1);
-			}
-		});
-	}
-});
+}*/
 
 //Filters the drivers list according to if the driver is active.
 $(document).ready(function() {
-   
+        
+    //
+    // Search Function
+    //
+    $("#search").keyup(function() {
+        var searchT = $("#search").val();
+        var type = $("#type").val();
+        var where = $("#searchIN").val();
+        $.ajax({
+            method: "POST",
+            url: "search.php",
+            data: { searchFor: searchT , where: where}
+        }).done(function( page ) {
+            $("#displayData").html(page);
+        });
+    });
+    
+    //
+    //Close Error Message
+    //
+    $("#closeError").click(function(e){
+        $("#errorWrapper").fadeOut();
+        return false;
+    });
+        
+    //
+    //Filters the list to show only the active elements.
+    //
     $("#showInactiveDriver").click(function() {
         if ($("#showInactiveDriver").is(":checked")){
             $('#driverTable > tbody > tr').each(function() {
@@ -84,7 +54,7 @@ $(document).ready(function() {
                 if ( $(this).data('status') == "Retired"){
                     $(this).addClass( "hidden" );
                 }
-            });  
+            });
         }
     });
     
@@ -98,19 +68,40 @@ $(document).ready(function() {
                 if ( $(this).data('status') == "Retired"){
                     $(this).addClass( "hidden" );
                 }
-            });  
+            });
         }
     });
     
-});
-
+}); //End Document ready.
 
 /*
 #########################################
 ############ ADMIN FUNCTIONS ############
 #########################################
-*/
+//
+//  ERROR HANDLING
+//  errorType = int 0 => fail, 1 => success
+//*/
+function errorMSG(errorString, errorType){
+	console.log(errorString);
+	//$(".mask").css({"display":"block"});
+	//$( "#errorMSG" ).html( errorString );
+    
+    //Im using this with bootstrap alerts till you work out what you are doing with that ugly popup :P
+    $( "#errorWrapper" ).fadeOut(function(){
+        $( "#errorMSG" ).html( errorString );
+        $( "#errorWrapper" ).removeClass("alert-success alert-danger");
+        if(errorType == 0){
+            $( "#errorWrapper" ).addClass("alert-danger").fadeIn();
+        }else{
+            $( "#errorWrapper" ).addClass("alert-success").fadeIn();
+        }
+    });
+}
+
+//
 // Get client edit Form
+//
 function editClient(cID){
 	if($("#showEdit"+cID).is(':visible')){
 		$("#showEditDiv"+cID).animate({height:"0px"},400,function(){
@@ -131,7 +122,7 @@ function editClient(cID){
 		});*/
 }
 
-// Get client edit Form
+// Get driver edit Form
 function editDriver(cID){
 	$(".mask").css({"display":"block"});
 	
@@ -158,20 +149,36 @@ $(document).on('click','#editClient',function(){
 	var state = $("#state").val();
 	var zip = $("#zip").val();
 	var delNotes = $("#delNotes").val();
-	var FA = $("#FA").is(':checked');
-	var FR = $("#FR").is(':checked');
+	//var FA = $("#FA").is(':checked');
+	//var FR = $("#FR").is(':checked');
+    var FAList = $("#FAList").val();
+	var FRList = $("#FRList").val();
 	var Active = $("#isActive").is(':checked');
+
+    //Set the alergies checkbox data if an alergy is typed into the box.
+    if(FAList == ""){
+        FA = false;   
+    }else{
+        FA = true;
+    }
+    //Set the food restrictions checkbox data if a restriction is typed into the box.
+    if(FAList == ""){
+        FR = false;   
+    }else{
+        FR = true;
+    }
+    
 	var MSG = "";
 	console.log("Edit - "+ fName);
-	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
+	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && /*emailValidate(email) &&*/ textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
 		
 		$.ajax({
 			method: "POST",
 			url: "clientHelper.php",
-			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, Active:Active }
+			data: { action:"submitClientEdit",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA: FA, FR: FR, FAList: FAList, FRList: FRList, Active:Active }
 		}).done(function( page ) {
 			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
-			errorMSG(page, 0);
+			errorMSG(page, 1);
 		});
 		
 		
@@ -183,7 +190,7 @@ $(document).on('click','#editClient',function(){
 		if(!phoneValidate(phone)){
 			MSG += "Please Enter a Valid Phone Number.</br>";
 		}
-		
+
 		errorMSG(MSG, 0);
 	} 
 	
@@ -202,19 +209,22 @@ $(document).on('click','#addClient',function(){
 	var state = $("#state").val();
 	var zip = $("#zip").val();
 	var delNotes = $("#delNotes").val();
-	var FA = $("#FA").is(':checked');
-	var FR = $("#FR").is(':checked');
+	//var FA = $("#FA").is(':checked');
+	//var FR = $("#FR").is(':checked');
+    var FAList = $("#FAList").val();
+	var FRList = $("#FRList").val();
 	var Active = 1;
 	var MSG = "";
-	
-	if(textValidate(fName) || textValidate(lName) || phoneValidate(phone) || emailValidate(email) || textValidate(addr1) || textValidate(city) || textValidate(state) || textValidate(zip)){
-		
+	console.log("Makes it to validate");
+	if(textValidate(fName) && textValidate(lName) && phoneValidate(phone) && emailValidate(email) && textValidate(addr1) && textValidate(city) && textValidate(state) && textValidate(zip)){
+		console.log("validation passes");
 		$.ajax({
 			method: "POST",
 			url: "clientHelper.php",
-			data: { action:"submitNewClient",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FA:FA, FR:FR, Active:Active }
+			data: { action:"submitNewClient",cID: cID, fName: fName, lName: lName, email: email, phone: phone, addr1: addr1, addr2: addr2, city:  city, state: state, zip: zip, delNotes: delNotes, FAList: FAList, FRList: FRList, Active:Active }
 		}).done(function( page ) {
-			errorMSG(page, 0);
+			errorMSG(page, 1);
+            $('#editClientForm')[0].reset();
 		});
 		
 	} else {
@@ -365,10 +375,7 @@ $(document).on('click','#editDriver',function(){
 					schedule: schedule,
 					delNotes: delNotes }
 		}).done(function( page ) {
-			//$("showEditDiv"+cID).html("Client Info has been updated"+page);
-			//errorMSG(page, 0);
-            errorMSG("Success!, now redirecting you to the drivers list.",0);
-            window.location.replace("drivers.php");
+			errorMSG(page, 0);
 		});
 		
 		
@@ -383,7 +390,52 @@ $(document).on('click','#editDriver',function(){
 		
 		errorMSG(MSG, 0);
 	} 
-	
+
+});
+
+/*Submit New Administrator Form*/
+$(document).on('click','#addAdminButton',function(){
+	var sID = $("#sID").val();
+	var fName = $("#fName").val();
+	var lName = $("#lName").val();
+	var email = $("#email").val();
+	var pwd = $("#pwd").val();
+	var secQuestion = $("#securityQuestion").val();
+	var secAnswer = $("#securityAnswer").val();
+    var active = $("#activeCheck").is(':checked');
+	var sa = $("#superAdminCheck").is(':checked');
+	var MSG = "";
+	    
+	if(textValidate(fName) && textValidate(lName)){
+		
+		$.ajax({
+			method: "POST",
+			url: "accountHelper.php",
+			data: { action:"submitAdmin",
+					sID: sID, 
+					fName: fName, 
+					lName: lName, 
+					email: email, 
+					pwd: pwd, 
+					secQuestion: secQuestion, 
+					secAnswer: secAnswer,
+                    type: sa,
+                    active: active
+                  }
+		}).done(function( page ) {
+            //If the PHP page returns an error without redirect, display it.
+            errorMSG(page, 0);
+		});
+		
+	} else {
+		MSG += "Please Fill in all required fields.</br>";
+		if(!emailValidate(email)){
+			MSG += "Please Enter a Valid Email.</br>";
+		}
+        
+		errorMSG(MSG, 0);
+	} 
+
 });
 
 function changePassword(dID){
@@ -406,7 +458,6 @@ $("#adminLog").click(function(){
 	$( ".admin_L" ).removeClass( "disable" );
 	$( ".driver_L" ).addClass( "disable" );
 });
-
 
 /*Close POPUP*/
 $(".popClose").click(function(){
@@ -505,7 +556,7 @@ function init() {
   for ( var id in tabLinks ) {
 	tabLinks[id].onclick = showTab;
 	tabLinks[id].onfocus = function() { this.blur() };
-	if ( i == 0 ) tabLinks[id].className = 'selected';
+	if ( i == 0 ) tabLinks[id].classList.add('selected');
 	i++;
   }
 
@@ -513,7 +564,7 @@ function init() {
   var i = 0;
 
   for ( var id in contentDivs ) {
-	if ( i != 0 ) contentDivs[id].className = 'tabContent hide';
+	if ( i != 0 ) contentDivs[id].classList.add('hide');
 	i++;
   }
 }
@@ -525,11 +576,11 @@ function showTab() {
   // Also show the selected content div, and hide all others.
   for ( var id in contentDivs ) {
 	if ( id == selectedId ) {
-	  tabLinks[id].className = 'selected';
-	  contentDivs[id].className = 'tabContent';
+	  tabLinks[id].classList.add('selected');
+	  contentDivs[id].classList.remove('hide');
 	} else {
-	  tabLinks[id].className = '';
-	  contentDivs[id].className = 'tabContent hide';
+	  tabLinks[id].classList.remove('selected');
+	  contentDivs[id].classList.add('hide');
 	}
   }
 

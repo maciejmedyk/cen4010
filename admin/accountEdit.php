@@ -1,8 +1,8 @@
 <?php
 	include_once("session.php"); 
 	include_once("header.php");
-	$page = "Clients";
-    $pageTitle = "Edit Client";
+	$page = "Accounts";
+    $pageTitle = "Edit Administrator";
     $search = false;
 ?>
 <body>
@@ -37,7 +37,7 @@
                     <div class="scrollable-y tabContent" id="clients">
                         <div class="fullHeight container-fluid">
                             <div id="displayData">
-                                <?php editClient($_GET['cID']);?>
+                                <?php getAdminForm($_GET['sID']);?>
                             </div>
                         </div>
                     </div>

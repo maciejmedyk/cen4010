@@ -1,4 +1,17 @@
 <?php
+//Used to log php info to the javascript console.
+function consoleLog($msg){
+    echo "<script>console.log('$msg');</script>";
+}
+
+//Redirect to different page.
+function Redirect($url, $permanent = false){
+    if (headers_sent() === false) {
+    	header('Location: ' . $url, true, ($permanent === true) ? 301 : 302);
+    }
+    exit();
+}
+
 function getClient($id, $count){
     include('../connection.php');
 	if($count == "all"){
@@ -161,12 +174,32 @@ function isLocked($dID){
 	}
 }
 
+//
+//Search functions just forward the request in the appropriate manner.
+//
 function searchClient($name){
     getClient($name, "search");
 }
 
+function searchAdmin($name){
+    getAdminTable($name, "search");
+}
+
 function searchDriver($name){
     getDrivers($name, "search");
+}
+
+function searchReports($string){
+    getReportsTable($string, "search");
+}
+
+function searchDeliveries($string){
+    getDeliveriesTable($string, "search");
+
+}
+
+function searchEmergencies($search){
+    getEmergencyTable($search, "search");
 }
 
 function actionClient($clientID, $step){
@@ -223,7 +256,10 @@ function editClient($clientID){
     }
     
 	//echo '<div class="formTitle">Edit Client Information</div>';
-    echo '<form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
+    echo ' 
+    
+            <br/>
+            <form id="editClientForm" class="form-horizontal" action="#" role="form" method="post">
                     <input id="cID" type="hidden" value="'.$clientID.'">
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="fName">First Name:</label>
@@ -246,7 +282,7 @@ function editClient($clientID){
 					<!--<div class="form-group">
 						<label class="control-label col-sm-2" for="pwd">Password:</label>
 						<div class="col-sm-6">
-							<input type="password" class="form-control" id="pwd" name="pwd" value="'.$info['cFirstName'].'">
+							<input type="password" class="form-control" id="pwd" name="pwd" value="">
 						</div>
 					</div>-->
 					<div class="form-group">
@@ -291,94 +327,44 @@ function editClient($clientID){
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="delNotes">Delivery Notes:</label>
 						<div class="col-sm-6">
-							<textarea id="delNotes" name="delNotes" class="form-control" rows="6" style="min-width: 100%"></textarea>
+							<textarea id="delNotes" name="delNotes" class="form-control" rows="6" value="'.$info['cDeliveryNotes'].'" style="min-width: 100%"></textarea>
 						</div>
 					</div>
+                    
+                    
+                    
+                    <div class="form-group">
+						<label class="control-label col-sm-2" for="FAList">Food Alergies:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="FAList" name="FAList" value="'.$info['FAList'].'" placeholder="Example: nuts,shellfish,wheat">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="zip">Food Restrictions:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="FRList" name="FRList" value="'.$info['FRList'].'" placeholder="Example: milk,bacon">
+						</div>
+					</div>
+                    
+                    
+                    
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
 							<div class="checkbox">
-								<label><input id="FA" type="checkbox" value="1">Food Allergies </label>
-								<label><input id="FR" type="checkbox" value="1">Food Restrictions </label>
-                                <label style="color: red;"><input id="isActive" type="checkbox" value="1" ' . $activeChecked . '>Client is Active </label>
+								<!--label><input id="FA" type="checkbox" value="1">Food Allergies </label>
+								<label><input id="FR" type="checkbox" value="1">Food Restrictions </label-->
+                                <label style="color: red;"><input id="isActive" type="checkbox" value="1" ' . $activeChecked . '>Is Active</label>
 							</div>
 						</div>
 					</div>
-					<div id="errorMSG"></div>
+					<!--div id="errorMSG"></div-->
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-6">
-							<div id="editClient" class="btn btn-success">Save</div>
+							<div id="editClient" class="btn btn-success">Save</div>&nbsp;
                             <a href="clients.php" class="btn btn-danger">Cancel</a>
 						</div>
 					</div>
 				</form>';
-    
-    
-    
-	/*echo '<form id="editClientForm" role="form" method="post">
-                <br>
-				<input id="cID" type="hidden" value="'.$clientID.'">
-                <div class="form-group input-group row">
-				
-                    <label  class="col-md-3 control-label">First Name</label>
-					<div class="col-md-9">
-					  <input id="fName" type="text" class="form-control" value="'.$info['cFirstName'].'" name="fName">
-					</div>
-					
-					<label  class="col-md-3 control-label">Last Name</label>
-					<div class="col-md-9">
-					  <input id="lName" type="text" class="form-control" value="'.$info['cLastName'].'" >
-					</div>
-					
-                   
-                    
-                </div>
-                <div class="form-group input-group row">
-                    <label  class="col-md-3 control-label">Email</label>
-					<div class="col-md-9">
-					  <input id="email" type="text" class="form-control" value="" >
-					</div>
-					<label  class="col-md-3 control-label">Phone#</label>
-					<div class="col-md-9">
-					  <input id="phone" type="text" class="form-control" value="'.$info['cPhone'].'" >
-					</div>
-                    
-                </div>
-                
-                <div class="form-group input-group row">
-                    <label  class="col-md-3 control-label">Address</label>
-					<div class="col-md-9">
-					  <input id="addr1" type="text" class="form-control" value="'.$info['cAddress1'].'" >
-					</div>
-					<label  class="col-md-3 control-label">Address 2</label>
-					<div class="col-md-9">
-					  <input id="addr2" type="text" class="form-control" value="'.$info['cAddress2'].'" >
-					</div>
-					<label  class="col-md-3 control-label">City</label>
-					<div class="col-md-9">
-					  <input id="city" type="text" class="form-control" value="'.$info['cCity'].'" >
-					</div>
-					<label  class="col-md-3 control-label">Zip</label>
-					<div class="col-md-9">
-					  <input id="zip" type="text" class="form-control" value="'.$info['cZip'].'" >
-					</div>
-					<label  class="col-md-3 control-label">State</label>
-					<div class="col-md-9">
-					  <input id="state" type="text" class="form-control" value="'.$info['cState'].'" >
-					</div>
-					
-                   
-                </div>
-                <div class="form-group input-group row">
-                    <label  >Delivery Notes</label>					
-					  <textarea id="delNotes" class="form-control" rows="4" style="min-width: 100%">'.$info['cDeliveryNotes'].'</textarea>                    
-                </div>
-                <div class="checkbox row">
-					<label><input id="FA" type="checkbox" value="1">Food Allergies</label>
-					<label><input id="FR" type="checkbox" value="1">Food Restrictions</label>
-                    <label><input id="Active" type="checkbox" value="1" checked="">Is Active</label>
-                </div>
-                <div id="editClient" class="btn btn-success">Edit Client</div>
-            </form>';*/
 }
 
 function editDriver($driverID){
@@ -499,6 +485,333 @@ function editDriver($driverID){
 					</div>
 
 				</form>';
+}
+
+//
+//Gets a form to add or edit an administrator.
+//use $adminID of -1 for an empty form.
+//
+function getAdminForm($adminID){
+    
+    if ($_SESSION["isSuperAdmin"] != 1){
+        echo '
+        <div class="jumbotron">
+            <h1>Sorry! :(</h1>
+            <p>You must be a Super Administrator to add an administrator.</p>
+        </div>
+        ';
+        return;
+    }
+    
+    if($adminID === -1){
+        $emptyForm = true;
+        $sID = "";
+    }else{
+        $emptyForm = false;
+        $sID = 'value="'.$adminID.'"';
+    }
+    
+    if(!$emptyForm){
+        include('../connection.php');
+        $query = "SELECT *
+                    FROM superusers
+                    WHERE sID = $adminID
+                    ORDER BY sLastName ASC";
+        $sql = $db->query($query);
+        $info = $sql->fetch_array();
+
+        $activeChecked = ($info['sActive'] == 1)? "checked" : "";
+        $superChecked = ($info['sSuperAdmin'] == 1)? "checked" : "";
+    }
+
+    echo '          <br /><div class="">
+                    <form id="editAdminForm" class="form-horizontal" action="#" role="form" method="post">
+                    <input type="text" id="sID" '.$sID.' hidden>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="fName">First Name:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="fName" name="fName" placeholder="Enter first name" value="' . ((isset($info['sFirstName']))? $info['sFirstName'] : "") . '">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="lName">Last Name:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="lName" name="lName" placeholder="Enter last name" value="' . ((isset($info['sLastName']))? $info['sLastName'] : "") . '">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="email">Email:</label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="' . ((isset($info['sUsername']))? $info['sUsername'] : "") . '">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="pwd">Password:</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter a password." value="' . ((isset($info['sPassword']))? $info['sPassword'] : "") . '">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="pwd2">Verify Password:</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" id="pwd2" name="pwd2" placeholder="Re-Enter your password for verification." value="' . ((isset($info['sPassword']))? $info['sPassword'] : "") . '">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="securityQuestion">Security Question:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="securityQuestion" name="securityQuestion" placeholder="Enter a question you can answer during password recovery." value="' . ((isset($info['sSecurityQuestion']))? $info['sSecurityQuestion'] : "") . '">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="securityAnswer">Answer:</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="securityAnswer" name="securityAnswer" placeholder="Enter your answer to the security question" value="' . ((isset($info['sSecuryAnswer']))? $info['sSecuryAnswer'] : "") . '">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-6">
+                                <div class="checkbox">
+                                    <label style="color: red;" ><input id="activeCheck" type="checkbox" ' . ((!$emptyForm)? $activeChecked : "checked") . ' value="1">Is Active</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label style="color: red;"><input id="superAdminCheck" type="checkbox" ' . ((!$emptyForm)? $superChecked : "") .' value="1">Is SuperAdmin</label>
+                                </div>                 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-6">
+                                ' . (($emptyForm)? '<div id="addAdminButton" class="btn btn-success">Add Admin</div>' :
+                                     '<div id="addAdminButton" class="btn btn-success">Save</div><a href="account.php" style="margin-left: 1em;" id="cancelAdminButton" class="btn btn-danger">Cancel</a>') . '
+                            </div>
+                        </div>
+                    </form></div>
+        ';
+
+}
+
+//
+//Gets the administrators table populated with data.
+//
+function getAdminTable($id, $count){
+    include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT sID, sFirstName, sLastName, sUsername, sSuperAdmin, sActive
+				FROM superusers
+				ORDER BY sLastName ASC";
+    }elseif($count == "search"){
+        $query = "SELECT sID, sFirstName, sLastName, sUsername, sSuperAdmin, sActive 
+            FROM superusers
+            WHERE sFirstName LIKE '%$id%' OR sLastName LIKE '%$id%' OR sUsername LIKE '%$id%'
+            ORDER BY sLastName ASC";
+    }
+    
+    $errorMSG = "";
+    
+	$sql = $db->query($query);
+	$row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no clients that match that query.</div>";
+    } else {
+        echo "<table class='alignleft table table-hover'>
+            <thead class='tableHead'>
+                <tr>";
+        
+        if ($_SESSION["isSuperAdmin"] == 1){
+            echo "<th><i class='fa fa-check-square'></iclass></th>";
+        }
+        
+        echo "      <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+
+        while ($info = $sql->fetch_array()) {
+            
+            if($info['sActive'] == 1){
+                $status ="Active";
+            } else {
+                $status ="Inactive";
+            }
+            
+            if($info['sSuperAdmin'] == 1){
+                $type ="Super";
+            } else {
+                $type ="Regular";
+            }
+            
+            if ($_SESSION["isSuperAdmin"] == 1){
+                echo "<tr><td><a href='accountEdit.php?sID=".$info['sID']."' class='sTableButton btn btn-xs btn-success' data-adminID='" . $info['sID'] . "'>Edit</a></td>";
+            }else{
+                echo "<tr>";
+            }
+            
+            echo "<td>" . $info['sID'] . "</td>
+                <td>" . $info['sLastName'] . " " . $info['sFirstName'] . "</td>
+                <td>" . $info['sUsername'] . "</td>
+                <td>" . $type . "</td>
+                <td>" . $status . "</td>
+            </tr>";
+        }
+        echo "</tbody></table>";
+    }
+}
+
+//
+//Gets the settings form.
+//
+function getSettingsForm(){
+    
+}
+
+//
+//
+//
+function getClientNotesTable($id, $count){
+    
+}
+
+//
+//Gets a table of all the emergency notifications sent to the server.
+//
+function getEmergencyTable($id, $count){
+        include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+                FROM emergency, drivers
+                WHERE emergency.dID = drivers.dID
+                ORDER BY eDate DESC;";
+    }elseif($count == "search"){
+        //This query needs fixing.
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+            FROM emergency, drivers
+            WHERE eID LIKE '%$id%' OR eDate LIKE '%$id%' OR dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%'
+            ORDER BY eDate DESC;";
+    }else{
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+                FROM emergency, drivers
+                WHERE emergency.dID = drivers.dID
+                ORDER BY eDate DESC
+                LIMIT ".$count.";";
+    }
+
+    $sql = $db->query($query);
+    $row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        print_r( $db->error_list );
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no emergency events posted.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no events that match your query.</div>";
+    } else {
+        echo "<div class=''><table id='emergencyTable' class='alignleft table table-hover'>
+        <thead class='tableHead'>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Submitted By</th>
+            <th>Location</th>
+            <th>Resolved</th>
+            <th>Note</th>
+        </tr>
+        </thead>
+        <tbody>";
+
+        while ($info = $sql->fetch_array()) {
+            
+            if($info['eCoordinates'] != ""){
+                
+                //This converts the coordinates to an address which can be displayed in the chart
+                /*$json = "";
+                $coords = str_replace(' ', '', $info['eCoordinates']);
+                $search =  "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$coords; 
+                $json = file_get_contents($search);
+                if($json != ""){
+                    $json = json_decode($json);
+                    $location = $json->{'results'}[1]->{'formatted_address'};
+                }*/
+                
+                $array = explode(' ', $info['eCoordinates'], 2);
+                $location = "{lat: ".$array[0]." lng: ".$array[1]."}";
+                
+            }else{
+                $location = "";
+            }
+            
+            echo "<tr data-coords='" . $info['eCoordinates'] . "' data-eID='" . $info['eID'] . "'>
+                </td>
+                <td>" . $info['eID'] . "</td>
+                <td>" . $info['eDate'] . "</td>
+                <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
+                <td><a href=# onclick='replaceMarker($location)'  >".(($location != '')? 'Show on map' : 'No Data')."</a></td>
+                <td>" . $info['eResolved'] . "</td>
+                <td>Notes?</td>
+            </tr>";
+        }
+        echo "</tbody></table></div>";
+    }
+}
+
+//
+//Gets a table of all the notes attached to clients.
+//
+function getNotesTable($id, $count){
+        include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT notes.*, clients.cFirstName, clients.cLastName
+                FROM notes, clients
+                WHERE notes.cID = clients.cID
+                ORDER BY nDate DESC";
+    }elseif($count == "search"){
+        //This query needs fixing.
+        $query = "SELECT notes.*, clients.cFirstName, clients.cLastName
+            FROM notes, clients
+            WHERE notes.nID LIKE '%$id%' OR nDate LIKE '%$id%' OR cFirstName LIKE '%$id%' OR cLastName LIKE '%$id%'
+            ORDER BY nDate DESC";
+    }else{
+        $query = "SELECT notes.*, clients.cFirstName, clients.cLastName
+                FROM notes, clients
+                WHERE notes.cID = clients.cID
+                ORDER BY nDate DESC
+                LIMIT ".$count.";";
+    }
+
+    $sql = $db->query($query);
+    $row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        print_r( $db->error_list );
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no notes posted.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no notes that match your query.</div>";
+    } else {
+        echo "<table id='notesTable' class='scrollable-y alignleft table table-hover'>
+        <thead class='tableHead'>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Note</th>
+            <th>Urgent</th>
+        </tr>
+        </thead>
+        <tbody class='scrollable-y'>";
+
+        while ($info = $sql->fetch_array()) {
+            
+            echo "<tr style='" . (($info['nUrgent'] == 1)? 'background-color: #FFEAEA;' : '' ) . "' data=nID'" . $info['nID'] . "' data-cID='" . $info['cID'] . "'>
+                </td>
+                <td>" . $info['nID'] . "</td>
+                <td>" . $info['nDate'] . "</td>
+                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . $info['nComment'] . "</td>
+                <td>" . (($info['nUrgent'] == 1)? 'true' : 'false') . "</td>
+            </tr>";
+        }
+        echo "</tbody></table>";
+    }
 }
 
 function gUsername($name, $last){
@@ -690,6 +1003,7 @@ function populateRoutes(){
 	
 	
 }
+
 function insertDriver($date){
 	$time_pre = microtime(true);
 	include('../connection.php');
@@ -804,6 +1118,7 @@ function inForThisWeek($cID, $thisWeek,$db){
 	  return false;
 	}
 }
+
 function initRoutes(){
 	$time_pre = microtime(true);
 	// Populate the routes DB
@@ -817,7 +1132,6 @@ function initRoutes(){
 	
 	
 }
-
 
 function getDeliverys($weekNumber, $dDay,$d){
 	include('../connection.php');

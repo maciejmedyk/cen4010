@@ -23,10 +23,10 @@
    <body>
         <div id="indexHead">
            <a href="index.php"><button class="btn btn-default">      Driver      </button></a>
-           <a href="aindex.php"><button class="btn btn-default">      Admin       </button></a>
+           <a href="aindex.php"><button class="btn btn-info">      Admin       </button></a>
        </div>
        <div id="indexDiv">
-           <form id="inputForm" action="" method="post">
+           <form id="inputForm" data-user-type="Admin" action="" method="post">
 			   
 				<img class="admin_L" src="img/mowlogogreen.png" height=45px alt="Meals On Wheels Logo"><br>
 				<img class="admin_L" src="img/mowdeliverygreen.png" height=35px alt="Delivery Logo"><br><br>
@@ -37,7 +37,7 @@
 			   <input class="form-control" type="password" id="password" name="password" ><br>
 			   
 			   <span><div id="errorMSG"></div></span><br>
-			         <div id="adminForms" class="btn btn-default admin_L">      Login      </div><br><br>
+			         <div id="adminForms" class="loginFormSubmit btn btn-success admin_L">      Login      </div><br><br>
 			         <!--<div id="adminForm" class="btn btn-default admin_L">      Login      </div><br><br>
                <div id="driverForm" class="btn btn-default driver_L">      Login      </div><br><br>-->
 				<a href="#" class="admin_L" ><p>Forgot your password?</p></a>

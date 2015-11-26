@@ -1,4 +1,4 @@
-<nav id="sidebar" role="navigation" data-step="2" data-intro="Template has <b>many navigation styles</b>" data-position="right" class="navbar-default navbar-static-side" style="min-height: 100%;">
+<div id="sidebar" role="navigation" data-step="2" data-intro="Template has <b>many navigation styles</b>" data-position="right" class="navbar-default navbar-static-side" style="min-height: 100%;">
             <div class="sidebar-collapse menu-scroll">
                 <ul id="side-menu" class="nav">
                     
@@ -37,4 +37,4 @@
                    
                 </ul>
             </div>
-        </nav>
+        </div>

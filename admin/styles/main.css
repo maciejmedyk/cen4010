@@ -47,6 +47,7 @@ body {
   color: #999999;
   background-color: #f0f2f5;
   height: 100%;
+  padding-top: 50px;
 }
 input,
 button,
@@ -124,6 +125,7 @@ hr {
   background-color: #3C3C3C;
 }
 #page-wrapper {
+    height: 100%;
   min-height: 100%;
   padding: 0 !important;
   background-color: #f0f2f5;
@@ -137,7 +139,6 @@ hr {
   }
 }
 #topbar {
-  background: #ffffff;
   width: 100%;
   height: 50px;
 }
@@ -145,9 +146,9 @@ hr {
   border: 0;
 }
 #topbar .navbar-header {
-  width: 250px;
+  width: 235px;
   height: 100%;
-  background: #1E1E1E;
+  background: #222222;
   text-align: center;
 }
 
@@ -167,6 +168,14 @@ hr {
   font-family: 'Lato', sans-serif;
   font-size: 30px;
 }
+
+#logoText{
+   font-size: 30px; 
+      display: block;
+  font-weight: lighter;
+  font-family: 'Lato', sans-serif;
+}
+
 #topbar .topbar-main {
   display: block;
   height: 100%;
@@ -815,6 +824,8 @@ hr {
 }
 .navbar-static-side {
   transition: 0.3s all linear;
+    margin-top: 50px;
+    min-height: 100%;
 }
 .navbar-static-side ul li {
   border-bottom: 1px solid #484848;
@@ -2278,6 +2289,14 @@ ul.nav.nav-tabs li.active a {
   margin-top: 5px;
 }
 @media (max-width: 767px) {
+    body{
+        padding-top: 50px;
+        padding-left: 50px;
+    }
+    .menu-title{
+        display: none;
+    }
+    
   ul.timeline:before {
     left: 40px;
   }
@@ -7022,7 +7041,8 @@ ul.chats li.out .message {
 /*content*/
 
 .content{
-	margin:5px 20px;
+	margin:5px 5px;
+    height: 100%;
 }
 
 /*Pop Up*/
@@ -7106,13 +7126,50 @@ ul#tabs li { display: inline; }
 ul#tabs li a { color: #42454a; background-color: #dedbde; border: 1px solid #c9c3ba; border-bottom: none; padding: 0.3em; text-decoration: none; }
 ul#tabs li a:hover { background-color: #f1f0ee; }
 ul#tabs li a.selected { color: #000; background-color: #f1f0ee; font-weight: bold; padding: 0.7em 0.3em 0.38em 0.3em; }
-div.tabContent { border: 1px solid #c9c3ba; padding: 0.5em; background-color: #f1f0ee; }
+div.tabContent { height: 100%; border: 1px solid #c9c3ba; padding: 0.5em; background-color: #f1f0ee; }
 div.tabContent.hide { display: none; }
     
 /*Tables*/
 .tableHead {
   background-color: #3e77ab;
 }
+
+.tabWrapper{
+    height:100%; 
+    padding-bottom:130px;
+}
+
+.scrollable-y{
+    height:100%; 
+    overflow-y: auto;
+}
+
+.scrollable-y60{
+    height:60%; 
+    overflow-y: auto;
+}
+
+.scrollable-yHeader{
+    height: calc(100% - 30px);
+    overflow-y: auto;
+}
+
+#emergencyMap {
+    height: 40%;
+    width: 100%;
+}
+
+.fullHeight {
+    height: 100%;
+}
+
+.tableScrollable {
+  overflow-y: auto;      
+  max-height: 300px;
+}
+
+body {
+    overflow-y: hidden;
 
 /*Loading*/
 .loadingMask{

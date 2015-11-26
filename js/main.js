@@ -20,20 +20,25 @@ function errorMSG(errorString, errorType){
 	$( "#errorMSG" ).html( errorString );
 }
 
-$("#driverForms").click(function(){
+$(".loginFormSubmit").click(function(){
 	var userName = $("#username").val();
 	var password = $("#password").val();
 	if(userName == "" || password == ""){
 		errorMSG("Username or Password is invalid.",0);
 	} else {
+        var type = $("#inputForm").data("user-type");
 		$.ajax({
 			method: "POST",
 			url: "scripts/login.php",
-			data: { userName: userName, password: password, userType: "Driver" }
+			data: { userName: userName, password: password, userType: type }
 		}).done(function( msg ) {
 			if(msg == 0){
 				errorMSG("Loged in.",0);
-				window.location.href = "driver/index.php";
+                if(type == "Driver"){
+                    window.location.href = "driver/index.php";
+                }else{
+                    window.location.href = "admin/index.php";
+                }
 			} else {
 				errorMSG(msg,1);
 			}
@@ -41,23 +46,10 @@ $("#driverForms").click(function(){
 	}
 });
 
-$("#adminForms").click(function(){
-	var userName = $("#username").val();
-	var password = $("#password").val();
-	if(userName == "" || password == ""){
-		errorMSG("Username or Password is invalid.",0);
-	} else {
-		$.ajax({
-			method: "POST",
-			url: "scripts/login.php",
-			data: { userName: userName, password: password, userType: "Admin" }
-		}).done(function( msg ) {
-			if(msg == 0){
-				errorMSG("Loged in.",0);
-				window.location.href = "admin/index.php";
-			} else {
-				errorMSG(msg,1);
-			}
-		});
-	}
+//Clicks the form submit button when the enter key is pressed.
+$('#inputForm').keypress(function (e) {
+  if (e.which == 13) {
+    $('.loginFormSubmit').click();
+    return false;
+  }
 });

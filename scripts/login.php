@@ -55,6 +55,7 @@ if (isset($_POST['userType'])) {
 			$_SESSION['adminID'] = $row['sID'];
 			$_SESSION['adminName'] = $row['sFirstName']." ".$row['sLastName'];
 			$_SESSION['userType']=$_POST['userType'];
+            $_SESSION['isSuperAdmin'] = $row['sSuperAdmin'];
 			$error = 0;
         } else {
 			// Trap will go here
