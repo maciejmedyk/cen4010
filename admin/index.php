@@ -31,25 +31,46 @@
         
         
         <!-- Main Content goes here -->
-        <div class="fullHeight container-fluid">
+        <div style="" class="fullHeight container-fluid">
             <div class="tabWrapper">
-                <div class="content">
-                    <div class="scrollable-y tabContent" id="clients">
-                        <div class="fullHeight container-fluid">
-                            <div id="displayData">
+                <div class="fullHeight container-fluid tabContent" id="overviewTab">
+                    
+                    <div class="fullHeight row">
+                        <div class="col-sm-4 scrollable-y" id="displayData">
+                            <?php getOverviewDrivers(0, "all"); ?>
+                        </div>
 
+                        <div class="fullHeight col-sm-8">
+
+                            <div style="height: 50%;" id="overviewMap"></div>
+
+                            <div id="clientTable" style="height: 50%;" class="scrollable-y" id="">
+                                <div class="jumbotron">
+                                    <h2>Welcome to MOW Delivery Tracker.</h2>
+                                    <p>To display client and routing data, please click a driver from the list on the left.</p>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
+                
             </div>
-            <!--/tabWrapper -->
-        </div>
         <!-- /.container-fluid -->
+        </div>
     </div>
     <!-- /#page-wrapper -->
     
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>
+<script>
+
+
+
+</script>
+
+<script src="script/overviewMapFunctions.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
 </html>

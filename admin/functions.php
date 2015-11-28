@@ -12,6 +12,12 @@ function Redirect($url, $permanent = false){
     exit();
 }
 
+function formatPhone($number){
+    if ($number != ""){
+        return preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $number);
+    }
+}
+
 function getClient($id, $count){
     include('../connection.php');
 	if($count == "all"){
@@ -57,7 +63,7 @@ function getClient($id, $count){
                 <td><a href='clientEdit.php?cID=".$info['cID']."' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
                 <td>" . $info['cID'] . "</td>
                 <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
-                <td>" . $info['cPhone'] . "</td>
+                <td>" . formatPhone($info['cPhone']) . "</td>
                 <td>" . $active . "</td>
                 <td>" . $info['cDeliveryNotes'] . "</td>
             </tr>";
@@ -138,6 +144,180 @@ function getDrivers($id, $count){
                 <td>" . $info['dInsuranceCo'] . "</td>
                 <td>" . $info['dInsurancePolicy'] . "</td>
                 <td>" . $status. "</td>
+            </tr>";
+        }
+        echo "</tbody></table>";
+    }
+}
+
+function getOverviewDrivers($id, $count){
+    include('../connection.php');
+	if($count == "all"){
+        
+        //
+        //
+        //  MAKE SURE TO CHANGE THE subdate portion.  It is getting two day old data for testing now.
+        //
+        //
+        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 4)
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+        
+        $completedQuery = "SELECT r.rID, count(*) AS completed, r.dID
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 4)
+                        AND r.rSuccess = 1
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+
+    }elseif($count == "search"){
+        
+        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 2)
+                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+        
+        $completedQuery = "SELECT r.rID, count(*) AS completed, r.dID
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 2)
+                        AND r.rSuccess = 1
+                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+        $query = "SELECT *
+            FROM drivers
+            WHERE dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%' OR dUsername LIKE '%$id%'
+            ORDER BY dLastName ASC";
+    }
+
+    //Get total deliveries per driver from database
+    $countSql = $db->query($countQuery);
+    $row_cnt = $countSql->num_rows;
+    
+    if(!$countSql){
+        echo "<div class='alert alert-warning fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
+        return;
+    }
+    
+    //Get number of deliveries comleted
+    $completedSql = $db->query($completedQuery);
+    $row_cnt2 = $completedSql->num_rows;
+    
+    if(!$completedSql){
+        echo "<div class='alert alert-warning fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
+        return;
+    }
+    
+    if ($row_cnt == 0){
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers scheduled today.</div>";
+        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
+    } else {
+
+        $output = "";
+        
+        while ($info = $countSql->fetch_array()){
+            $info2 = $completedSql->fetch_array();
+            
+            if (isset($info2['completed'])){
+                $percent = round($info2['completed'] / $info['count'] * 100,2) ;
+            } else {
+                $percent = 0;
+            }
+            
+            $colorStyle = "";
+            //Set the color of the progress bar depending on progress made.
+            if ($percent < 25){
+                $colorStyle = "progress-bar-danger";
+            }else if ($percent < 50){
+                $colorStyle = "progress-bar-warning";
+            }else if ($percent < 75){
+                $colorStyle = "progress-bar-info";
+            }else {
+                $colorStyle = "progress-bar-success";
+            }
+
+            
+            $output .= "
+            <div data-did='". $info['dID'] ."' class='panel panel-default driverPanel'>             
+                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] . "</div>
+                <div class='panel-body'>
+                    <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
+                        <div class='".$colorStyle." progress-bar' role='progressbar' aria-valuenow='".$percent."' aria-valuemin='0' aria-valuemax='100' style='width:".$percent."%'>
+                            <span style='color: black;'>". $percent ."% Completed</span>
+                        </div>
+                    </div>
+                    Phone: " . formatPhone($info['dPhoneNumber']) . "<br />
+                    Status: " . $info2['completed'] . " of " . $info['count'] . " completed.
+                </div>
+            </div>
+            ";
+            
+            
+        }
+
+        $output .= $output;
+        $output .= $output;
+        echo $output;
+    }
+}
+
+function getOverviewClient($id, $count){
+    include('../connection.php');
+	if($count == "all"){
+        $query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes
+				FROM clients
+				ORDER BY cLastName ASC";
+    }elseif($count == "search"){
+        $query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes 
+            FROM clients
+            WHERE cFirstName LIKE '%$id%' OR cLastName LIKE '%$id%' OR cPhone LIKE '%$id%'
+            ORDER BY cLastName ASC";
+    }
+    
+	$sql = $db->query($query);
+	$row_cnt = $sql->num_rows;
+    if ($row_cnt == 0){
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
+        if ($count == "search")echo "<div class='alert alert-warning fade in msg'>There are currently no clients that match that query.</div>";
+    } else {
+        echo "Drivers Clients";
+        echo "<table class='alignleft table table-hover'>
+            <thead class='tableHead'>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>";
+
+
+        while ($info = $sql->fetch_array()) {
+            if($info['cActive'] == 1){
+                $active ="Active";
+                #$action = "Deactivate";
+            } else {
+                $active ="Inactive";
+                #$action = "Activate";
+            }
+            echo "<tr>
+                <td>" . $info['cID'] . "</td>
+                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . formatPhone($info['cPhone']) . "</td>
+                <td>" . $active . "</td>
             </tr>";
         }
         echo "</tbody></table>";
@@ -1186,7 +1366,7 @@ function getDeliverys($weekNumber, $dDay,$d){
 			$dID = $dInfo['dID'];
 			$clientName = $dInfo['cLastName'].' '.$dInfo['cFirstName'];
 			$driverName = $dInfo['dLastName'].' '.$dInfo['dFirstName'];
-			$driverNumber = $dInfo['dPhoneNumber'];
+			$driverNumber = formatPhone($dInfo['dPhoneNumber']);
 			
 			/*if($dDay == getTodaysDay(date('w'))){
 				$selectD = "<select onchange='changeDriver($rID,this.options[this.selectedIndex].value)'>
