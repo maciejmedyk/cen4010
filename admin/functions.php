@@ -259,7 +259,7 @@ function getOverviewDrivers($id, $count){
                         </div>
                     </div>
                     Phone: " . formatPhone($info['dPhoneNumber']) . "<br />
-                    Status: En-Route to: 
+                    Status: " . $info2['completed'] . " of " . $info['count'] . " completed.
                 </div>
             </div>
             ";
