@@ -44,8 +44,11 @@
 
                             <div style="height: 50%;" id="overviewMap"></div>
 
-                            <div style="height: 50%;" class="scrollable-y" id="">
-                                <?php getOverviewClient(0, "all"); ?>
+                            <div id="clientTable" style="height: 50%;" class="scrollable-y" id="">
+                                <div class="jumbotron">
+                                    <h2>Welcome to MOW Delivery Tracker.</h2>
+                                    <p>To display client and routing data, please click a driver from the list on the left.</p>
+                                </div>
                             </div>
 
                         </div>
@@ -61,6 +64,12 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>
+<script>
+
+
+
+</script>
+
 <script src="script/overviewMapFunctions.js"></script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>

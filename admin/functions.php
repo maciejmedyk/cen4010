@@ -153,45 +153,120 @@ function getDrivers($id, $count){
 function getOverviewDrivers($id, $count){
     include('../connection.php');
 	if($count == "all"){
-        $query = "SELECT *
-                FROM drivers
-                ORDER BY dLastName ASC";
+        
+        //
+        //
+        //  MAKE SURE TO CHANGE THE subdate portion.  It is getting two day old data for testing now.
+        //
+        //
+        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 4)
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+        
+        $completedQuery = "SELECT r.rID, count(*) AS completed, r.dID
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 4)
+                        AND r.rSuccess = 1
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+
     }elseif($count == "search"){
+        
+        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 2)
+                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+        
+        $completedQuery = "SELECT r.rID, count(*) AS completed, r.dID
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 2)
+                        AND r.rSuccess = 1
+                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
         $query = "SELECT *
             FROM drivers
             WHERE dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%' OR dUsername LIKE '%$id%'
             ORDER BY dLastName ASC";
     }
 
-    $sql = $db->query($query);
-    $row_cnt = $sql->num_rows;
+    //Get total deliveries per driver from database
+    $countSql = $db->query($countQuery);
+    $row_cnt = $countSql->num_rows;
+    
+    if(!$countSql){
+        echo "<div class='alert alert-warning fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
+        return;
+    }
+    
+    //Get number of deliveries comleted
+    $completedSql = $db->query($completedQuery);
+    $row_cnt2 = $completedSql->num_rows;
+    
+    if(!$completedSql){
+        echo "<div class='alert alert-warning fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
+        return;
+    }
+    
     if ($row_cnt == 0){
-        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers in the database.</div>";
+        if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers scheduled today.</div>";
         if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
     } else {
 
         $output = "";
-        while ($info = $sql->fetch_array()) {
+        
+        while ($info = $countSql->fetch_array()){
+            $info2 = $completedSql->fetch_array();
             
-            if($info['dActive'] == 1){
-                $output .= "
-                <div class='panel panel-default'>             
-                    <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . " " . $info['dFirstName'] . "</div>
-                    <div class='panel-body'>
-                        <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
-                            <div class='progress-bar-info progress-bar' role='progressbar' aria-valuenow='70' aria-valuemin='0' aria-valuemax='100' style='width:70%'>
-                                70%
-                            </div>
-                        </div>
-                        Phone: " . formatPhone($info['dPhoneNumber']) . "<br />
-                        Status: En-Route
-                    </div>
-                </div>
-                ";
+            if (isset($info2['completed'])){
+                $percent = round($info2['completed'] / $info['count'] * 100,2) ;
+            } else {
+                $percent = 0;
             }
+            
+            $colorStyle = "";
+            //Set the color of the progress bar depending on progress made.
+            if ($percent < 25){
+                $colorStyle = "progress-bar-danger";
+            }else if ($percent < 50){
+                $colorStyle = "progress-bar-warning";
+            }else if ($percent < 75){
+                $colorStyle = "progress-bar-info";
+            }else {
+                $colorStyle = "progress-bar-success";
+            }
+
+            
+            $output .= "
+            <div data-did='". $info['dID'] ."' class='panel panel-default driverPanel'>             
+                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] . "</div>
+                <div class='panel-body'>
+                    <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
+                        <div class='".$colorStyle." progress-bar' role='progressbar' aria-valuenow='".$percent."' aria-valuemin='0' aria-valuemax='100' style='width:".$percent."%'>
+                            <span style='color: black;'>". $percent ."% Completed</span>
+                        </div>
+                    </div>
+                    Phone: " . formatPhone($info['dPhoneNumber']) . "<br />
+                    Status: En-Route to: 
+                </div>
+            </div>
+            ";
+            
+            
         }
-        $output .= $output;
-        $output .= $output;
+
         $output .= $output;
         $output .= $output;
         echo $output;
