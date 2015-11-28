@@ -39,7 +39,7 @@ if($_POST["action"] == "getClientInfo"){
             ON r.cID = c.cID
             WHERE r.dID = $driverID
             AND date(r.rDate) = subdate(curdate(), 4)
-            ORDER BY cLastName ASC;";
+            ORDER BY rSuccess ASC, cLastName;";
     
     
 	$sql = $db->query($query);

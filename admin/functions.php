@@ -266,9 +266,6 @@ function getOverviewDrivers($id, $count){
             
             
         }
-
-        $output .= $output;
-        $output .= $output;
         echo $output;
     }
 }

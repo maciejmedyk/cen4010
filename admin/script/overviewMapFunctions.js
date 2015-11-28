@@ -5,34 +5,14 @@ $(document).on('click','.driverPanel',function(){
     });
     $(this).addClass("selectedPanel");
     var dID = $(this).data('did');
-    
-    //Get driver info and update map.
-    $.ajax({
-        method: "POST",
-        url: "indexHelper.php",
-        data: { action:"getRouteInfo",dID: dID }
-    }).done(function(returnData){
         
-        var data = JSON.parse(returnData);
-        var lat = parseFloat(data.lat);
-        var lng = parseFloat(data.lng);
-        var dName = data.dLastName + ", " + data.dFirstName;
-        
-        var jsonData = {lat: lat, lng: lng};
-        
-        deleteMarkers();
-        replaceMarker(jsonData, dName);
-    });
-    
     //Get Clients table and update div
     $.ajax({
         method: "POST",
         url: "indexHelper.php",
         data: { action:"getClientInfo",dID: dID }
     }).done(function(returnData){
-        
         $("#clientTable").html(returnData);
-        getMapData();
     });
     
     //Get Clients location data and update map
@@ -48,22 +28,40 @@ $(document).on('click','.driverPanel',function(){
         var dName;
         var location;
         
+        //remove the old markers
+        deleteMarkers();
+        
         //Add markers for each client
         for(var idx in data){
-        
-            if (idx <=2){
-                            lat = parseFloat(data[idx].lat);
-            lng = parseFloat(data[idx].lng);
+            lat = parseFloat(data[idx].cLat);
+            lng = parseFloat(data[idx].cLng);
             dName = data[idx].cLastName + ", " + data[idx].cFirstName;
             location = {lat: lat, lng: lng};
-            console.log(location);
-            addMarker(location, 'red');
+            
+            if(data[idx].rSuccess == 1){
+                addMarker(location, dName, 'green');
+            }else{
+                addMarker(location, dName, 'red');
             }
-
         }
-        
         showMarkers();
-
+    });
+    
+    //Get driver info and update map.
+    $.ajax({
+        method: "POST",
+        url: "indexHelper.php",
+        data: { action:"getRouteInfo",dID: dID }
+    }).done(function(returnData){
+        
+        var data = JSON.parse(returnData);
+        var lat = parseFloat(data.lat);
+        var lng = parseFloat(data.lng);
+        var dName = data.dLastName + ", " + data.dFirstName;
+        
+        var jsonData = {lat: lat, lng: lng};
+        
+        replaceMarker(jsonData, dName);
     });
     
 });
@@ -103,12 +101,13 @@ function replaceMarker(location, title){
         title: title,
         icon: image
     });
+    dMarker.setZIndex(google.maps.Marker.MAX_ZINDEX);
     map.setCenter(dMarker.getPosition());
 }
 
 
 // Adds a marker to the map and push to the array.
-function addMarker(location, color) {
+function addMarker(location, title, color) {
   
     var image;
     if (color == "red"){
@@ -119,7 +118,9 @@ function addMarker(location, color) {
 
     var marker = new google.maps.Marker({
         position: location,
-        map: map
+        map: map,
+        title: title,
+        icon: image
     });
     markers.push(marker);
 }
