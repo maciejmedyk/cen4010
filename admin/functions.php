@@ -266,9 +266,6 @@ function getOverviewDrivers($id, $count){
             
             
         }
-
-        $output .= $output;
-        $output .= $output;
         echo $output;
     }
 }
@@ -863,21 +860,21 @@ function getClientNotesTable($id, $count){
 function getEmergencyTable($id, $count){
         include('../connection.php');
 	if($count == "all"){
-        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName, drivers.dPhoneNumber
                 FROM emergency, drivers
                 WHERE emergency.dID = drivers.dID
-                ORDER BY eDate DESC;";
+                ORDER BY emergency.eDate DESC, emergency.eResolved DESC;";
     }elseif($count == "search"){
         //This query needs fixing.
-        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName, drivers.dPhoneNumber
             FROM emergency, drivers
             WHERE eID LIKE '%$id%' OR eDate LIKE '%$id%' OR dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%'
-            ORDER BY eDate DESC;";
+            ORDER BY eDate DESC, eResolved DESC;";
     }else{
-        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName
+        $query = "SELECT emergency.*, drivers.dFirstName, drivers.dLastName, drivers.dPhoneNumber
                 FROM emergency, drivers
                 WHERE emergency.dID = drivers.dID
-                ORDER BY eDate DESC
+                ORDER BY eDate DESC, eResolved DESC
                 LIMIT ".$count.";";
     }
 
@@ -894,9 +891,9 @@ function getEmergencyTable($id, $count){
             <th>ID</th>
             <th>Date</th>
             <th>Submitted By</th>
+            <th>Driver Phone</th>
             <th>Location</th>
             <th>Resolved</th>
-            <th>Note</th>
         </tr>
         </thead>
         <tbody>";
@@ -922,14 +919,13 @@ function getEmergencyTable($id, $count){
                 $location = "";
             }
             
-            echo "<tr data-coords='" . $info['eCoordinates'] . "' data-eID='" . $info['eID'] . "'>
-                </td>
+            echo "<tr data-coords='" . $info['eCoordinates'] . "' data-eID='" . $info['eID'] . "' style='".(($info['eResolved'] == 0)? 'background-color: #F9DBDB;' : '')."'>
                 <td>" . $info['eID'] . "</td>
                 <td>" . $info['eDate'] . "</td>
                 <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
+                <td>" . formatPhone($info['dPhoneNumber']) . "</td>
                 <td><a href=# onclick='replaceMarker($location)'  >".(($location != '')? 'Show on map' : 'No Data')."</a></td>
                 <td>" . $info['eResolved'] . "</td>
-                <td>Notes?</td>
             </tr>";
         }
         echo "</tbody></table></div>";
