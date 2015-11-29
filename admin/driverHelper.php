@@ -10,13 +10,15 @@ if($_POST["action"] == "driverNewpass"){
 	echo "New Password ". $pass;
 }
 
-if($_POST['action']== "clientDelete"){
-	actionClient($_POST['cID'],0);
+
+if($_POST['action'] == "unlockDriver"){
+	unLock($_POST['dID']);
 }
 
-if($_POST['action'] == "clientDeleteConfirm"){
-	actionClient($_POST['cID'],1);
+if($_POST['action'] == "retireDriver"){
+	retireDriver($_POST['dID'], $_POST['step']);
 }
+
 
 if($_POST["action"] == "submitDriverEdit"){
 	$dID            = $_POST['dID'];

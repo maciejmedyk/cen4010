@@ -448,6 +448,26 @@ function changePassword(dID){
 		});
 }
 
+function unlockDriver(dID){
+	$.ajax({
+			method: "POST",
+			url: "driverHelper.php",
+			data: { action:"unlockDriver", dID: dID }
+		}).done(function( page ) {
+			errorMSG(page, 0);
+		});
+}
+
+function retireDriver(dID, step){
+	$.ajax({
+			method: "POST",
+			url: "driverHelper.php",
+			data: { action:"retireDriver", dID: dID, step:step }
+		}).done(function( page ) {
+			errorMSG(page, 0);
+		});
+}
+
 // Login Forms
 $("#driverLog").click(function(){
 	$( ".admin_L" ).addClass( "disable" );

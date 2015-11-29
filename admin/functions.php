@@ -119,13 +119,15 @@ function getDrivers($id, $count){
             if(isRetired($info['dID']) ){
                 $dlabel = "Retire";
                 $status = "Active";
+				$step = 0;
             } else {
                 $dlabel = "Re-enable";
                 $status = "Retired";
+				$step = 1;
             }
 
             if(isLocked($info['dID']) ){
-                $locked = "<a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-danger' data-driverID='" . $info['dID'] . "'>Unlock Driver</a>";
+                $locked = '<a onclick="unlockDriver('.$info['dID'].')" class="dTableButton btn btn-xs btn-danger">Unlock Driver</a>';
             } else {
                 $locked = "";
             }
@@ -133,7 +135,7 @@ function getDrivers($id, $count){
             echo "<tr data-status='" . $status . "'>
                 <td>
                     <a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>Edit</a>						
-                    <a href='driverEdit.php?dID=" . $info['dID'] . "' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>".$dlabel." Driver</a>
+                    <a onclick='retireDriver(".$info['dID'].", ".$step.")' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['dID'] . "'>".$dlabel." Driver</a>
                     ".$locked."
                 </td>
                 <td>" . $info['dID'] . "</td>
@@ -336,14 +338,31 @@ function isRetired($dID){
 	}
 }
 
+function retireDriver($dID,$x){
+	include('../connection.php');
+	$query = "UPDATE drivers SET 
+				dActive = '$x'
+				WHERE dID='$dID'";
+							
+		$db->query($query);
+	
+	if($x == 0){
+		echo "Driver is retired";
+	} else {
+		echo "Driver is re-enable";
+	}
+}
+
 function isLocked($dID){
 	include('../connection.php');
 	$query = "SELECT *
 				FROM trap
-				WHERE dID = $dID AND lockCount > 9";
+				WHERE lockedID ='$dID' AND lockType='1' AND lockCount > 9";
 
 	$sql = $db->query($query);
+	
 	$row_cnt = $sql->num_rows;
+	
 	if ($row_cnt > 0){
 		return true;
 	} else {
@@ -351,6 +370,14 @@ function isLocked($dID){
 	}
 }
 
+function unLock($dID){
+	include('../connection.php');
+	// Update
+	$query = "DELETE FROM trap
+				WHERE lockedID ='$dID' AND lockType='1'";
+	$db->query($query);
+	echo "Driver Unlocked";
+}
 //
 //Search functions just forward the request in the appropriate manner.
 //

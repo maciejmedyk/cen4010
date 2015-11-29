@@ -2825,6 +2825,11 @@ ul.nav.nav-tabs li.active a {
   margin-right: 10px;
   margin-bottom: 0;
 }
+/*FIX CHECK BOX BUG*/
+input[type=checkbox], .checkbox-inline input[type=checkbox] {
+    float: none !important;
+    margin-left: 0px !important;
+}
 .form-horizontal.form-bordered .radio,
 .form-horizontal.form-bordered .checkbox,
 .form-horizontal.form-bordered .radio-inline,

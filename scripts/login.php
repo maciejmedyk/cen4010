@@ -1,7 +1,9 @@
 <?php
 session_start();
 include('../connection.php');
+include('loginHelper.php');
 $error='';
+$lockedAt = 10; // 10 Wrong password try before geting locked out set to 0 to disable this function
 
 if (isset($_POST['userType'])) {
 	$username=$_POST['userName'];
@@ -23,16 +25,23 @@ if (isset($_POST['userType'])) {
 		$sql = $db->query($query);
 		$row = $sql->fetch_array();
         $row_cnt = $sql->num_rows;
-        if ($row_cnt == 1){
-            $_SESSION['loginUser']=$username;
-			$_SESSION['driverID'] = $row['dID'];
-			$_SESSION['driverName'] = $row['dFirstName']." ".$row['dLastName'];
-			$_SESSION['userType']=$_POST['userType'];
-			$error = 0;
-        } else {
-			// Trap will go here
-            $error = "Username or Password is invalid";
-        }
+		
+		if(isLocked($row['dID'], 1, $lockedAt)){
+			$error = "You are locked out";
+		} else {
+			if ($row_cnt == 1){
+				$_SESSION['loginUser']=$username;
+				$_SESSION['driverID'] = $row['dID'];
+				$_SESSION['driverName'] = $row['dFirstName']." ".$row['dLastName'];
+				$_SESSION['userType']=$_POST['userType'];
+				bruteForceClean($row['dID'], 1);
+				$error = 0;
+			} else {
+				// Trap will go here
+				bruteForceProtection($username, 1);
+				$error = "Username or Password is invalid $username";
+			}
+		}
 		echo $error;
 	} else if($_POST['userType'] == "Admin"){
 		$username=$_POST['userName'];
