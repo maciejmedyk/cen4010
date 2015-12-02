@@ -378,6 +378,7 @@ function unLock($dID){
 	$db->query($query);
 	echo "Driver Unlocked";
 }
+
 //
 //Search functions just forward the request in the appropriate manner.
 //
@@ -1225,6 +1226,7 @@ function populateRoutes(){
 	
 	
 }
+
 function todaysDrivers($day){
 	include('../connection.php');
 	set_time_limit(120);

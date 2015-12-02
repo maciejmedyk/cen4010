@@ -72,7 +72,52 @@ $(document).ready(function() {
         }
     });
     
+    //
+    // Runs every 30 seconds to check for and display emergencies.
+    //
+    window.setInterval(checkEmergencies, 30000);
+    
+    
 }); //End Document ready.
+
+function checkEmergencies(){
+    if (window.location.pathname != '/admin/reports.php'){
+        
+        var unixTimestamp = Date.now();
+        $.ajax({
+            method: "POST",
+            url: "getEmergencies.php",
+            data: {
+                    action:"getNewEmergencies",
+                    date: unixTimestamp
+                  }
+        }).done(function( returnData ) {
+
+            /*var data = JSON.parse(returnData);
+
+            var lat;
+            var lng;
+            var dName;
+            var location;
+
+
+            //Add markers for each client
+            for(var idx in data){
+                lat = parseFloat(data[idx].cLat);
+                lng = parseFloat(data[idx].cLng);
+                dName = data[idx].dLastName + ", " + data[idx].dFirstName;
+                location = {lat: lat, lng: lng};
+
+                errorMSG(dName, 0);
+            }*/
+                var msg = "<h2>ALERT: You have recieved " + returnData + " new emergency requests!</h2><br><a href='reports.php' class='button btn btn-danger'>View Emergency List</a>";
+
+            errorMSG(msg, 0);
+        });
+
+    }
+}
+
 
 /*
 #########################################
