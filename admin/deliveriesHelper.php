@@ -48,7 +48,8 @@ if( $_POST['action'] == "genNew"){
 }
 
 if( $_POST['action'] == "genToday"){
-	insertDriver(1);
+	$driverArray = $_POST['driverArray'];
+	insertDriver(1,$driverArray);
 }
 
 if( $_POST['action'] == "genCopy"){

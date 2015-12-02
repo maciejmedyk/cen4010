@@ -121,6 +121,14 @@
                                     <input type="text" class="form-control" id="insPolicy" name="insPolicy" placeholder="Enter insurance policy number">
                                 </div>
                             </div>
+							
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="delArea">Starting delivery area:</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="delArea" name="delArea" placeholder="Enter a starting zone this can be an address, zip code or intersection">
+								</div>
+							</div>
+							
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="notes">Driver Notes:</label>
                                 <div class="col-sm-6">
@@ -142,7 +150,7 @@
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
-                                    <div id="addDriver" class="btn btn-success">Add Driver</div>
+                                    <div id="insertDriver" class="btn btn-success">Add Driver</div>
                                 </div>
                             </div>
 
@@ -159,19 +167,6 @@
     </div>
     <!-- /#page-wrapper -->
     
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<?php include("footer.php");?>
-</body>
-</html>
-		<!-- CONTENT STARTS HERE-->
-
-
-			<div>
-			
-				
-		</div>	
-		<!-- CONTENT ENDS HERE-->
-	</div>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<?php include("footer.php");?>
 </body>

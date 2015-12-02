@@ -40,7 +40,7 @@
 			         <div id="adminForms" class="loginFormSubmit btn btn-success admin_L">      Login      </div><br><br>
 			         <!--<div id="adminForm" class="btn btn-default admin_L">      Login      </div><br><br>
                <div id="driverForm" class="btn btn-default driver_L">      Login      </div><br><br>-->
-				<a href="#" class="admin_L" ><p>Forgot your password?</p></a>
+				<a href="passwordRecovery.php" class="admin_L" ><p>Forgot your password?</p></a>
            </form>
        </div>
 	   

@@ -349,7 +349,7 @@ function retireDriver($dID,$x){
 	if($x == 0){
 		echo "Driver is retired";
 	} else {
-		echo "Driver is re-enable";
+		echo "Driver is re-enabled";
 	}
 }
 
@@ -579,12 +579,23 @@ function editDriver($driverID){
 	$sql = $db->query($query);
 	$info = $sql->fetch_array();
 	$schedule = $info['dSchedule'];
+	$lat = $info['lat'];
+	$lng = $info['lng'];
 	$schedule = explode(",", $schedule);
 	$MoC = (in_array("Mo", $schedule) ? "checked" : "");
 	$TuC = (in_array("Tu", $schedule) ? "checked" : "");
 	$WeC = (in_array("We", $schedule) ? "checked" : "");
 	$ThC = (in_array("Th", $schedule) ? "checked" : "");
 	$FrC = (in_array("Fr", $schedule) ? "checked" : "");
+	
+	
+	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?latlng=$lat,$lng&sensor=false&region=USA");
+
+	if($json != ""){
+		$json = json_decode($json);
+
+		$delArea = $json->{'results'}[0]->{'formatted_address'};
+	}
 	
 	echo '<form id="editDriverForm" class="form-horizontal" action="#" role="form" method="post">
 					<input id="dID" type="hidden" value="'.$driverID.'">
@@ -654,6 +665,14 @@ function editDriver($driverID){
 							<input type="text" class="form-control" id="insPolicy" name="insPolicy" value="'.$info['dInsurancePolicy'].'">
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="delArea">Starting delivery area:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="delArea" name="delArea" value="'.$delArea.'">
+						</div>
+					</div>
+					
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="notes">Driver Notes:</label>
 						<div class="col-sm-6">
@@ -1206,16 +1225,40 @@ function populateRoutes(){
 	
 	
 }
+function todaysDrivers($day){
+	include('../connection.php');
+	set_time_limit(120);
+	$query = "SELECT * FROM drivers WHERE dActive = 1 AND dSchedule LIKE ('%$day%')";
+	//echo $query;
+	$sql = $db->query($query);
+	$drivers = '';
+	while( $dInfo = $sql->fetch_array()){
+		$drivers .= '<div class="col-md-4"><input name="drivers[]" class="driver_checkbox" type="checkbox" value="'.$dInfo['dID'].'" checked /> '.$dInfo['dFirstName'].' '.$dInfo['dLastName'].'</div>' ;
+		
+		$driver_array[] = $dInfo;
+	}
+	echo $drivers;
+}
 
-function insertDriver($date){
+function insertDriver($date, $dArray){
 	$time_pre = microtime(true);
 	include('../connection.php');
 	set_time_limit(120);
 	$query = "SELECT dID, lat, lng,dSchedule FROM drivers WHERE dActive = 1";
 	$sql = $db->query($query);
 	while( $dInfo = $sql->fetch_array()){
-		$driver_array[] = $dInfo;
+		if($dArray != 0){
+			
+			if (in_array($dInfo['dID'], $dArray)) {
+				$driver_array[] = $dInfo;
+			}
+			
+			
+		} else {
+			$driver_array[] = $dInfo;
+		}
 	}
+	//print_r($driver_array);
 	if($date == 0){
 		$rQuery = "SELECT
 			  routes.rID,
@@ -1327,7 +1370,7 @@ function initRoutes(){
 	// Populate the routes DB
 	populateRoutes();
 	// Select Driver
-	insertDriver(0);
+	insertDriver(0,0);
 	$time_post = microtime(true);
 	$exec_time = $time_post - $time_pre;
 	

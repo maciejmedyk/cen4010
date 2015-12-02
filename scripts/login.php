@@ -26,8 +26,9 @@ if (isset($_POST['userType'])) {
 		$row = $sql->fetch_array();
         $row_cnt = $sql->num_rows;
 		
-		if(isLocked($row['dID'], 1, $lockedAt)){
-			$error = "You are locked out";
+		$bruteCheck = bruteForceCheck($username, 1,$lockedAt);
+		if($bruteCheck[0]){
+			$error = $bruteCheck[1];
 		} else {
 			if ($row_cnt == 1){
 				$_SESSION['loginUser']=$username;
@@ -39,7 +40,7 @@ if (isset($_POST['userType'])) {
 			} else {
 				// Trap will go here
 				bruteForceProtection($username, 1);
-				$error = "Username or Password is invalid $username";
+				$error = "Username or Password is invalid";
 			}
 		}
 		echo $error;
@@ -59,17 +60,23 @@ if (isset($_POST['userType'])) {
 		$sql = $db->query($query);
 		$row = $sql->fetch_array();
         $row_cnt = $sql->num_rows;
-        if ($row_cnt == 1){
-            $_SESSION['loginUser']=$username;
-			$_SESSION['adminID'] = $row['sID'];
-			$_SESSION['adminName'] = $row['sFirstName']." ".$row['sLastName'];
-			$_SESSION['userType']=$_POST['userType'];
-            $_SESSION['isSuperAdmin'] = $row['sSuperAdmin'];
-			$error = 0;
-        } else {
-			// Trap will go here
-            $error = "Username or Password is invalid";
-        }
+		$bruteCheck = bruteForceCheck($username, 0,$lockedAt);
+		if($bruteCheck[0]){
+			$error = $bruteCheck[1];
+		} else {
+			if ($row_cnt == 1){
+				$_SESSION['loginUser']=$username;
+				$_SESSION['adminID'] = $row['sID'];
+				$_SESSION['adminName'] = $row['sFirstName']." ".$row['sLastName'];
+				$_SESSION['userType']=$_POST['userType'];
+				$_SESSION['isSuperAdmin'] = $row['sSuperAdmin'];
+				$error = 0;
+			} else {
+				// Trap will go here
+				bruteForceProtection($username, 0);
+				$error = "Username or Password is invalid";
+			}
+		}
 		echo $error;
 	}
     

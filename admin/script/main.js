@@ -3,7 +3,7 @@ function errorMSG(errorString, errorType){
 	console.log(errorString);
 	$(".mask").css({"display":"block"});
 	$( "#errorMSG" ).html( errorString );
-}
+}*/
 
 function loading(msg){
 	$(".loadingMask").css({"display":"block"});
@@ -12,7 +12,7 @@ function loading(msg){
 
 function endLoading(){
 	$(".loadingMask").css({"display":"none"});
-}*/
+}
 
 //Filters the drivers list according to if the driver is active.
 $(document).ready(function() {
@@ -270,8 +270,8 @@ function actionClient(cID, step){
 }
 
 /*Submit New Drivers*/
-$(document).on('click','#addDriver',function(){
-	//console.log("Submit New Drivers");
+$('#insertDriver').click(function(){
+	console.log("Submit New Drivers");
 	
 	//var str = $("#editDriverForm").serialize();
 	var cID = $("#cID").val();
@@ -287,6 +287,7 @@ $(document).on('click','#addDriver',function(){
 	var insurance = $("#insCo").val();
 	var policyNumber = $("#insPolicy").val();
 	var delNotes = $("#delNotes").val();
+	var delArea = $("#delArea").val();
 	var Active = 1;
 	var MSG = "";
 
@@ -316,7 +317,8 @@ $(document).on('click','#addDriver',function(){
 					policyNumber: policyNumber, 
 					delNotes: delNotes,
 					schedule: schedule,
-					Active:Active }
+					Active:Active,
+					delArea: delArea}
 		}).done(function( page ) {
 			errorMSG(page, 0);
 			$("#editDriverForm").find("input[type=text], input[type=email], textarea").val("").removeAttr('checked');
@@ -347,6 +349,8 @@ $(document).on('click','#editDriver',function(){
 	var insurance = $("#insCo").val();
 	var policyNumber = $("#insPolicy").val();
 	var delNotes = $("#delNotes").val();
+	var delArea = $("#delArea").val();
+	//console.log(delArea);
 	var schedule = [];
 	 $.each($("input[name='schedule']:checked"), function(){            
                 schedule.push($(this).val());
@@ -373,7 +377,8 @@ $(document).on('click','#editDriver',function(){
 					insurance: insurance, 
 					policyNumber: policyNumber,
 					schedule: schedule,
-					delNotes: delNotes }
+					delNotes: delNotes,
+					delArea: delArea}
 		}).done(function( page ) {
 			errorMSG(page, 0);
 		});
@@ -541,84 +546,6 @@ function trim(s)
   return s.replace(/^\s+|\s+$/, '');
 } 
 
-/*
-##########################################
-############# TABS FUNCTIONS #############
-##########################################
-*/
-
-
-$( document ).ready(function() {
-	if(document.getElementById('tabs')){
-		init();
-	}
-	
-});
-var tabLinks = new Array();
-var contentDivs = new Array();
-function init() {
-
-  // Grab the tab links and content divs from the page
-  var tabListItems = document.getElementById('tabs').childNodes;
-  for ( var i = 0; i < tabListItems.length; i++ ) {
-	if ( tabListItems[i].nodeName == "LI" ) {
-	  var tabLink = getFirstChildWithTagName( tabListItems[i], 'A' );
-	  var id = getHash( tabLink.getAttribute('href') );
-	  tabLinks[id] = tabLink;
-	  contentDivs[id] = document.getElementById( id );
-	}
-  }
-
-  // Assign onclick events to the tab links, and
-  // highlight the first tab
-  var i = 0;
-
-  for ( var id in tabLinks ) {
-	tabLinks[id].onclick = showTab;
-	tabLinks[id].onfocus = function() { this.blur() };
-	if ( i == 0 ) tabLinks[id].classList.add('selected');
-	i++;
-  }
-
-  // Hide all content divs except the first
-  var i = 0;
-
-  for ( var id in contentDivs ) {
-	if ( i != 0 ) contentDivs[id].classList.add('hide');
-	i++;
-  }
-}
-
-function showTab() {
-  var selectedId = getHash( this.getAttribute('href') );
-
-  // Highlight the selected tab, and dim all others.
-  // Also show the selected content div, and hide all others.
-  for ( var id in contentDivs ) {
-	if ( id == selectedId ) {
-	  tabLinks[id].classList.add('selected');
-	  contentDivs[id].classList.remove('hide');
-	} else {
-	  tabLinks[id].classList.remove('selected');
-	  contentDivs[id].classList.add('hide');
-	}
-  }
-
-  // Stop the browser following the link
-  return false;
-}
-
-function getFirstChildWithTagName( element, tagName ) {
-  for ( var i = 0; i < element.childNodes.length; i++ ) {
-	if ( element.childNodes[i].nodeName == tagName ) return element.childNodes[i];
-  }
-}
-
-function getHash( url ) {
-  var hashPos = url.lastIndexOf ( '#' );
-  return url.substring( hashPos + 1 );
-}
-
 
 /*
 ################################################
@@ -698,10 +625,16 @@ $("#genNew").click(function(){
 $("#genToday").click(function(){
 	console.log("init Load");
 	loading("This may take a few minutes.</br>Please don't reload the page!");
+	
+	var val = [];
+        $('.driver_checkbox:checkbox:checked').each(function(i){
+          val[i] = $(this).val();
+        });
+	
 	$.ajax({
 			method: "POST",
 			url: "deliveriesHelper.php",
-			data: { action:"genToday"}
+			data: { action:"genToday", driverArray: val}
 		}).done(function( page ) {
 			endLoading();
 			errorMSG(page, 1);

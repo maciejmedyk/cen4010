@@ -66,7 +66,11 @@
                         <div class="row" style="padding: 10px 30px;">
                             <div id="genCopy" class="col-md-4 btn btn-success" >Use Last Weeks</br> <?php rangeWeek( date("Y-m-d", time() - 604800) );?></div> 
                             <div id="genNew" class="col-md-4 btn btn-success">Create New Schedule For</br> <?php rangeWeek( date("Y-m-d", time()) );?></div> 
-                            <div id="genToday" class="col-md-4 btn btn-success">Recalucate Today </br> <?php echo date("Y-m-d", time());?></div>
+                            <div class="col-md-4 row">
+								<div id="genToday" class="col-md-12 btn btn-success">Recalculate Today </br> <?php echo date("Y-m-d", time());?></div>
+								<div class="col-md-12 row"> <?php todaysDrivers(getTodaysDay(date('w')));?></div>
+							</div>
+							
                         </div>
                     </div>
                 </div>
