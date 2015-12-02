@@ -10,13 +10,15 @@ if($_POST["action"] == "driverNewpass"){
 	echo "New Password ". $pass;
 }
 
-if($_POST['action']== "clientDelete"){
-	actionClient($_POST['cID'],0);
+
+if($_POST['action'] == "unlockDriver"){
+	unLock($_POST['dID']);
 }
 
-if($_POST['action'] == "clientDeleteConfirm"){
-	actionClient($_POST['cID'],1);
+if($_POST['action'] == "retireDriver"){
+	retireDriver($_POST['dID'], $_POST['step']);
 }
+
 
 if($_POST["action"] == "submitDriverEdit"){
 	$dID            = $_POST['dID'];
@@ -35,6 +37,33 @@ if($_POST["action"] == "submitDriverEdit"){
 	$schedule       = $_POST['schedule'];
 	$schedule = implode(",", $schedule);
 	
+	$address = $_POST['delArea'];
+	
+	$address = str_replace("#", "", $address);
+	$address = str_replace(" ", "-", $address);
+	$address = preg_replace("/--+/", "+", $address);
+	$address = str_replace("-", "+", $address);
+	if(substr($address, -1) == "+"){
+		$address = substr($address, 0, -1);
+	}
+	$json = "";
+	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA");
+	//echo "http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA";
+	if($json != ""){
+		$json = json_decode($json);
+
+		$lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+		$lng = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+		
+		if($lat == "" && $lng == ""){
+			$lat = $json->{'results'}[0]->{'location'}->{'lat'};
+			$lng = $json->{'results'}[0]->{'location'}->{'lng'};
+		}else if($lat == ""){
+			$lat = 'empty';
+			$lng = 'empty';
+		}
+	}
+	//echo $lat." ".$lng;
 	$query = "UPDATE drivers SET 
 				dFirstName ='$fName ', 
 				dLastName ='$lName', 
@@ -48,10 +77,14 @@ if($_POST["action"] == "submitDriverEdit"){
 				dInsuranceCo ='$insurance', 
 				dInsurancePolicy ='$policyNumber',
 				dStatusComment = '$delNotes',
-				dSchedule = '$schedule'
+				dSchedule = '$schedule',
+				lat = '$lat',
+				lng = '$lng'
 				WHERE dID='$dID'";
 				//echo $query;
     $db->query($query);
+	
+	echo "Driver Information has been Updated";
 }
 
 
@@ -73,6 +106,33 @@ if($_POST["action"] == "submitNewDriver"){
 	$schedule = implode(",", $schedule);
 	$Active         = $_POST['Active'];
 	
+	$address = $_POST['delArea'];
+	
+	$address = str_replace("#", "", $address);
+	$address = str_replace(" ", "-", $address);
+	$address = preg_replace("/--+/", "+", $address);
+	$address = str_replace("-", "+", $address);
+	if(substr($address, -1) == "+"){
+		$address = substr($address, 0, -1);
+	}
+	$json = "";
+	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA");
+	//echo "http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=USA";
+	if($json != ""){
+		$json = json_decode($json);
+
+		$lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+		$lng = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+		
+		if($lat == "" && $lng == ""){
+			$lat = $json->{'results'}[0]->{'location'}->{'lat'};
+			$lng = $json->{'results'}[0]->{'location'}->{'lng'};
+		}else if($lat == ""){
+			$lat = 'empty';
+			$lng = 'empty';
+		}
+	}
+	
 	//Generate UserName
 	$userName = gUsername($fName,$lName);
 	//Generate Password
@@ -85,9 +145,9 @@ if($_POST["action"] == "submitNewDriver"){
 	}*/
 	
 	
-	$query = "INSERT INTO drivers (dFirstName,dLastName, dPhoneNumber, dEmail, dLicenseNumber, dVehicleYear, dVehicleMake, dVehicleModel, dVehicleTag, dInsuranceCo, dInsurancePolicy, dUsername, dPassword, dActive, dStatusComment, dSchedule) 
-			VALUES ('$fName', '$lName', '$phone', '$email', '$license', '$year', '$make', '$model', '$tag', '$insurance', '$policyNumber', '$userName', '$pass', '$Active', '$delNotes', '$schedule')";
-	echo $query;
+	$query = "INSERT INTO drivers (dFirstName,dLastName, dPhoneNumber, dEmail, dLicenseNumber, dVehicleYear, dVehicleMake, dVehicleModel, dVehicleTag, dInsuranceCo, dInsurancePolicy, dUsername, dPassword, dActive, dStatusComment, dSchedule, lat, lng) 
+			VALUES ('$fName', '$lName', '$phone', '$email', '$license', '$year', '$make', '$model', '$tag', '$insurance', '$policyNumber', '$userName', '$pass', '$Active', '$delNotes', '$schedule', '$lat', '$lng')";
+	//echo $query;
     $db->query($query);
 	
 	echo "<h2>Driver Added<h2>";

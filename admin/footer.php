@@ -10,7 +10,7 @@
 		<div class="popUp"></div>
 		<div id="errorMSG"></div>
 	</div>
-</div>
+</div> -->
 
 <div class="loadingMask">
 	<div class="load-wrapp">
@@ -22,7 +22,7 @@
 			<div class="line"></div>
 		</div>
 	</div>
-</div-->
+</div>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 
@@ -43,7 +43,8 @@
     <script src="script/holder.js"></script>-->
     <script src="script/responsive-tabs.js"></script>
     <!--CORE JAVASCRIPT-->
-    <script src="script/main.js"></script>
+	<script src="script/main.js"></script>
+    <script src="script/tab.js"></script>
 
 <?php
     //
