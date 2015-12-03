@@ -36,7 +36,7 @@
 
                 <ul id="tabs">
                     <li><a href="#adminListTab" class="selected">Administrators</a></li>
-                    <li><a href="#addAdminTab">Add Admin</a></li>
+                    <?php if($_SESSION['isSuperAdmin'] == 1) echo '<li><a href="#addAdminTab">Add Admin</a></li>';?>
                     <!--li><a href="#settingsTab">Settings</a></li-->
                 </ul>
 

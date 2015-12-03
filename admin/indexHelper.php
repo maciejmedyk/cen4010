@@ -80,7 +80,7 @@ if($_POST["action"] == "getClientInfo"){
             
             $table .= "<tr style='" . (($status == 'Delivered')? '' : 'background-color: #FFDBDB;' ) . "'>
                 <td>" . $status . "</td>
-                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . $info['cLastName'] . ", " . $info['cFirstName'] . "</td>
                 <td>" . $info['cAddress1'] . " " . $info['cCity'] . "</td>
                 <td>" . formatPhone($info['cPhone']) . "</td>
                 <td>" . $info['cDeliveryNotes'] . "</td>
