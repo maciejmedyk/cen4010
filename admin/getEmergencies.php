@@ -15,11 +15,12 @@ if($_POST["action"] == "getNewEmergencies"){
             JOIN drivers AS d
             ON e.dID = d.dID
             WHERE e.eResolved = 0;";
-            //AND UNIX_TIMESTAMP('eDate') >= '$date';";
+            //WHERE UNIX_TIMESTAMP(STR_TO_DATE(e.eDate, '%M %e %Y %h:%i%p')) >= '$date';";
+            
     
     $sql = $db->query($query);
 	$row_cnt = $sql->num_rows;
-    
+
     if(!$sql){
         echo "<div class='alert alert-danger fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
         return;

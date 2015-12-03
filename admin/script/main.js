@@ -75,15 +75,19 @@ $(document).ready(function() {
     //
     // Runs every 30 seconds to check for and display emergencies.
     //
+    checkEmergencies(); //Run as soon as page loads then timer
     window.setInterval(checkEmergencies, 30000);
     
     
 }); //End Document ready.
 
+var lastDate = 0;
 function checkEmergencies(){
     if (window.location.pathname != '/admin/reports.php'){
         
-        var unixTimestamp = Date.now();
+        var unixTimestamp = lastDate;
+        lastDate = Date.now();
+        
         $.ajax({
             method: "POST",
             url: "getEmergencies.php",
@@ -117,6 +121,31 @@ function checkEmergencies(){
 
     }
 }
+
+//
+//This function will be called when the user clicks on the acknowledge button of the emergency table.
+//
+$(document).on('click','.eTableButton',function(){
+    var eid = $(this).data('eid');
+    
+    $.ajax({
+        method: "POST",
+        url: "reportsHelper.php",
+        data: {
+            action: "resolveEmergency",
+            eID: eid
+        }
+    }).done(function(returnData) {
+        
+        if(returnData == 1){
+            location.reload();
+        }else{
+            errorMSG(returnData,0);
+            //errorMSG("There was a problem acknowledging this message...  Please try again.", 0);
+        }
+    });
+});
+
 
 
 /*
