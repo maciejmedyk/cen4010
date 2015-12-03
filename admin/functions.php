@@ -37,7 +37,7 @@ function getClient($id, $count){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
         if ($count == "search")echo "<div class='alert alert-warning fade in msg'>There are currently no clients that match that query.</div>";
     } else {
-        echo "<table class='alignleft table table-hover'>
+        echo "<table id='clientTable' class='alignleft table table-hover'>
             <thead class='tableHead'>
             <tr>
             <th><i class='fa fa-check-square'></iclass></th>
@@ -59,7 +59,7 @@ function getClient($id, $count){
                 $active ="Inactive";
                 #$action = "Activate";
             }
-            echo "<tr>
+            echo "<tr data-status='" . $active ."'>
                 <td><a href='clientEdit.php?cID=".$info['cID']."' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
                 <td>" . $info['cID'] . "</td>
                 <td>" . $info['cLastName'] . ", " . $info['cFirstName'] . "</td>
@@ -161,7 +161,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
         
@@ -169,7 +169,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -180,7 +180,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -189,7 +189,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         AND r.rSuccess = 1
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
@@ -254,7 +254,7 @@ function getOverviewDrivers($id, $count){
             
             $output .= "
             <div data-did='". $info['dID'] ."' class='panel panel-default driverPanel'>             
-                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] . "</div>
+                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] ."</div>
                 <div class='panel-body'>
                     <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
                         <div class='".$colorStyle." progress-bar' role='progressbar' aria-valuenow='".$percent."' aria-valuemin='0' aria-valuemax='100' style='width:".$percent."%'>

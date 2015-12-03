@@ -44,9 +44,10 @@
                         <form>
                             <fieldset>
                                 <legend>Filters:</legend>
-                                    <input id="showInactiveDriver" type="checkbox" value="show" name="showInactive"/> Show inactive drivers.
+                                    <input checked id="showInactiveDriver" type="checkbox" value="show" name="showInactive"/> Show inactive drivers.
                             </fieldset>
                         </form> 
+                        <br>
                         <?php getDrivers(0,"all");?>
                     </div>
                 </div>
