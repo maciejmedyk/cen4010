@@ -114,8 +114,8 @@ function checkEmergencies(){
 
                 errorMSG(dName, 0);
             }*/
-            
-            
+            console.log(returnData);
+            //return;
             if (returnData > 0){
                                 var msg = "<h2>ALERT: You have recieved " + returnData + " new emergency requests!</h2><br><a href='reports.php' class='button btn btn-danger'>View Emergency List</a>";
 

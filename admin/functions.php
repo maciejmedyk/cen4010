@@ -156,16 +156,12 @@ function getOverviewDrivers($id, $count){
     include('../connection.php');
 	if($count == "all"){
         
-        //
-        //
-        //  MAKE SURE TO CHANGE THE subdate portion.  It is getting two day old data for testing now.
-        //
-        //
+
         $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = curdate()
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
         
@@ -173,7 +169,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = curdate()
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -184,7 +180,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = curdate()
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -193,7 +189,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = curdate()
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         AND r.rSuccess = 1
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
@@ -218,9 +214,13 @@ function getOverviewDrivers($id, $count){
     $row_cnt2 = $completedSql->num_rows;
     
     if(!$completedSql){
-        echo "<div class='alert alert-warning fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
+        echo "<div class='alert alert-warning fade in msg'>There were SQL errors:<br/>".mysqli_error($db)."</div>";
         return;
     }
+    
+    //print_r($countSql);
+    //print_r($completedSql);
+    //return;
     
     if ($row_cnt == 0){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers scheduled today.</div>";
@@ -235,6 +235,7 @@ function getOverviewDrivers($id, $count){
             if (isset($info2['completed'])){
                 $percent = round($info2['completed'] / $info['count'] * 100,2) ;
             } else {
+                $info2['completed'] = 0;
                 $percent = 0;
             }
             
@@ -272,7 +273,8 @@ function getOverviewDrivers($id, $count){
     }
 }
 
-function getOverviewClient($id, $count){
+/*function getOverviewClient($id, $count){
+
     include('../connection.php');
 	if($count == "all"){
         $query = "SELECT cID, cFirstName, cLastName, cPhone, cActive, cDeliveryNotes
@@ -321,7 +323,7 @@ function getOverviewClient($id, $count){
         }
         echo "</tbody></table>";
     }
-}
+}*/
 
 function isRetired($dID){
 	include('../connection.php');

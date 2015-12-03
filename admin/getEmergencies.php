@@ -14,10 +14,12 @@ if($_POST["action"] == "getNewEmergencies"){
             FROM emergency AS e
             JOIN drivers AS d
             ON e.dID = d.dID
-            WHERE e.eResolved = 0;";
-            //WHERE UNIX_TIMESTAMP(STR_TO_DATE(e.eDate, '%M %e %Y %h:%i%p')) >= '$date';";
+            WHERE e.eResolved = 0
+            AND UNIX_TIMESTAMP(e.eDate) > $date;";
             
     
+    //echo $query;
+    //return;
     $sql = $db->query($query);
 	$row_cnt = $sql->num_rows;
 
