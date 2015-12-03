@@ -65,7 +65,7 @@ $(document).ready(function() {
             });  
         }else{
             $('#clientTable > tbody > tr').each(function() {
-                if ( $(this).data('status') == "Retired"){
+                if ( $(this).data('status') == "Inactive"){
                     $(this).addClass( "hidden" );
                 }
             });

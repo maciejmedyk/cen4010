@@ -42,9 +42,10 @@
                         <form>
                             <fieldset>
                                 <legend>Filters:</legend>
-                                    <input id="showInactiveClients" type="checkbox" value="show" name="showInactive"/> Show inactive clients.
+                                    <input checked id="showInactiveClients" type="checkbox" value="show" name="showInactive"/> Show inactive clients.
                             </fieldset>
                         </form> 
+                        <br>
                         <?php getClient(0,"all");?>
                     </div>
                 </div>

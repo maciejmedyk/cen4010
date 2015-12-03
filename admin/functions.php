@@ -37,7 +37,7 @@ function getClient($id, $count){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no clients in the database.</div>";
         if ($count == "search")echo "<div class='alert alert-warning fade in msg'>There are currently no clients that match that query.</div>";
     } else {
-        echo "<table class='alignleft table table-hover'>
+        echo "<table id='clientTable' class='alignleft table table-hover'>
             <thead class='tableHead'>
             <tr>
             <th><i class='fa fa-check-square'></iclass></th>
@@ -59,10 +59,10 @@ function getClient($id, $count){
                 $active ="Inactive";
                 #$action = "Activate";
             }
-            echo "<tr>
+            echo "<tr data-status='" . $active ."'>
                 <td><a href='clientEdit.php?cID=".$info['cID']."' class='dTableButton btn btn-xs btn-success' data-driverID='" . $info['cID'] . "'>Edit</a></td>
                 <td>" . $info['cID'] . "</td>
-                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . $info['cLastName'] . ", " . $info['cFirstName'] . "</td>
                 <td>" . formatPhone($info['cPhone']) . "</td>
                 <td>" . $active . "</td>
                 <td>" . $info['cDeliveryNotes'] . "</td>
@@ -139,7 +139,7 @@ function getDrivers($id, $count){
                     ".$locked."
                 </td>
                 <td>" . $info['dID'] . "</td>
-                <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
+                <td>" . $info['dLastName'] . ", " . $info['dFirstName'] . "</td>
                 <td>" . $info['dUsername'] . "</td>
                 <td>" . $info['dVehicleYear'] . " " . $info['dVehicleMake'] . " " . $info['dVehicleModel'] . "</td>
                 <td>" . $info['dVehicleTag'] . "</td>
@@ -161,7 +161,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
         
@@ -169,7 +169,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -180,7 +180,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -189,7 +189,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), 1)
                         AND r.rSuccess = 1
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
@@ -254,7 +254,7 @@ function getOverviewDrivers($id, $count){
             
             $output .= "
             <div data-did='". $info['dID'] ."' class='panel panel-default driverPanel'>             
-                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] . "</div>
+                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] ."</div>
                 <div class='panel-body'>
                     <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
                         <div class='".$colorStyle." progress-bar' role='progressbar' aria-valuenow='".$percent."' aria-valuemin='0' aria-valuemax='100' style='width:".$percent."%'>
@@ -443,7 +443,7 @@ function actionClient($clientID, $step){
 		$sql = $db->query($query);
 		$info = $sql->fetch_array();
 		echo '<div class="formTitle">Delete Client Information</div>';
-		echo '<div>Do you realy want to delete '. $info['cFirstName'] .' '. $info['cLastName'] .' .</div>';
+		echo '<div>Do you realy want to delete '. $info['cFirstName'] .', '. $info['cLastName'] .' .</div>';
 		echo '<div onclick="actionClient('.$clientID.',1)" >Yes</div> <div onclick="actionClient('.$clientID.',0)">No</div>';
 	}
 }
@@ -879,7 +879,7 @@ function getAdminTable($id, $count){
             }
             
             echo "<td>" . $info['sID'] . "</td>
-                <td>" . $info['sLastName'] . " " . $info['sFirstName'] . "</td>
+                <td>" . $info['sLastName'] . ", " . $info['sFirstName'] . "</td>
                 <td>" . $info['sUsername'] . "</td>
                 <td>" . $type . "</td>
                 <td>" . $status . "</td>
@@ -893,13 +893,6 @@ function getAdminTable($id, $count){
 //Gets the settings form.
 //
 function getSettingsForm(){
-    
-}
-
-//
-//
-//
-function getClientNotesTable($id, $count){
     
 }
 
@@ -971,10 +964,10 @@ function getEmergencyTable($id, $count){
             echo "<tr data-coords='" . $info['eCoordinates'] . "' data-eID='" . $info['eID'] . "' style='".(($info['eResolved'] == 0)? 'background-color: #F9DBDB;' : '')."'>
                 <td><a href='#' class='eTableButton btn btn-xs btn-success' data-eid='" . $info['eID'] . "' style='display:" .(($info['eResolved'] == 1)? 'none;' : ';')  . "'>Acknowledge</a></td>
                 <td>" . $info['eDate'] . "</td>
-                <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
+                <td>" . $info['dLastName'] . ", " . $info['dFirstName'] . "</td>
                 <td>" . formatPhone($info['dPhoneNumber']) . "</td>
                 <td><a href=# onclick='replaceMarker($location)'  >".(($location != '')? 'Show on map' : 'No Data')."</a></td>
-                <td>" . $info['eResolved'] . "</td>
+                <td>" . (($info['eResolved'] == 1)? 'Yes' : '') . "</td>
             </tr>";
         }
         echo "</tbody></table></div>";
@@ -1030,9 +1023,9 @@ function getNotesTable($id, $count){
                 </td>
                 <td>" . $info['nID'] . "</td>
                 <td>" . $info['nDate'] . "</td>
-                <td>" . $info['cLastName'] . " " . $info['cFirstName'] . "</td>
+                <td>" . $info['cLastName'] . ", " . $info['cFirstName'] . "</td>
                 <td>" . $info['nComment'] . "</td>
-                <td>" . (($info['nUrgent'] == 1)? 'true' : 'false') . "</td>
+                <td>" . (($info['nUrgent'] == 1)? 'yes' : '') . "</td>
             </tr>";
         }
         echo "</tbody></table>";
@@ -1237,7 +1230,7 @@ function todaysDrivers($day){
 	$sql = $db->query($query);
 	$drivers = '';
 	while( $dInfo = $sql->fetch_array()){
-		$drivers .= '<div class="col-md-4"><input name="drivers[]" class="driver_checkbox" type="checkbox" value="'.$dInfo['dID'].'" checked /> '.$dInfo['dFirstName'].' '.$dInfo['dLastName'].'</div>' ;
+		$drivers .= '<div class="col-md-4"><input name="drivers[]" class="driver_checkbox" type="checkbox" value="'.$dInfo['dID'].'" checked /> '.$dInfo['dFirstName'].', '.$dInfo['dLastName'].'</div>' ;
 		
 		$driver_array[] = $dInfo;
 	}
@@ -1434,8 +1427,8 @@ function getDeliverys($weekNumber, $dDay,$d){
 			}
 			$rID = $dInfo['rID'];
 			$dID = $dInfo['dID'];
-			$clientName = $dInfo['cLastName'].' '.$dInfo['cFirstName'];
-			$driverName = $dInfo['dLastName'].' '.$dInfo['dFirstName'];
+			$clientName = $dInfo['cLastName'].', '.$dInfo['cFirstName'];
+			$driverName = $dInfo['dLastName'].', '.$dInfo['dFirstName'];
 			$driverNumber = formatPhone($dInfo['dPhoneNumber']);
 			
 			/*if($dDay == getTodaysDay(date('w'))){
@@ -1474,7 +1467,7 @@ function genDList($db){
     $list = '';
     while ($info = $sql->fetch_array()) {
 		$dID = $info['dID'];
-		$driverName = $info['dLastName'].' '.$info['dFirstName'];
+		$driverName = $info['dLastName'].', '.$info['dFirstName'];
 		$list .= '<option value="'.$dID.'">'.$driverName.'</option>';
 	}
 	return $list;
