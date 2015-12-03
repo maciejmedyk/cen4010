@@ -176,12 +176,14 @@ function getOverviewDrivers($id, $count){
 
     }elseif($count == "search"){
         
-        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng
+        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng, r.rDate
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
+                        JOIN clients AS c
+                        ON r.cID = c.cID
                         WHERE date(r.rDate) = subdate(curdate(), 0.208)
-                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
+                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%' OR c.cLastName LIKE '%$id%' OR c.cFirstName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
         
@@ -189,15 +191,14 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
+                        JOIN clients AS c
+                        ON r.cID = c.cID
                         WHERE date(r.rDate) = subdate(curdate(), 0.208)
                         AND r.rSuccess = 1
-                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
+                        AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%' OR c.cLastName LIKE '%$id%' OR c.cFirstName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
-        $query = "SELECT *
-            FROM drivers
-            WHERE dFirstName LIKE '%$id%' OR dLastName LIKE '%$id%' OR dUsername LIKE '%$id%'
-            ORDER BY dLastName ASC";
+        
     }
 
     //Get total deliveries per driver from database
@@ -402,11 +403,14 @@ function searchReports($string){
 
 function searchDeliveries($string){
     getDeliveriesTable($string, "search");
-
 }
 
 function searchEmergencies($search){
     getEmergencyTable($search, "search");
+}
+
+function searchOverview($search){
+    getOverviewDrivers($search, "search");
 }
 
 function actionClient($clientID, $step){
