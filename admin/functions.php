@@ -157,11 +157,11 @@ function getOverviewDrivers($id, $count){
 	if($count == "all"){
         
 
-        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng
+        $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng, r.rDate
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 1)
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
         
@@ -169,7 +169,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 1)
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -180,7 +180,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 1)
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -189,7 +189,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 1)
+                        WHERE date(r.rDate) = subdate(curdate(), 0)
                         AND r.rSuccess = 1
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID

@@ -38,7 +38,7 @@ if($_POST["action"] == "getClientInfo"){
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 1)
+            AND date(r.rDate) = subdate(curdate(), 0)
             ORDER BY rSuccess ASC, cLastName;";
     
     
@@ -101,7 +101,7 @@ if($_POST["action"] == "getMapInfo"){
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 1)
+            AND date(r.rDate) = subdate(curdate(), 0)
             ORDER BY cLastName ASC;";
     
     
