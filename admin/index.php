@@ -3,7 +3,7 @@
 	include_once("header.php");
 	$page = "Overview";
     $pageTitle = "Overview";
-    $search = false;
+    $search = true;
 ?>
 <body>
 <?php include("menus.php"); ?>
@@ -66,7 +66,9 @@
 </body>
 <script>
 
-
+$(document).ready(function() {
+        $(".tabWrapper").css('padding-bottom', '85px');
+});
 
 </script>
 

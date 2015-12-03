@@ -37,6 +37,14 @@ $(document).ready(function() {
     //Close Error Message
     //
     $("#closeError").click(function(e){
+        
+        if (window.location.pathname == '/admin/index.php'){
+            $(".tabWrapper").css('padding-bottom', '85px');
+        }else{
+            $(".tabWrapper").css('padding-bottom', '130px');
+        }
+        
+        
         $("#errorWrapper").fadeOut();
         return false;
     });
@@ -174,6 +182,16 @@ function errorMSG(errorString, errorType){
     //Im using this with bootstrap alerts till you work out what you are doing with that ugly popup :P
     $( "#errorWrapper" ).fadeOut(function(){
         $( "#errorMSG" ).html( errorString );
+        
+        if (window.location.pathname == '/admin/index.php'){
+            var height = $("#errorWrapper").height() + 100;
+            $(".tabWrapper").css('padding-bottom', height);
+        }else{
+            var height = $("#errorWrapper").height() + 150;
+            $(".tabWrapper").css('padding-bottom', height);
+        }
+
+        
         $( "#errorWrapper" ).removeClass("alert-success alert-danger");
         if(errorType == 0){
             $( "#errorWrapper" ).addClass("alert-danger").fadeIn();

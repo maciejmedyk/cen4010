@@ -33,5 +33,11 @@ if($where == "Clients"){
 	} else {
 		searchAdmin($search);
 	}
+} elseif($where == "Overview"){
+    if(strlen($search) == 0){
+		getOverviewDrivers(0, "all");
+	} else {
+		searchOverview($search);
+	}
 }
 ?>
