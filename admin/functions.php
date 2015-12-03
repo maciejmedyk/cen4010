@@ -1245,7 +1245,7 @@ function todaysDrivers($day){
 function insertDriver($date, $dArray){
 	$time_pre = microtime(true);
 	include('../connection.php');
-	set_time_limit(120);
+	set_time_limit(1500);
 	$query = "SELECT dID, lat, lng,dSchedule FROM drivers WHERE dActive = 1";
 	$sql = $db->query($query);
 	while( $dInfo = $sql->fetch_array()){

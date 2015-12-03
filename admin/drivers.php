@@ -140,10 +140,10 @@
                                     <div class="checkbox">
                                         <legend>Delivery Days *</legend>
                                         <label><input type="checkbox" name="schedule" value="Mo">Monday</label>
-                                        <label><input type="checkbox" name="" value="Tu">Tuesday</label>
-                                        <label><input type="checkbox" name="" value="We">Wednesday</label>
-                                        <label><input type="checkbox" name="" value="Th">Thursday</label>
-                                        <label><input type="checkbox" name="" value="Fr">Friday</label>
+                                        <label><input type="checkbox" name="schedule" value="Tu">Tuesday</label>
+                                        <label><input type="checkbox" name="schedule" value="We">Wednesday</label>
+                                        <label><input type="checkbox" name="schedule" value="Th">Thursday</label>
+                                        <label><input type="checkbox" name="schedule" value="Fr">Friday</label>
                                     </div>
                                 </div>
                             </div>
