@@ -37,7 +37,14 @@ $(document).ready(function() {
     //Close Error Message
     //
     $("#closeError").click(function(e){
-        $(".tabWrapper").css('padding-bottom', '130px');
+        
+        if (window.location.pathname == '/admin/index.php'){
+            $(".tabWrapper").css('padding-bottom', '85px');
+        }else{
+            $(".tabWrapper").css('padding-bottom', '130px');
+        }
+        
+        
         $("#errorWrapper").fadeOut();
         return false;
     });
@@ -176,8 +183,14 @@ function errorMSG(errorString, errorType){
     $( "#errorWrapper" ).fadeOut(function(){
         $( "#errorMSG" ).html( errorString );
         
-        var height = $("#errorWrapper").height() + 130;
-        $(".tabWrapper").css('padding-bottom', height);
+        if (window.location.pathname == '/admin/index.php'){
+            var height = $("#errorWrapper").height() + 100;
+            $(".tabWrapper").css('padding-bottom', height);
+        }else{
+            var height = $("#errorWrapper").height() + 150;
+            $(".tabWrapper").css('padding-bottom', height);
+        }
+
         
         $( "#errorWrapper" ).removeClass("alert-success alert-danger");
         if(errorType == 0){
