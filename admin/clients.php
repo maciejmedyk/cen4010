@@ -39,6 +39,12 @@
                 </ul>
                 <div class="scrollable-y tabContent" id="clients">
                     <div class="" id="displayData">
+                        <form>
+                            <fieldset>
+                                <legend>Filters:</legend>
+                                    <input id="showInactiveClients" type="checkbox" value="show" name="showInactive"/> Show inactive clients.
+                            </fieldset>
+                        </form> 
                         <?php getClient(0,"all");?>
                     </div>
                 </div>
