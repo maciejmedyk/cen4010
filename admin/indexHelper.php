@@ -38,7 +38,7 @@ if($_POST["action"] == "getClientInfo"){
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 4)
+            AND date(r.rDate) = subdate(curdate(), 0)
             ORDER BY rSuccess ASC, cLastName;";
     
     
@@ -51,7 +51,7 @@ if($_POST["action"] == "getClientInfo"){
         echo "<div class='alert alert-danger fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
         return;
     }
-    
+
     if ($row_cnt == 0){
         echo "<div class='alert alert-warning fade in msg'>There are currently no clients on this drivers route.</div>";
     } else {
@@ -95,13 +95,13 @@ if($_POST["action"] == "getMapInfo"){
     include('../connection.php');
 
     $driverID = $_POST["dID"];
-    
+
     $query = "SELECT r.dID, r.rSuccess, c.cFirstName, c.cLastName, c.cAddress1, c.cCity, c.cPhone, c.cDeliveryNotes, c.cLat, c.cLng
             FROM clients AS c
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 4)
+            AND date(r.rDate) = subdate(curdate(), 0)
             ORDER BY cLastName ASC;";
     
     
