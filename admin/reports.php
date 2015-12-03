@@ -13,11 +13,15 @@
         Page Title
     -->
 		<div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
-			<div class="page-header pull-left">
-				<div class="page-title">
-					<?php echo $pageTitle ?>
-				</div>
-			</div>
+            
+            <div class="container-fluid">
+                <div class="page-header pull-left">
+                    <div class="page-title">
+                        <?php echo $pageTitle ?>
+                    </div>
+                </div>
+                <div id="dataRefresh" class="pull-right"></div>
+            </div>
 			<div class="clearfix"></div>
             
             <!-- Universal error or success message. Called with errorMSG(message, type) -->

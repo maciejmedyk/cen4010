@@ -7,15 +7,15 @@ include_once("session.php");
 if($_POST["action"] == "getNewEmergencies"){
 	 
     //$date = date('Y-m-d H:i:s', strtotime($_POST['date']));
-    $date = $_POST['date'];
-    $date = floor($date / 1000);
+    //$date = $_POST['date'];
+    //$date = floor($date / 1000);
     
     $query = "SELECT e.*, d.dFirstName, d.dLastName
             FROM emergency AS e
             JOIN drivers AS d
             ON e.dID = d.dID
-            WHERE e.eResolved = 0
-            AND UNIX_TIMESTAMP(e.eDate) > $date;";
+            WHERE e.eResolved = 0;";
+            //AND UNIX_TIMESTAMP(e.eDate) > $date;";
             
     
     //echo $query;

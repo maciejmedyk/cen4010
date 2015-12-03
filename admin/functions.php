@@ -154,6 +154,7 @@ function getDrivers($id, $count){
 
 function getOverviewDrivers($id, $count){
     include('../connection.php');
+	$isSearch = false;
 	if($count == "all"){
         
 
@@ -175,7 +176,24 @@ function getOverviewDrivers($id, $count){
                         ORDER BY dLastName ASC;";
 
     }elseif($count == "search"){
+        $isSearch = true;
+		$countQueryNorm = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng, r.rDate
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 0.208)
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
         
+        $completedQueryNorm = "SELECT r.rID, count(*) AS completed, r.dID
+                        FROM routes AS r
+                        JOIN drivers AS d
+                        ON r.dID = d.dID
+                        WHERE date(r.rDate) = subdate(curdate(), 0.208)
+                        AND r.rSuccess = 1
+                        GROUP BY r.dID
+                        ORDER BY dLastName ASC;";
+						
         $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng, r.rDate
                         FROM routes AS r
                         JOIN drivers AS d
@@ -219,13 +237,21 @@ function getOverviewDrivers($id, $count){
         return;
     }
     
-    //print_r($countSql);
-    //print_r($completedSql);
-    //return;
-    
+	//Get counts for the search query
+	if($isSearch){
+		$countSqlNorm = $db->query($countQueryNorm);
+		$completedSqlNorm = $db->query($completedQueryNorm);
+		while ($info = $countSqlNorm->fetch_array()){
+			$info2 = $completedSqlNorm->fetch_array();
+		
+			$count[$info['dID']] = $info['count'];
+			$completed[$info['dID']] = $info2['completed'];	
+		}
+	}
+	
     if ($row_cnt == 0){
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers scheduled today.</div>";
-        if ($count == "search") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
+        if ($isSearch) echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
     } else {
 
         $output = "";
@@ -233,12 +259,21 @@ function getOverviewDrivers($id, $count){
         while ($info = $countSql->fetch_array()){
             $info2 = $completedSql->fetch_array();
             
+				$cou = 0;
+				$comp = 0;
+			
             if (isset($info2['completed'])){
-                $percent = round($info2['completed'] / $info['count'] * 100,2) ;
+                $percent = round($info2['completed'] / $info['count'] * 100,2);
             } else {
                 $info2['completed'] = 0;
                 $percent = 0;
             }
+			
+			if($isSearch){
+				$percent = round($count[$info['dID']] / $completed[$info['dID']] * 100,2);
+				$comp = $completed[$info['dID']];
+				$cou = $count[$info['dID']];
+			}
             
             $colorStyle = "";
             //Set the color of the progress bar depending on progress made.
@@ -255,7 +290,7 @@ function getOverviewDrivers($id, $count){
             
             $output .= "
             <div data-did='". $info['dID'] ."' class='panel panel-default driverPanel'>             
-                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] ."</div>
+                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] ."  " . $cou . "  " . $comp . "  " . $percent ."</div>
                 <div class='panel-body'>
                     <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
                         <div class='".$colorStyle." progress-bar' role='progressbar' aria-valuenow='".$percent."' aria-valuemin='0' aria-valuemax='100' style='width:".$percent."%'>
