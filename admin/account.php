@@ -37,7 +37,7 @@
                 <ul id="tabs">
                     <li><a href="#adminListTab" class="selected">Administrators</a></li>
                     <li><a href="#addAdminTab">Add Admin</a></li>
-                    <li><a href="#settingsTab">Settings</a></li>
+                    <!--li><a href="#settingsTab">Settings</a></li-->
                 </ul>
 
 
@@ -62,9 +62,9 @@
                 <!--
                     MOW Tracker settings page.
                 -->
-                <div class="scrollable-y tabContent hide" id="settingsTab">
+                <!--div class="scrollable-y tabContent hide" id="settingsTab">
 
-                </div>
+                </div-->
 
 
             </div>

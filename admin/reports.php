@@ -36,7 +36,7 @@
                 <ul id="tabs">
                     <li><a href="#alertsTab" class="selected">Emergency Alerts</a></li>
                     <li><a href="#notesTab">Client Notes</a></li>
-                    <li><a href="#eventsTab">Event Log</a></li>
+                    <!--li><a href="#eventsTab">Event Log</a></li-->
                 </ul>
                 <div class="tabContent" id="alertsTab">
                     
@@ -53,11 +53,11 @@
                         <?php getNotesTable(0, "all"); ?>
                     </div>
                 </div>
-                <div class="tabContent" id="eventsTab">
+                <!--div class="tabContent" id="eventsTab">
                     <div class="scrollable-y" id="">
                         <?php /*getEventsTable(0, "all");*/ ?>
                     </div>
-                </div>
+                </div-->
                 
             </div>
         <!-- /.container-fluid -->

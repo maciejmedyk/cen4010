@@ -165,7 +165,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 4)
+                        WHERE date(r.rDate) = curdate()
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
         
@@ -173,7 +173,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 4)
+                        WHERE date(r.rDate) = curdate()
                         AND r.rSuccess = 1
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -184,7 +184,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 2)
+                        WHERE date(r.rDate) = curdate()
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY dLastName ASC;";
@@ -193,7 +193,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 2)
+                        WHERE date(r.rDate) = curdate()
                         AND r.rSuccess = 1
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%')
                         GROUP BY r.dID
@@ -378,6 +378,7 @@ function unLock($dID){
 	$db->query($query);
 	echo "Driver Unlocked";
 }
+
 //
 //Search functions just forward the request in the appropriate manner.
 //
@@ -934,7 +935,7 @@ function getEmergencyTable($id, $count){
         echo "<div class=''><table id='emergencyTable' class='alignleft table table-hover'>
         <thead class='tableHead'>
         <tr>
-            <th>ID</th>
+            <th>Action</th>
             <th>Date</th>
             <th>Submitted By</th>
             <th>Driver Phone</th>
@@ -966,7 +967,7 @@ function getEmergencyTable($id, $count){
             }
             
             echo "<tr data-coords='" . $info['eCoordinates'] . "' data-eID='" . $info['eID'] . "' style='".(($info['eResolved'] == 0)? 'background-color: #F9DBDB;' : '')."'>
-                <td>" . $info['eID'] . "</td>
+                <td><a href='#' class='eTableButton btn btn-xs btn-success' data-eid='" . $info['eID'] . "' style='display:" .(($info['eResolved'] == 1)? 'none;' : ';')  . "'>Acknowledge</a></td>
                 <td>" . $info['eDate'] . "</td>
                 <td>" . $info['dLastName'] . " " . $info['dFirstName'] . "</td>
                 <td>" . formatPhone($info['dPhoneNumber']) . "</td>
@@ -1225,6 +1226,7 @@ function populateRoutes(){
 	
 	
 }
+
 function todaysDrivers($day){
 	include('../connection.php');
 	set_time_limit(120);

@@ -72,7 +72,91 @@ $(document).ready(function() {
         }
     });
     
+    //
+    // Runs every 30 seconds to check for and display emergencies.
+    //
+    checkEmergencies(); //Run as soon as page loads then timer
+    window.setInterval(checkEmergencies, 30000);
+    
+    
 }); //End Document ready.
+
+var lastDate = 0;
+function checkEmergencies(){
+    if (window.location.pathname != '/admin/reports.php'){
+        
+        var unixTimestamp = lastDate;
+        lastDate = Date.now();
+        
+        $.ajax({
+            method: "POST",
+            url: "getEmergencies.php",
+            data: {
+                    action:"getNewEmergencies",
+                    date: unixTimestamp
+                  }
+        }).done(function( returnData ) {
+
+            /*var data = JSON.parse(returnData);
+
+            var lat;
+            var lng;
+            var dName;
+            var location;
+
+
+            //Add markers for each client
+            for(var idx in data){
+                lat = parseFloat(data[idx].cLat);
+                lng = parseFloat(data[idx].cLng);
+                dName = data[idx].dLastName + ", " + data[idx].dFirstName;
+                location = {lat: lat, lng: lng};
+
+                errorMSG(dName, 0);
+            }*/
+            
+            
+            if (returnData > 0){
+                                var msg = "<h2>ALERT: You have recieved " + returnData + " new emergency requests!</h2><br><a href='reports.php' class='button btn btn-danger'>View Emergency List</a>";
+
+            errorMSG(msg, 0);
+            }
+
+        });
+
+    }
+}
+
+//
+//This function will be called when the user clicks on the acknowledge button of the emergency table.
+//
+var lockbutton = 0;
+$(document).on('click','.eTableButton',function(){
+    var eid = $(this).data('eid');
+    if( lockbutton == 1){
+        return;
+    }
+    lockbutton = 1;
+
+    $.ajax({
+        method: "POST",
+        url: "reportsHelper.php",
+        data: {
+            action: "resolveEmergency",
+            eID: eid
+        }
+    }).done(function(returnData) {
+        
+        if(returnData == 1){
+            location.reload();
+        }else{
+            errorMSG(returnData,0);
+            //errorMSG("There was a problem acknowledging this message...  Please try again.", 0);
+        }
+    });
+});
+
+
 
 /*
 #########################################

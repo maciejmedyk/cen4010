@@ -2,7 +2,7 @@
 include_once("session.php"); 
 include_once("../header.php"); 
 ?>
-<body>
+<body onLoad="initMap()">
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
@@ -18,20 +18,23 @@ include_once("../header.php");
         <div id="dInsideFrame">
             <a href="tel:911"<button type="link" id="emeButton" class="btn btn-default"> Call 911 </button></a>
             <form action="emergency.php" method="post">
-            <button type="submit" id="emeButton" class="btn btn-default"> Location </button><br>
-            <textarea rows="2" id="currentLocation" name="coordinates" value="" disabled"></textarea>
+                <button type="submit" id="emeButton" class="btn btn-default"> Send <br> Location </button><br>
+                <textarea rows="2" id="currentLocation" name="coordinates" value=""></textarea>
             </form>
 
             <div id="map" style="max-height: 0px; display: none;"></div>
 
             <script>
                 var loc;
+                                                                 
+                $()                                                 
+                
                 function initMap() {
-                    var map = new google.maps.Map(document.getElementById('map'), {
+                    /*var map = new google.maps.Map(document.getElementById('map'), {
                         center: {lat: -34.397, lng: 150.644},
                         zoom: 6
                     });
-                    var infoWindow = new google.maps.InfoWindow({map: map});
+                    var infoWindow = new google.maps.InfoWindow({map: map});*/
 
                     // Try HTML5 geolocation.
                     if (navigator.geolocation) {
@@ -41,17 +44,17 @@ include_once("../header.php");
                                 lng: position.coords.longitude
                             };
                             var loc = pos['lat'] + ', ' + pos['lng'];
-                            infoWindow.setPosition(pos);
-                            infoWindow.setContent(loc);
+                            //infoWindow.setPosition(pos);
+                            //infoWindow.setContent(loc);
                             document.getElementById('currentLocation').value = loc;
 
-                            map.setCenter(pos);
+                            //map.setCenter(pos);
                         }, function() {
-                            handleLocationError(true, infoWindow, map.getCenter());
+                            //handleLocationError(true, infoWindow, map.getCenter());
                         });
                     } else {
                         // Browser doesn't support Geolocation
-                        handleLocationError(false, infoWindow, map.getCenter());
+                        //handleLocationError(false, infoWindow, map.getCenter());
                     }
                 }
 
@@ -69,18 +72,21 @@ include_once("../header.php");
             if (isset($_POST['coordinates']))
             {
 				$coordinates = $_POST['coordinates'];
-				$newStudent = "INSERT INTO emergency (dID, eDate, eCoordinates) VALUES ('$driverID', '$datetime', '$coordinates')";
-				$db->query($newStudent);
-                
-                if($db->affected_rows)
+				$newEmergency = "INSERT INTO emergency (dID, eDate, eCoordinates, eResolved) VALUES ('$driverID', '$datetime', '$coordinates', 0)";
+				$result = $db->query($newEmergency);
+
+                if (!$result){
+                    Print "<div id=\"emergencyConfirmation\"><p>There was an error:<br>" . $db->error . "</p></div>";
+
+                }else     //if($db->affected_rows)
                 {
                     Print "<div id=\"emergencyConfirmation\"><p>Coordinates Sent to Administrator</p></div>";
                 }
             }
             ?>
 
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUacGLhz_V_YNulU_YET1DwK4d2Y_g8M8&signed_in=true&callback=initMap"
-                    async defer></script>
+            <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUacGLhz_V_YNulU_YET1DwK4d2Y_g8M8&signed_in=true&callback=initMap"
+                    async defer></script-->
         </div>
     </div>
 </div>
