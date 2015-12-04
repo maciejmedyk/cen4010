@@ -77,6 +77,7 @@ if(isset($_GET['clientID'])){
                 if($option == 2)
                 {
                     $rID = $info['rID'];
+                    $query = "UPDATE `routes` SET `routes`.`rReschedule` = '1' WHERE `routes`.`rID` =  '$rID'";
 					$db->query($query);
                     $row_cnt = $sql->num_rows;
 					if ($row_cnt == 1){
