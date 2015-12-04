@@ -33,12 +33,16 @@ if($_POST["action"] == "getClientInfo"){
 
     $driverID = $_POST["dID"];
     
+    //Set timezone for this session.
+    $query = "SET @@session.time_zone = '-05:00'";
+    $sql = $db->query($query);
+    
     $query = "SELECT r.dID, r.rSuccess, c.cFirstName, c.cLastName, c.cAddress1, c.cCity, c.cPhone, c.cDeliveryNotes
             FROM clients AS c
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 0.208)
+            AND date(r.rDate) = subdate(curdate(), 0)
             ORDER BY rSuccess ASC, cLastName;";
     
     
@@ -96,12 +100,16 @@ if($_POST["action"] == "getMapInfo"){
 
     $driverID = $_POST["dID"];
 
+    //Set timezone for this session.
+    $query = "SET @@session.time_zone = '-05:00'";
+    $sql = $db->query($query);
+    
     $query = "SELECT r.dID, r.rSuccess, c.cFirstName, c.cLastName, c.cAddress1, c.cCity, c.cPhone, c.cDeliveryNotes, c.cLat, c.cLng
             FROM clients AS c
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 0.208)
+            AND date(r.rDate) = subdate(curdate(), 0)
             ORDER BY cLastName ASC;";
     
     
