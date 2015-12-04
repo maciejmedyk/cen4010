@@ -66,6 +66,9 @@ $(document).ready(function() {
         }
     });
     
+	//
+    //Filters the list to show only the active clients.
+    //
     $("#showInactiveClients").click(function() {
         if ($("#showInactiveClients").is(":checked")){
             $('#clientTable > tbody > tr').each(function() {
@@ -80,15 +83,23 @@ $(document).ready(function() {
         }
     });
     
+	//
+	// Dispays a refresh timer so the user knows how old the data is.
+	//
+	var refreshTimer = window.setInterval(updateRefreshTimer, 1000);
+	
     //
     // Runs every 30 seconds to check for and display emergencies.
     //
     checkEmergencies(); //Run as soon as page loads then timer
-    window.setInterval(checkEmergencies, 30000);
+    var emergencyTimer = window.setInterval(checkEmergencies, 30000);
     
     
 }); //End Document ready.
 
+//
+// Runs every 30 seconds to check for and display emergencies.
+//
 var lastDate = 0;
 function checkEmergencies(){
     if (window.location.pathname != '/admin/reports.php'){
@@ -125,14 +136,26 @@ function checkEmergencies(){
             console.log(returnData);
             //return;
             if (returnData > 0){
-                                var msg = "<h2>ALERT: You have recieved " + returnData + " new emergency requests!</h2><br><a href='reports.php' class='button btn btn-danger'>View Emergency List</a>";
-
-            errorMSG(msg, 0);
+            	var msg = "<h2>ALERT: You have recieved " + returnData + " new emergency request(s)!</h2><br><a href='reports.php' class='button btn btn-danger'>View Emergency List</a>";
+            	errorMSG(msg, 0);
             }
 
         });
 
     }
+}
+
+//
+// This function is called every second to update the refresh counter.
+//
+var counter = 0;
+function updateRefreshTimer(){
+	counter++;
+	if(counter < 120){
+		document.getElementById("dataRefresh").innerHTML = "Data is " + counter + "s old.";
+	}else{
+		document.getElementById("dataRefresh").innerHTML = "Data is " + counter + "s old. <a href='" + window.location.href +"' class='button btn btn-danger'>Refresh Now</a>";
+	}
 }
 
 //
