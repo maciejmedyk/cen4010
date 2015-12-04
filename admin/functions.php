@@ -154,7 +154,13 @@ function getDrivers($id, $count){
 
 function getOverviewDrivers($id, $count){
     include('../connection.php');
+    
 	$isSearch = false;
+    
+    
+    //echo 'Now:       '. date('Y-m-d') ."\n";
+    //return;
+    
 	if($count == "all"){
         
 
@@ -162,28 +168,30 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0.208)
+                        WHERE date(r.rDate) = subdate(curdate(), 0.499)
                         GROUP BY r.dID
-                        ORDER BY dLastName ASC;";
+                        ORDER BY d.dLastName ASC;";
         
         $completedQuery = "SELECT r.rID, count(*) AS completed, r.dID
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0.208)
+                        WHERE date(r.rDate) = subdate(curdate(), 0.499)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
-                        ORDER BY dLastName ASC;";
+                        ORDER BY d.dLastName ASC;";
 
     }elseif($count == "search"){
+        
         $isSearch = true;
-		$countQueryNorm = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng, r.rDate
+		
+        $countQueryNorm = "SELECT r.rID, count(*) AS count, r.dID
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
                         WHERE date(r.rDate) = subdate(curdate(), 0.208)
                         GROUP BY r.dID
-                        ORDER BY dLastName ASC;";
+                        ORDER BY d.dLastName ASC;";
         
         $completedQueryNorm = "SELECT r.rID, count(*) AS completed, r.dID
                         FROM routes AS r
@@ -192,7 +200,7 @@ function getOverviewDrivers($id, $count){
                         WHERE date(r.rDate) = subdate(curdate(), 0.208)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
-                        ORDER BY dLastName ASC;";
+                        ORDER BY d.dLastName ASC;";
 						
         $countQuery = "SELECT r.rID, count(*) AS count, d.dFirstName, d.dLastName, r.dID, d.dPhoneNumber, d.lat, d.lng, r.rDate
                         FROM routes AS r
@@ -203,7 +211,7 @@ function getOverviewDrivers($id, $count){
                         WHERE date(r.rDate) = subdate(curdate(), 0.208)
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%' OR c.cLastName LIKE '%$id%' OR c.cFirstName LIKE '%$id%')
                         GROUP BY r.dID
-                        ORDER BY dLastName ASC;";
+                        ORDER BY d.dLastName ASC;";
         
         $completedQuery = "SELECT r.rID, count(*) AS completed, r.dID
                         FROM routes AS r
@@ -215,14 +223,14 @@ function getOverviewDrivers($id, $count){
                         AND r.rSuccess = 1
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%' OR c.cLastName LIKE '%$id%' OR c.cFirstName LIKE '%$id%')
                         GROUP BY r.dID
-                        ORDER BY dLastName ASC;";
+                        ORDER BY d.dLastName ASC;";
         
     }
 
     //Get total deliveries per driver from database
     $countSql = $db->query($countQuery);
     $row_cnt = $countSql->num_rows;
-    
+
     if(!$countSql){
         echo "<div class='alert alert-warning fade in msg'>There were SQL errors.<br/>".mysqli_error($db)."</div>";
         return;
@@ -236,43 +244,58 @@ function getOverviewDrivers($id, $count){
         echo "<div class='alert alert-warning fade in msg'>There were SQL errors:<br/>".mysqli_error($db)."</div>";
         return;
     }
-    
-	//Get counts for the search query
-	if($isSearch){
-		$countSqlNorm = $db->query($countQueryNorm);
-		$completedSqlNorm = $db->query($completedQueryNorm);
-		while ($info = $countSqlNorm->fetch_array()){
-			$info2 = $completedSqlNorm->fetch_array();
-		
-			$count[$info['dID']] = $info['count'];
-			$completed[$info['dID']] = $info2['completed'];	
-		}
-	}
 	
     if ($row_cnt == 0){
+        
         if ($count == "all") echo "<div class='alert alert-warning fade in msg'>There are currently no drivers scheduled today.</div>";
         if ($isSearch) echo "<div class='alert alert-warning fade in msg'>There are currently no drivers that match your query.</div>";
+        
     } else {
+
+        //Get all the drivers that have at least 1 delivery completed.
+        while ($info2 = $completedSql->fetch_array()){
+            $info2arr[$info2['dID']] = $info2;
+        }
+        
+        //Get counts for the search query
+        if($isSearch){
+            $countSqlNorm = $db->query($countQueryNorm);
+            $completedSqlNorm = $db->query($completedQueryNorm);
+            while ($info = $countSqlNorm->fetch_array()){
+                $info2 = $completedSqlNorm->fetch_array();
+
+                $counts[$info['dID']] = $info['count'];
+                
+                if(isset($info2['completed'])){
+                    $completed[$info['dID']] = $info2['completed'];
+                }else{
+                    $completed[$info['dID']] = 0;
+                }
+                	
+            }
+        }
 
         $output = "";
         
         while ($info = $countSql->fetch_array()){
-            $info2 = $completedSql->fetch_array();
-            
-				$cou = 0;
-				$comp = 0;
 			
-            if (isset($info2['completed'])){
-                $percent = round($info2['completed'] / $info['count'] * 100,2);
+            $cou = $info['count'];            
+            
+            //If there is a driver in the completed array match it up here.
+            if (isset($info2arr[$info['dID']])){
+                
+                $comp = $info2arr[$info['dID']]['completed'];
+                $percent = round($comp / $cou * 100,2);
+                
             } else {
-                $info2['completed'] = 0;
                 $percent = 0;
+                $comp = 0;
             }
 			
 			if($isSearch){
-				$percent = round($count[$info['dID']] / $completed[$info['dID']] * 100,2);
+				$percent = round($completed[$info['dID']] / $counts[$info['dID']] * 100,2);
 				$comp = $completed[$info['dID']];
-				$cou = $count[$info['dID']];
+				$cou = $counts[$info['dID']];
 			}
             
             $colorStyle = "";
@@ -290,7 +313,7 @@ function getOverviewDrivers($id, $count){
             
             $output .= "
             <div data-did='". $info['dID'] ."' class='panel panel-default driverPanel'>             
-                <div class='panel-heading'>" . $info['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] ."  " . $cou . "  " . $comp . "  " . $percent ."</div>
+                <div class='panel-heading'>" . $info['dID'] . " " . $info2['dID'] . " " . $info['dLastName'] . ", " . $info['dFirstName'] . " " . $info['rDate'] ."</div>
                 <div class='panel-body'>
                     <div style='margin-left: 10px; margin-right: 10px;' class='progress'>
                         <div class='".$colorStyle." progress-bar' role='progressbar' aria-valuenow='".$percent."' aria-valuemin='0' aria-valuemax='100' style='width:".$percent."%'>
@@ -298,7 +321,7 @@ function getOverviewDrivers($id, $count){
                         </div>
                     </div>
                     Phone: " . formatPhone($info['dPhoneNumber']) . "<br />
-                    Status: " . $info2['completed'] . " of " . $info['count'] . " completed.
+                    Status: " . $comp . " of " . $cou . " completed.
                 </div>
             </div>
             ";
