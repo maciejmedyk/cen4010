@@ -10,6 +10,7 @@ if(isset($_GET['clientID'])){
 }
 ?>
 <body>
+    <div id="dID" data-did="<?php echo $_SESSION['driverID']; ?>"></div>
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">

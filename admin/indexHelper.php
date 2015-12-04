@@ -12,7 +12,11 @@ if($_POST["action"] == "getRouteInfo"){
         return;
     }
 
-    $countQuery = "SELECT d.dID, d.dFirstName, d.dLastName, d.lat, d.lng
+    //$countQuery = "SELECT d.dID, d.dFirstName, d.dLastName, d.lat, d.lng
+    //                FROM drivers AS d
+    //                WHERE d.dID = $driverID;";
+    
+    $countQuery = "SELECT d.dID, d.dFirstName, d.dLastName, d.curLat, d.curLng
                     FROM drivers AS d
                     WHERE d.dID = $driverID;";
     

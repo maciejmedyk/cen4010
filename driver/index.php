@@ -4,6 +4,7 @@ include_once("../header.php");
 ?>
 
 <body>
+    <div id="dID" data-did="<?php echo $_SESSION['driverID']; ?>"></div>
 <div id="dBackDiv">
     <div id="dHead">
         <div id="dHeadLeft">
