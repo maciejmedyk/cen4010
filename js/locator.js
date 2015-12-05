@@ -26,7 +26,7 @@ function updateLocation(){
             console.log("Sending Ajax");
             $.ajax({
                 method: "POST",
-                url: "updatelocation.php",
+                url: "updateLocation.php",
                 data: { 
                     dID: dID,
                     lat: currentLat,
