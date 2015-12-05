@@ -55,13 +55,19 @@ $(document).on('click','.driverPanel',function(){
     }).done(function(returnData){
         
         var data = JSON.parse(returnData);
-        var lat = parseFloat(data.lat);
-        var lng = parseFloat(data.lng);
+        
+        var lat = parseFloat(data.curLat);
+        var lng = parseFloat(data.curLng);
         var dName = data.dLastName + ", " + data.dFirstName;
         
-        var jsonData = {lat: lat, lng: lng};
-        
-        replaceMarker(jsonData, dName);
+        if(!data.curLat || !data.curLng){
+            var jsonData = {lat: 26.127516, lng: -80.202787};
+            replaceMarker(jsonData, dName);
+        }else{
+            var jsonData = {lat: lat, lng: lng};
+            replaceMarker(jsonData, dName);
+        }
+
     });
     
 });
