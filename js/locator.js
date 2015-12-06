@@ -23,7 +23,7 @@ function updateLocation(){
             dID = $("#dID").data("did");
             currentLat = pos['lat'];
             currentLng = pos['lng'];
-            console.log("Sending Ajax");
+            
             $.ajax({
                 method: "POST",
                 url: "updateLocation.php",
@@ -33,10 +33,8 @@ function updateLocation(){
                     lng: currentLng 
                 }
             }).done(function(data){
-                console.log(dID + " " + currentLat + " " + currentLng + " ");
                 console.log(data);
             });
-            console.log("after Ajax"); 
         });
     }
 }

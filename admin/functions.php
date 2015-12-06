@@ -157,6 +157,12 @@ function getOverviewDrivers($id, $count){
     
 	$isSearch = false;
     
+    if(isset($_SESSION['dataOffset'])){
+        $offset = $_SESSION['dataOffset'];
+    }else{
+        $offset = 0;
+    }
+    
     //Set timezone for this session.
     $query = "SET @@session.time_zone = '-05:00'";
     $sql = $db->query($query);
@@ -167,7 +173,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), $offset)
                         GROUP BY r.dID
                         ORDER BY d.dLastName ASC;";
         
@@ -175,7 +181,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), $offset)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
                         ORDER BY d.dLastName ASC;";
@@ -188,7 +194,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), $offset)
                         GROUP BY r.dID
                         ORDER BY d.dLastName ASC;";
         
@@ -196,7 +202,7 @@ function getOverviewDrivers($id, $count){
                         FROM routes AS r
                         JOIN drivers AS d
                         ON r.dID = d.dID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), $offset)
                         AND r.rSuccess = 1
                         GROUP BY r.dID
                         ORDER BY d.dLastName ASC;";
@@ -207,7 +213,7 @@ function getOverviewDrivers($id, $count){
                         ON r.dID = d.dID
                         JOIN clients AS c
                         ON r.cID = c.cID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), $offset)
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%' OR c.cLastName LIKE '%$id%' OR c.cFirstName LIKE '%$id%')
                         GROUP BY r.dID
                         ORDER BY d.dLastName ASC;";
@@ -218,7 +224,7 @@ function getOverviewDrivers($id, $count){
                         ON r.dID = d.dID
                         JOIN clients AS c
                         ON r.cID = c.cID
-                        WHERE date(r.rDate) = subdate(curdate(), 0)
+                        WHERE date(r.rDate) = subdate(curdate(), $offset)
                         AND r.rSuccess = 1
                         AND (d.dFirstName LIKE '%$id%' OR d.dLastName LIKE '%$id%' OR c.cLastName LIKE '%$id%' OR c.cFirstName LIKE '%$id%')
                         GROUP BY r.dID

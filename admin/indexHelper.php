@@ -1,5 +1,5 @@
 <?php
-include("functions.php");
+include_once("session.php");
 
 if($_POST["action"] == "getRouteInfo"){
     
@@ -37,16 +37,23 @@ if($_POST["action"] == "getClientInfo"){
 
     $driverID = $_POST["dID"];
     
+    if(isset($_SESSION['dataOffset'])){
+        $offset = $_SESSION['dataOffset'];
+    }else{
+        $offset = 0;
+    }
+    
+    
     //Set timezone for this session.
     $query = "SET @@session.time_zone = '-05:00'";
     $sql = $db->query($query);
     
-    $query = "SELECT r.dID, r.rSuccess, c.cFirstName, c.cLastName, c.cAddress1, c.cCity, c.cPhone, c.cDeliveryNotes
+    $query = "SELECT r.dID, r.rSuccess, c.cFirstName, c.cLastName, c.cAddress1, c.cCity, c.cPhone, c.cDeliveryNotes, c.cID
             FROM clients AS c
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 0)
+            AND date(r.rDate) = subdate(curdate(), $offset)
             ORDER BY rSuccess ASC, cLastName;";
     
     
@@ -86,7 +93,7 @@ if($_POST["action"] == "getClientInfo"){
             }
             $temp .= $status . " ";
             
-            $table .= "<tr style='" . (($status == 'Delivered')? '' : 'background-color: #FFDBDB;' ) . "'>
+            $table .= "<tr data-cid='". $info['cID'] ."' class='clientMapRow' style='" . (($status == 'Delivered')? '' : 'background-color: #FFDBDB;' ) . "'>
                 <td>" . $status . "</td>
                 <td>" . $info['cLastName'] . ", " . $info['cFirstName'] . "</td>
                 <td>" . $info['cAddress1'] . " " . $info['cCity'] . "</td>
@@ -104,16 +111,22 @@ if($_POST["action"] == "getMapInfo"){
 
     $driverID = $_POST["dID"];
 
+    if(isset($_SESSION['dataOffset'])){
+        $offset = $_SESSION['dataOffset'];
+    }else{
+        $offset = 0;
+    }
+    
     //Set timezone for this session.
     $query = "SET @@session.time_zone = '-05:00'";
     $sql = $db->query($query);
     
-    $query = "SELECT r.dID, r.rSuccess, c.cFirstName, c.cLastName, c.cAddress1, c.cCity, c.cPhone, c.cDeliveryNotes, c.cLat, c.cLng
+    $query = "SELECT r.dID, r.rSuccess, c.*
             FROM clients AS c
             JOIN routes AS r
             ON r.cID = c.cID
             WHERE r.dID = $driverID
-            AND date(r.rDate) = subdate(curdate(), 0)
+            AND date(r.rDate) = subdate(curdate(), $offset)
             ORDER BY cLastName ASC;";
     
     
@@ -138,6 +151,11 @@ if($_POST["action"] == "getMapInfo"){
 
         echo json_encode($data);
     }
+}
+
+//Set the data that is retrieved on the overview page to a specific day.
+if($_POST["action"] == "loadSpecificData"){
+    $_SESSION['dataOffset'] = $_POST['offset'];
 }
 
 ?>
