@@ -5,7 +5,9 @@ $(document).on('click','.driverPanel',function(){
     });
     $(this).addClass("selectedPanel");
     var dID = $(this).data('did');
-        
+    
+    $("#hideControlDiv").fadeIn();
+    
     //Get Clients table and update div
     $.ajax({
         method: "POST",
@@ -82,22 +84,27 @@ var dMarker;
 var MOWMarker;
 var markers = [];
 var infowindow;
+var hideControlDiv;
+var hideControl;
 
     
 function initMap() {
     var location = {lat: 26.127516, lng: -80.202787};
 
+    //jCreate the map
     map = new google.maps.Map(document.getElementById('overviewMap'), {
         zoom: 13,
         center: location
     });
 
+    //Create the initial info window.
     var contentString = "<p>Meals on Wheels Home Lcation.</p>";
     infowindow = new google.maps.InfoWindow({
         content: contentString,
         maxWidth: 300
     });
     
+    //Create and attach the Meals on Wheels marker
     var image = 'img/mow.png';
     MOWMarker = new google.maps.Marker({
         position: location,
@@ -109,6 +116,14 @@ function initMap() {
     MOWMarker.addListener('click', function() {
         infowindow.open(map, MOWMarker);
     });
+    
+    hideControlDiv = document.createElement('div');
+    hideControl = new HideControl(hideControlDiv, map);
+
+    hideControlDiv.index = 1;
+    hideControlDiv.style.display = "none";
+    hideControlDiv.id = "hideControlDiv";
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(hideControlDiv);
 }
     
 function replaceMarker(location, title){
@@ -150,8 +165,17 @@ function addMarker(location, title, color, data) {
         title: title,
         icon: image
     });
+    
+    //Set Marker Data
     marker.id = data.cID;
     marker.popupHtml = popupHtml;
+    
+    if (data.rSuccess == 1){
+        marker.delivered = true;
+    }else{
+        marker.delivered = false;
+    }
+    
     
     marker.addListener('click', function() {
         infowindow.setContent(this.popupHtml);
@@ -225,3 +249,57 @@ function setPHPOffset(offset){
         location.reload();
     });
 }
+
+//Creates the button on the top of the map that hides and shows the completed deliveries.
+function HideControl(controlDiv, map) {
+
+    // Set CSS for the control border.
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = '#fff';
+    controlUI.style.border = '2px solid #fff';
+    controlUI.style.borderRadius = '3px';
+    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.marginBottom = '22px';
+    controlUI.style.textAlign = 'center';
+    controlUI.style.marginTop = '5px';
+    controlUI.title = 'Click to hide the completed deliveries.';
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement('div');
+    controlText.style.color = 'rgb(25,25,25)';
+    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+    controlText.style.fontSize = '16px';
+    controlText.style.lineHeight = '38px';
+    controlText.style.paddingLeft = '5px';
+    controlText.style.paddingRight = '5px';
+    controlText.innerHTML = 'Hide Completed';
+    controlText.id = "hideControlText";
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners: goes through all the markers and hides them.
+    controlUI.addEventListener('click', function() {
+        
+        //Show them
+        if(areHidden){
+            for(var i = 0; i < markers.length; i++){
+                markers[i].setMap(map);
+            }
+            document.getElementById("hideControlText").innerHTML = "Hide Completed";
+            areHidden = false;
+        }else{
+        //Hide them
+            for(var i = 0; i < markers.length; i++){
+                if (markers[i].delivered){
+                    markers[i].setMap(null);
+                }
+            }
+            document.getElementById("hideControlText").innerHTML = "Show Completed";
+            areHidden = true;
+        }
+            
+    });
+
+}
+var areHidden = false;
