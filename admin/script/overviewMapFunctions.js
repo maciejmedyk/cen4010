@@ -59,13 +59,19 @@ $(document).on('click','.driverPanel',function(){
         
         var data = JSON.parse(returnData);
         
+        //Last known position.
         var lat = parseFloat(data.curLat);
         var lng = parseFloat(data.curLng);
 
+        //Location used in route generation.
+        var startLat = parseFloat(data.lat);
+        var startLng = parseFloat(data.lng);
+        
         var dName = data.dLastName + ", " + data.dFirstName;
         
         if(!data.curLat || !data.curLng){
-            var jsonData = {lat: 26.127516, lng: -80.202787};
+            //var jsonData = {lat: 26.127516, lng: -80.202787};
+            var jsonData = {lat: startLat, lng: startLng};
             replaceMarker(jsonData, dName);
         }else{
             var jsonData = {lat: lat, lng: lng};
@@ -75,8 +81,6 @@ $(document).on('click','.driverPanel',function(){
     });
     
 });
-
-
 
 
 var map;
@@ -98,7 +102,7 @@ function initMap() {
     });
 
     //Create the initial info window.
-    var contentString = "<p>Meals on Wheels Home Lcation.</p>";
+    var contentString = "<h3>Meals on Wheels</h3>";
     infowindow = new google.maps.InfoWindow({
         content: contentString,
         maxWidth: 300
@@ -113,7 +117,10 @@ function initMap() {
         icon: image 
     });
     
+    MOWMarker.popupHtml = contentString;
+    
     MOWMarker.addListener('click', function() {
+        infowindow.setContent(this.popupHtml);
         infowindow.open(map, MOWMarker);
     });
     
@@ -138,6 +145,12 @@ function replaceMarker(location, title){
         title: title,
         icon: image
     });
+     
+    dMarker.addListener('click', function() {
+        infowindow.setContent("<h3>" + title + "</h3>");
+        infowindow.open(map, dMarker);
+    });
+    
     dMarker.setZIndex(google.maps.Marker.MAX_ZINDEX);
     //map.setCenter(dMarker.getPosition());
     map.panTo(dMarker.getPosition());
@@ -223,17 +236,56 @@ $(document).on('click','.clientMapRow',function(){
 
 function KeyPress(e) {
     var evtobj = window.event? event : e
-    if (evtobj.keyCode == 52 && evtobj.ctrlKey && evtobj.altKey){
+    if (evtobj.keyCode == 52 && evtobj.ctrlKey && evtobj.altKey){ //Ctrl + Alt + 4
         
         setPHPOffset(4);
         
-    }else if(evtobj.keyCode == 48 && evtobj.ctrlKey && evtobj.altKey){
+    }else if(evtobj.keyCode == 48 && evtobj.ctrlKey && evtobj.altKey){ //Ctrl + Alt + 0
 
         setPHPOffset(0);
         
-    } 
+    }else if(evtobj.keyCode == 50 && evtobj.ctrlKey && evtobj.altKey){ //Ctrl + Alt + 2
+
+        deleteDriverLocation();
+        
+    }else if(evtobj.keyCode == 80 && evtobj.ctrlKey && evtobj.altKey){ //Ctrl + Alt + p
+
+        makePurple();
+        
+    }
 }
 document.onkeydown = KeyPress;
+
+var isPurple = false;
+function makePurple(){
+    if(isPurple){
+        $("body").removeClass("purple");
+        isPurple = false;
+    }else{
+        $("body").addClass("purple");
+        isPurple = true;
+    }
+    
+}
+
+function deleteDriverLocation(){
+    
+    var conf = confirm("Pressing OK will PERMANENTLY delete all last known location data from all drivers.");
+    if (conf == true) {
+        //Deletes the last known location from all drivers.
+        $.ajax({
+            method: "POST",
+            url: "indexHelper.php",
+            data: { 
+                action:"deleteLocationData",
+            }
+        }).done(function(returnData){
+
+                location.reload();
+
+        });
+    }
+}
 
 function setPHPOffset(offset){
     //Set php session variables for page reload.

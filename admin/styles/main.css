@@ -7232,3 +7232,8 @@ body {
     50% {transform: translate(0,15px);}
     100% {transform: translate(0,0);}
 }
+
+.purple{
+    background-color: purple;
+    color: purple;
+}

@@ -16,7 +16,7 @@ if($_POST["action"] == "getRouteInfo"){
     //                FROM drivers AS d
     //                WHERE d.dID = $driverID;";
     
-    $countQuery = "SELECT d.dID, d.dFirstName, d.dLastName, d.curLat, d.curLng
+    $countQuery = "SELECT d.dID, d.dFirstName, d.dLastName, d.curLat, d.curLng, d.lat, d.lng
                     FROM drivers AS d
                     WHERE d.dID = $driverID;";
     
@@ -158,4 +158,16 @@ if($_POST["action"] == "loadSpecificData"){
     $_SESSION['dataOffset'] = $_POST['offset'];
 }
 
+
+if($_POST["action"] == "deleteLocationData"){
+    
+    $query = "UPDATE drivers SET curLat = NULL, curLng = NULL;";
+    $sql = $db->query($query);
+    
+    if(!$sql){
+        echo "There were SQL errors: ".mysqli_error($db);
+        return;
+    }
+    echo "ok";
+}
 ?>
